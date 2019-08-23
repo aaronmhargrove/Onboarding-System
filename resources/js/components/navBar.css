@@ -1,0 +1,14 @@
+.navbar {
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 10%;
+    width: 45%;
+    justify-content: end;
+    z-index: 5;
+}
+
+.settingsbutton {
+    flex: 1;
+}

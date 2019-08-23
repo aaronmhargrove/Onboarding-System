@@ -1,0 +1,27 @@
+/*
+* Author: Matthew Chaplin
+* Bayer Onboarding
+* Date: 4/6/19
+*/
+
+.tabswidget {
+    position: relative;
+    height: 9vh;
+    top: -4%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.leftButton {
+    position: relative;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.rightButton {
+    position: relative;
+    margin-right: 0;
+    padding-right: 0;
+}

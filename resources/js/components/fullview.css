@@ -1,0 +1,63 @@
+/*
+* Author: Matthew Chaplin
+* Bayer Onboarding
+* Date: 4/6/19
+*/
+
+.fullview {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 95%;
+    height: 83%;
+    top: 13%;
+    position: absolute;
+    left: 2.5%;
+}
+
+.searchbar {
+    display: flex;
+    padding-right: 1000px;
+}
+
+.tabs {
+    display: flex;
+    position: relative;
+    z-index: 5;    
+    background-color: blue;
+    height: 9vh;
+    margin-right: -30vh;
+}
+
+.tabswrapper {
+    position: relative;
+    height: 9vh;
+    margin-top: -3vh;
+    width: 28vw;
+    margin-right: 2vw;
+}
+
+.wrapper {
+    position: relative;
+    width: 60vw;
+    height: 9vh;
+    align-self: left;
+    border: 1px red;
+    margin-top: -3vh;
+}
+
+.export {
+    height: 5%;
+    width: 30%;
+    position: relative;
+    align-self: center;
+    left: 35%;
+    overflow: auto;
+    margin-top: 0;
+}
+
+
+
+
+

@@ -1,0 +1,65 @@
+import React from 'react';
+import Dashboard from './dashboard';
+import NavBar from './navBar';
+import UpcomingDates from './upcomingDates';
+import AddView from './addView';
+import Login from './login';
+import Grow from '@material-ui/core/Grow';
+import './app.css';
+
+import FullView from './fullview'
+class App extends React.Component {
+    state = {selection: ''};
+
+    onNavBarChange = (selection) => {
+        this.setState({
+            selection: selection,
+        });
+        console.log(this.state);
+    }
+
+    render() {
+        return(
+            <div>
+                {this.state.selection != '' ? <NavBar onChange={this.onNavBarChange}/> : null}
+                {this.state.selection == '' ? <Login onChange={this.onNavBarChange}/> : null}
+                {this.state.selection == 'dashboard' ? 
+                    <Grow in={this.state.selection == 'dashboard'}>
+                        <div className="parentContainer">
+                            <Dashboard />
+                            <UpcomingDates />
+                        </div>
+                    </Grow>
+                    :
+                    null
+                }
+                {this.state.selection == 'add' ?
+                    <Grow in={this.state.selection == 'add'}>
+                        <div className="parentContainer">
+                            <AddView />
+                        </div>
+                    </Grow>
+                    :
+                    null
+                }
+                {this.state.selection == 'settings' ? 
+                    <Login />
+                    :
+                    null
+                }
+                {/* <SimpleGrow /> */}
+                {this.state.selection == 'fullview' ?
+                    <Grow in={this.state.selection == 'fullview'}>
+                        <div className="parentContainer">
+                            <FullView />
+                        </div>
+                    </Grow>
+                    :
+                    null    
+                }
+            </div>
+        ); 
+    }
+}
+
+export default App;

@@ -1,0 +1,49 @@
+.loginContainer {
+    display: flex;
+    width: 95%;
+    height: 90%;
+    top: 5%;
+    left: 2.5%;
+    position: absolute;
+}
+
+.logoContainer {
+    display: flex;
+    width: 30%;
+    height: 30%;
+    top: 5%;
+    position: relative;
+    left: 35%;
+    justify-content: center;
+}
+
+.logoContainer img {
+    max-height:100%; 
+    max-width:100%;
+}
+
+.loginGridContainer {
+    display: flex;
+    position: absolute !important;
+    width: 50% !important;
+    left: 25%;
+    bottom: 45%;
+}
+
+.forgotPassButton {
+    display: flex;
+    position: absolute !important;
+    width: 30%;
+    left: 35%;
+    bottom: 15%;
+    height: 5%; 
+}
+
+.loginButton {
+    display: flex;
+    position: absolute !important;
+    width: 50%;
+    left: 25%;
+    bottom: 5%;
+    height: 7%;
+}

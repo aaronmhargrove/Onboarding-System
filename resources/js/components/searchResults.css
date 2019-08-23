@@ -1,0 +1,15 @@
+.searchResultsTable {
+    display: flex;
+    position: absolute;
+    top: 10%;
+    width: 95%;
+    left: 2.5%;
+}
+
+.interiorTable {
+    
+    width:100%;
+    display:flex;
+    table-layout: fixed;
+}
+
