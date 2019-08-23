@@ -24,3 +24,9 @@ Part of the SIUE Senior Design and Implementation course
 	* React terminal window
 		* `npm run watch` to compile Javascript/CSS and enable hot reloading
 
+## General Project Structure
+* Application inits from /routes/web.php to go to the home route
+* Returns the view in /resources/views/home.blade.php, which houses the starting point for React
+	* The script tag at the bottom includes the compiled react script located at /resources/js/app.js
+* All react components are housed in /resources/js/components
+	* When adding a new component, don't forget to require it in /resources/js/app.js
