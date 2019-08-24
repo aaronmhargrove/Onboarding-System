@@ -1,0 +1,18 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class HireStep extends Model
+{
+    protected $guarded = []; // accept all
+
+    public function hire(){
+        return $this->belongsTo(Hire::class);
+    }
+
+    public function step(){
+        return $this->has(Step::class);
+    }
+}

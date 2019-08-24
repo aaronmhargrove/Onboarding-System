@@ -14,3 +14,16 @@
 Route::get('/', function () {
     return view('home');
 });
+
+
+// METHOD   RESOURCE            FUNCTION-NAME
+// GET      /base               (index)
+// GET      /base/create        (create)
+// GET      /base/1             (show)
+// POST     /base               (store)
+// GET      /base/1/edit        (edit)
+// PATCH    /base/1             (update)
+// DELETE   /base/1             (destroy)
+Route::resource('hires', 'HiresController');
+Route::resource('hire-steps', 'HireStepsController');
+Route::resource('users', 'UsersController');
