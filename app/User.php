@@ -10,30 +10,33 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $guarded = []; // accept all
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    public function manages(){
+        return $this->hasMany(User::class, 'manager_id');
+    }
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function admins(){
+        return $this->hasMany(User::class, 'admin_id');
+    }
+
+    public function hires(){
+        return $this->manages->merge($this->admins); // TODO: figure out how to do this one
+    }
+
+    public function Role(){
+        return $this->has(UserRole::class, 'role_id');
+    }
+
+    public function hireSteps(){
+        return $this->hasMany(HireStep::class);
+    }
+
+    public function hireType(){
+        return $this->has(HireType::class);
+    }
+
+    //complete step
+
+    //add step
 }

@@ -9,7 +9,7 @@ Part of the SIUE Senior Design and Implementation course
 * [Install Laravel](https://laracasts.com/series/laravel-from-scratch-2018/episodes/2)
 * [Install Composer](https://getcomposer.org/doc/00-intro.md)
 * [Install NPM](https://www.npmjs.com/get-npm)
-* Setup a local MySQL database: `BayerOnboarding`
+* Setup a local MySQL database with legacy style encryption: `BayerOnboarding`
 * Open a terminal window and navigate to the project directory
 * `composer install`
 * `npm install`
