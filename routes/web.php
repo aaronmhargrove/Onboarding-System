@@ -27,3 +27,7 @@ Route::get('/', function () {
 Route::resource('hires', 'HiresController');
 Route::resource('hire-steps', 'HireStepsController');
 Route::resource('users', 'UsersController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

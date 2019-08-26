@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+// MODELS
+use App\HireStep;
+use App\HireType;
+use App\Step;
+use App\User;
+
 use App\Hire;
 use Illuminate\Http\Request;
 
@@ -14,8 +20,8 @@ class HiresController extends Controller
      */
     public function index()
     {
-        //
-        dd("hello, stuff works");
+        // TODO: Add authorization
+        return Hire::get();
     }
 
     /**
@@ -25,7 +31,7 @@ class HiresController extends Controller
      */
     public function create()
     {
-        //
+        // Load view
     }
 
     /**
@@ -36,7 +42,7 @@ class HiresController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //return $request;
     }
 
     /**
@@ -47,7 +53,8 @@ class HiresController extends Controller
      */
     public function show(Hire $hire)
     {
-        //
+        // TODO: Add auth
+        return $hire;
     }
 
     /**
