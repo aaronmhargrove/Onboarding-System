@@ -24,8 +24,10 @@ Route::get('/', function () {
 // GET      /base/1/edit        (edit)
 // PATCH    /base/1             (update)
 // DELETE   /base/1             (destroy)
+
 Route::resource('hires', 'HiresController');
 Route::resource('hire-steps', 'HireStepsController');
+//Route::get('/hire-steps/{hire}', 'HireStepsController@index')->name('hire-steps.index');
 Route::resource('users', 'UsersController');
 
 Auth::routes();
