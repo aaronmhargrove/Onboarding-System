@@ -7,8 +7,6 @@ import TableRow from '@material-ui/core/TableRow';
 import './searchResults.css';
 import ExpandedView from './expanded-view-modal/expandedView.js';
 
-
-
 var empData= 
 [
    {lastName:"Smith", firstName:"John",EmployeeID:"12345",location:"St. Louis",gender:"M",
@@ -23,12 +21,7 @@ var empData=
   completed:[1,1,1,1,1,0,0]},
   {lastName:"Homer", firstName:"Louisa",EmployeeID:"98603",location:"St.Louis",gender:"F",
     completed:[1,1,1,1,1,1,0]},
- 
-  
-
 ]
-
-
 
 class SearchResults extends React.Component {
 
@@ -40,10 +33,7 @@ class SearchResults extends React.Component {
             isOpen:false,
         };
     } 
-
-
-
-
+    
     render() {
         return (
             <div className="searchResultsTable">

@@ -5,7 +5,6 @@ import SearchResults from './searchResults';
 import ExpandedView from './expanded-view-modal/expandedView';
 import './dashboard.css';
 
-
 class Dashboard extends React.Component {
     render() {
         return(

@@ -21,7 +21,6 @@ class AddView extends React.Component {
         });
     } 
 
-
     render() {
         return(
             <Paper className="addViewContainer">

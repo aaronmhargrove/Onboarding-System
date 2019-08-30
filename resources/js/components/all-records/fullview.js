@@ -3,7 +3,6 @@
 * Bayer Onboarding
 * Date: 4/6/19
 */
-
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import SearchBar from '../dashboard/dashboard-main/searchBar';
