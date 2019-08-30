@@ -1,0 +1,24 @@
+.searchBarWidget {
+    display: flex;
+    position: relative;
+    width: 60vw;
+    height: 9vh;
+    top: -4%;
+    left: 5%;
+}
+
+.searchBar {
+    display: flex;
+    width: 100%;
+    margin: 2%;
+}
+
+.searchInput {
+    display: flex;
+    width: 80%;
+    padding-right: 1%;
+}
+
+.searchWidgetButton {
+    padding-bottom: 50%;
+}

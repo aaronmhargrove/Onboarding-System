@@ -5,7 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import './searchResults.css';
-import ExpandedView from './expandedView.js';
+import ExpandedView from './expanded-view-modal/expandedView.js';
 
 
 
