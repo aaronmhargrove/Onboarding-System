@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\HireStep;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HireStepsController extends Controller
 {
@@ -14,7 +15,13 @@ class HireStepsController extends Controller
      */
     public function index()
     {
-        //
+        //TODO: change out this number to accept id from front end or use Object model binding to create the hire
+        $steps = DB::table('hire_steps')
+            ->select('hire_steps.id', 'name', 'status', 'date_completed')
+            ->join('steps', 'hire_steps.step_id', '=', 'steps.id')
+            ->where('hire_id', '=', 1)->get();
+
+        return $steps;
     }
 
     /**
