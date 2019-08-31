@@ -39,6 +39,7 @@ class CreateHiresTable extends Migration
             $table->string('hire_ticket')->unique()->nullable();
             $table->string('mac_ticket')->unique()->nullable();
             $table->bigInteger('admin_id')->unsigned()->nullable();
+            $table->boolean('is_active')->default(1);
             $table->timestamps();
 
             $table->foreign('hire_type_id')->references('id')->on('hire_types');

@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 
+// ================ STANDARD ===================
 // METHOD   RESOURCE            FUNCTION-NAME
 // GET      /base               (index)
 // GET      /base/create        (create)
@@ -24,12 +25,29 @@ Route::get('/', function () {
 // GET      /base/1/edit        (edit)
 // PATCH    /base/1             (update)
 // DELETE   /base/1             (destroy)
+// =============================================
 
-Route::resource('hires', 'HiresController');
-Route::resource('hire-steps', 'HireStepsController');
-//Route::get('/hire-steps/{hire}', 'HireStepsController@index')->name('hire-steps.index');
-Route::resource('users', 'UsersController');
+
+Route::get('/hires', 'HiresController@index');
+Route::get('/hires/{hire}/lock', 'HiresController@lock');
+Route::get('/hires/{hire}/unlock', 'HiresController@unlock');
+Route::get('/hires/search', 'HiresController@search'); // This may need to become a post to use a body
+Route::get('/hires/search/steps/{step}', 'HiresController@hiresWithIncompleteStep');
+Route::post('/hires', 'HiresController@store');
+Route::patch('/hires/{hire}', 'HiresController@update');
+Route::delete('/hires/{hire}', 'HiresController@destroy');
+
+Route::patch('/hire-steps/{hireStep}', 'HireStepsController@update');
+
+Route::get('/hire-types', 'HireTypesController@index');
+
+Route::get('/steps', 'StepsController@index');
+
+Route::get('/users', 'UsersController@index');
+Route::get('/users/{user}/hires', 'UsersController@hires');
+Route::patch('/users', 'UsersController@update');
+
+
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');

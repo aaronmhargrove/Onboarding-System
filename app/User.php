@@ -12,31 +12,24 @@ class User extends Authenticatable
 
     protected $guarded = []; // accept all
 
+    // What to hide in returns
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
     public function manages(){
-        return $this->hasMany(User::class, 'manager_id');
+        return $this->hasMany(Hire::class, 'manager_id');
     }
 
     public function admins(){
-        return $this->hasMany(User::class, 'admin_id');
+        return $this->hasMany(Hire::class, 'admin_id');
     }
 
     public function hires(){
         return $this->manages->merge($this->admins); // TODO: figure out how to do this one
     }
 
-    public function Role(){
+    public function role(){
         return $this->has(UserRole::class, 'role_id');
     }
-
-    public function hireSteps(){
-        return $this->hasMany(HireStep::class);
-    }
-
-    public function hireType(){
-        return $this->has(HireType::class);
-    }
-
-    //complete step
-
-    //add step
 }

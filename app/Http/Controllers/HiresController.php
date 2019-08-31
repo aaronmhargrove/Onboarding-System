@@ -3,73 +3,85 @@
 namespace App\Http\Controllers;
 
 // MODELS
-use App\HireStep;
-use App\HireType;
-use App\Step;
-use App\User;
+use \App\Hire;
+use \App\HireStep;
+use \App\HireType;
+use \App\HireLock;
+use \App\Step;
+use \App\User;
 
-use App\Hire;
 use Illuminate\Http\Request;
 
 class HiresController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Returns a listing of hires.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         // TODO: Add authorization
-        return Hire::get();
+        return Hire::where('is_active', 1)->get();
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Locks and returns success status
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function lock($id)
     {
-        // Load view
+        $hireLock = HireLock::where('hire_id', $id)->first();
+        return response()->json(['success' => $hireLock->lock()]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Unlocks a hire
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function unlock($id)
+    {
+        $hireLock = HireLock::where('hire_id', $id)->first();
+        return response()->json(['success' => $hireLock->unlock()]);
+    }
+
+    /**
+     * Returns a listing of hires within search parameters.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search()
+    {
+        dd(request());
+        return request();
+    }
+
+    /**
+     * Returns a listing of hires with a certain step that is uncompleted.
+     * @param $stepId
+     * @return \Illuminate\Http\Response
+     */
+    public function hiresWithIncompleteStep($stepId)
+    {
+        dd(request(), $stepId);
+        return request();
+    }
+
+    /**
+     * Store a newly created hire in database.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //return $request;
+        return $request;
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Hire  $hire
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Hire $hire)
-    {
-        // TODO: Add auth
-        return $hire;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Hire  $hire
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Hire $hire)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Update the hire in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Hire  $hire
@@ -81,7 +93,7 @@ class HiresController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the hire from storage.
      *
      * @param  \App\Hire  $hire
      * @return \Illuminate\Http\Response
