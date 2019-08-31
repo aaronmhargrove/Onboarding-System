@@ -12,7 +12,7 @@ class UpcomingDates extends React.Component {
         return(
             <Paper className="upcomingDatesWidget">
                 <Paper className="upcomingDatesHeader">
-                    <h4 className="headerText">Upcoming Dates</h4>
+                    <div className="headerText">Upcoming Dates</div>
                 </Paper>
                 <div className="upcomingDatesTableContainer">
                     <Table className="upcomingDatesTable">

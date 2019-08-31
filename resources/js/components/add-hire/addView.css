@@ -6,7 +6,7 @@
     left: 2.5%;
     position: absolute;
 }
-
+/*
 .addViewHeader {
     display: flex;
     width: 90%;
@@ -15,7 +15,7 @@
     top: -4%;
     left: 5%;
 }
-
+*/
 .addViewSelector {
     display: flex;
     height: 100%;
@@ -32,4 +32,21 @@
     display: flex;
     flex-grow: 1;
     max-width: none;
+}
+
+.addViewHeader {
+    display: flex;
+    position: absolute;
+    top: -4%;
+    width: 90%;
+    height: 10%;
+    left: 5%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.headerText {
+    font-family: 'Roboto';
+    font-size: 2vw;
 }
