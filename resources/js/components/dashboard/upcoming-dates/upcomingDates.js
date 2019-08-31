@@ -18,34 +18,34 @@ class UpcomingDates extends React.Component {
                     <Table className="upcomingDatesTable">
                         <TableHead>
                             <TableRow>
-                                <TableCell>Header 1</TableCell>
-                                <TableCell>Header 2</TableCell>
-                                <TableCell>Header 3</TableCell>
+                                <TableCell>Name</TableCell>
+                                <TableCell>Step</TableCell>
+                                <TableCell>Due Date</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             <TableRow>
-                                <TableCell>Data 1</TableCell>
-                                <TableCell>Data 2</TableCell>
-                                <TableCell>Data 3</TableCell>
+                                <TableCell>John Smith</TableCell>
+                                <TableCell>Step 2</TableCell>
+                                <TableCell>8/30</TableCell>
                             </TableRow>
 
                             <TableRow>
-                                <TableCell>Data 1</TableCell>
-                                <TableCell>Data 2</TableCell>
-                                <TableCell>Data 3</TableCell>
+                                <TableCell>Frank Martin</TableCell>
+                                <TableCell>Step 3</TableCell>
+                                <TableCell>9/3</TableCell>
                             </TableRow>
 
                             <TableRow>
-                                <TableCell>Data 1</TableCell>
-                                <TableCell>Data 2</TableCell>
-                                <TableCell>Data 3</TableCell>
+                                <TableCell>Louisa Homer</TableCell>
+                                <TableCell>Step 4</TableCell>
+                                <TableCell>9/7</TableCell>
                             </TableRow>
 
                             <TableRow>
-                                <TableCell>Data 1</TableCell>
-                                <TableCell>Data 2</TableCell>
-                                <TableCell>Data 3</TableCell>
+                                <TableCell>Ian Gonert</TableCell>
+                                <TableCell>Step 5</TableCell>
+                                <TableCell>9/8</TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
