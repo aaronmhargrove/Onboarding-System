@@ -1,6 +1,6 @@
 import React from 'react';
 import Dashboard from './dashboard/dashboard-main/dashboard';
-import NavBar from './gloabal/navBar';
+import NavBar from './global/navBar';
 import UpcomingDates from './dashboard/upcoming-dates/upcomingDates';
 import AddView from './add-hire/addView';
 import Login from './login/login';

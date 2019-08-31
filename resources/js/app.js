@@ -15,18 +15,18 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-require('./components/gloabal/Example');
+require('./components/global/Example');
 require('./components/add-hire/addHire');
 require('./components/add-hire/addUser');
 require('./components/add-hire/addView');
 require('./components/App');
 require('./components/dashboard/dashboard-main/dashboard');
-require('./components/gloabal/datePicker');
+require('./components/global/datePicker');
 require('./components/dashboard/dashboard-main/expanded-view-modal/expandedView');
 require('./components/all-records/fullview');
 require('./components/all-records/fullviewtabs');
 require('./components/login/login');
-require('./components/gloabal/navBar');
+require('./components/global/navBar');
 require('./components/dashboard/dashboard-main/searchBar');
 require('./components/dashboard/dashboard-main/dashboard');
 require('./components/all-records/table/stepper');
