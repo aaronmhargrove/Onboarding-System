@@ -39,7 +39,7 @@ class NavBar extends React.Component {
             <BottomNavigation value={this.state.selectedIcon} onChange={this.onIconChange} className="navbar">
                 <BottomNavigationAction className="navicon" label="Dashboard" value="dashboard" icon={<DashboardIcon />} />
                 <BottomNavigationAction className="navicon" label="All Records" value="fullview" icon={<FullViewIcon />} />
-                <BottomNavigationAction className="navicon" label="Add Record" value="add" icon={<AddIcon />} />
+                <BottomNavigationAction className="navicon" label="Add New Hire" value="add" icon={<AddIcon />} />
                 <Button 
                     color="primary" 
                     className="settingsbutton"

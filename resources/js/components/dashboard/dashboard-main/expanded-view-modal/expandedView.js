@@ -26,27 +26,20 @@ class Employee{
     this.EmployeeID= " 12335";
     this.location = "St. Louis";
     this.gender = " M ";
-    
   }
-
 }
 
 const greenStyle = {
-  
   border: '3px solid green'
 };
 const redStyle = {
   border: '3px solid red'
- 
 };
 
 const dialogStyle=
 {
   overflow:'hidden'
 };
-
-
-
 
 function FillRow(props)
 {
@@ -62,13 +55,8 @@ return(
             <StepsComp E={props.E}/>
             </React.Fragment>      
 
-)
-  
-}
+)}
 //  E: new Employee("F","J","e","f","F"),
-
-
-
 
 function Step(props)
 {
@@ -118,8 +106,6 @@ function StepsComp(props)
   return( <TableCell>{num +"/7"}</TableCell>)
 }
 
-
-
 class ExpandedView extends React.Component {
 
   constructor(props)
@@ -135,8 +121,6 @@ class ExpandedView extends React.Component {
       };
   }
 
-
-
     handleClose = () => {
         this.setState({ open: false });
       };
@@ -144,7 +128,6 @@ class ExpandedView extends React.Component {
         this.setState({ open: true });
         console.log("closed");
       };
-
   
     render() {
       console.log("rendered");
@@ -153,11 +136,9 @@ class ExpandedView extends React.Component {
         
           <React.Fragment>
          
-         
          <TableRow hover={true} onClick={this.handleClickOpen}>
          <FillRow  E={this.props.E}/>
          </TableRow>
-          
           
              <div class="popup"> 
             <Dialog
@@ -169,15 +150,11 @@ class ExpandedView extends React.Component {
               fullWidth={true}
               disableActionSpacing={true}
               style={dialogStyle}
-              
-
             >
        
             <DialogTitle >{this.props.E.firstName} {this.props.E.lastName} </DialogTitle>
             
-            
             <DialogContent>
-            
            
             {/* <Paper id="leftPaper" > */}
             <div id="outerdiv">
@@ -194,21 +171,6 @@ class ExpandedView extends React.Component {
                     <EmpDataRow data={"Vender"} info={"America"}/>
                     <EmpDataRow data={"Role"} info={"Software Developer"}/>
                     <EmpDataRow data={"Team Name"} info={"USA"}/>
-
-                    <EmpDataRow data={"Location"} info={this.props.E.location}/>
-                    <EmpDataRow data={"EID"} info={this.props.E.EmployeeID}/>
-                    <EmpDataRow data={"Gender"} info={this.props.E.gender}/>
-                    <EmpDataRow data={"Hire Type"} info={"Contract"}/>
-                    <EmpDataRow data={"Start Date"} info={"1/1/20"}/>
-                    <EmpDataRow data={"Vender"} info={"America"}/>
-                    <EmpDataRow data={"Role"} info={"Software Developer"}/>
-                    <EmpDataRow data={"Team Name"} info={"USA"}/>
-
-
-
-                    
-
-                    
 
                   </TableBody>
                 </Table>
@@ -238,7 +200,6 @@ class ExpandedView extends React.Component {
 
                 </div>
                 </div>
-               
 
                 </DialogContent>
                 
@@ -247,26 +208,17 @@ class ExpandedView extends React.Component {
               Close
             </Button>
             
-            
           </DialogActions>
        
             </Dialog>
              </div> 
             </React.Fragment>
-           
-         
         );
     }
-
-    
 }
-
-
 
 ExpandedView.propTypes ={
   E: Employee,
 }
-
-
 
 export default ExpandedView;

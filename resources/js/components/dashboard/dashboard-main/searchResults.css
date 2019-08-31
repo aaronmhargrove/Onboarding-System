@@ -6,10 +6,13 @@
     left: 2.5%;
 }
 
-.interiorTable {
-    
+.interiorTable {    
     width:100%;
     display:flex;
     table-layout: fixed;
+}
+
+.interiorTable :hover {
+    cursor: pointer;
 }
 
