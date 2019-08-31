@@ -3,8 +3,6 @@
 * Bayer Onboarding
 * Date: 4/6/19
 */
-
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -37,8 +35,6 @@ const styles = theme => ({
     cursor: 'initial',
   },
 });
-
-
 
 class MuiVirtualizedTable extends React.PureComponent {
   getRowClassName = ({ index }) => {

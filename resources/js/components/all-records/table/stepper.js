@@ -235,8 +235,6 @@ function updateColumns(page, count, columnsPerPage) {
       }
 }
 
-
-
 class Stepper extends React.Component {
     constructor(props){
         super(props);
