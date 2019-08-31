@@ -1,12 +1,10 @@
 import React from 'react';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import ReportIcon from '@material-ui/icons/Description';
 import AddIcon from '@material-ui/icons/AddCircle';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import FullViewIcon from '@material-ui/icons/FormatListBulleted';
 import SettingsIcon from '@material-ui/icons/Person';
-import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -39,7 +37,7 @@ class NavBar extends React.Component {
             <BottomNavigation value={this.state.selectedIcon} onChange={this.onIconChange} className="navbar">
                 <BottomNavigationAction className="navicon" label="Dashboard" value="dashboard" icon={<DashboardIcon />} />
                 <BottomNavigationAction className="navicon" label="All Records" value="fullview" icon={<FullViewIcon />} />
-                <BottomNavigationAction className="navicon" label="Add Record" value="add" icon={<AddIcon />} />
+                <BottomNavigationAction className="navicon" label="Add New Hire" value="add" icon={<AddIcon />} />
                 <Button 
                     color="primary" 
                     className="settingsbutton"

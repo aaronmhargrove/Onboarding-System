@@ -3,8 +3,6 @@
 * Bayer Onboarding
 * Date: 4/6/19
 */
-
-
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
@@ -20,9 +18,6 @@ class StepperTableToolbar extends React.Component {
 
         this.state = {page: this.props.page, count: this.props.page, columnsPerPage: this.props.columnsPerPage};
     }
-
-    
-
     render() {
 
         const { classes, count, page, rowsPerPage, theme } = this.props;

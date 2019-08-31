@@ -1,13 +1,13 @@
 import React from 'react';
-import Dashboard from './dashboard';
-import NavBar from './navBar';
-import UpcomingDates from './upcomingDates';
-import AddView from './addView';
-import Login from './login';
+import Dashboard from './dashboard/dashboard-main/dashboard';
+import NavBar from './gloabal/navBar';
+import UpcomingDates from './dashboard/upcoming-dates/upcomingDates';
+import AddView from './add-hire/addView';
+import Login from './login/login';
 import Grow from '@material-ui/core/Grow';
 import './app.css';
 
-import FullView from './fullview'
+import FullView from './all-records/fullview'
 class App extends React.Component {
     state = {selection: ''};
 

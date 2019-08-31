@@ -3,11 +3,10 @@
 * Bayer Onboarding
 * Date: 4/6/19
 */
-
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
-import SearchBar from './searchBar';
-import Stepper from './stepper';
+import SearchBar from '../dashboard/dashboard-main/searchBar';
+import Stepper from './table/stepper';
 import FullViewTabs from './fullviewtabs';
 import Button from '@material-ui/core/Button';
 
