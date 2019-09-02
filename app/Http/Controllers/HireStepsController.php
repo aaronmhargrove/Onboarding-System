@@ -17,8 +17,7 @@ class HireStepsController extends Controller
      * @param  \App\HireStep  $hireStep
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, HireStep $hireStep)
-    {
+    public function update(Request $request, HireStep $hireStep){
         //
     }
 }

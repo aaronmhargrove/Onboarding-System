@@ -18,8 +18,7 @@ class StepsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         // TODO: Add authorization
         return Step::get();
     }

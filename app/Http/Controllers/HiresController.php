@@ -19,9 +19,8 @@ class HiresController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        // TODO: Add authorization
+    public function index(){
+        // TODO: Figure out data structure before beginning, then complete.
         return Hire::where('is_active', 1)->get();
     }
 
@@ -30,8 +29,7 @@ class HiresController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function lock($id)
-    {
+    public function lock($id) {
         $hireLock = HireLock::where('hire_id', $id)->first();
         return response()->json(['success' => $hireLock->lock()]);
     }
@@ -41,8 +39,7 @@ class HiresController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function unlock($id)
-    {
+    public function unlock($id){
         $hireLock = HireLock::where('hire_id', $id)->first();
         return response()->json(['success' => $hireLock->unlock()]);
     }
@@ -52,9 +49,9 @@ class HiresController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function search()
-    {
+    public function search(){
         dd(request());
+        // TODO: Figure out data structure before beginning, then complete.
         return request();
     }
 
@@ -63,9 +60,9 @@ class HiresController extends Controller
      * @param $stepId
      * @return \Illuminate\Http\Response
      */
-    public function hiresWithIncompleteStep($stepId)
-    {
+    public function hiresWithIncompleteStep($stepId){
         dd(request(), $stepId);
+        // TODO: Figure out data structure before beginning, then complete.
         return request();
     }
 
@@ -75,8 +72,10 @@ class HiresController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
+        // create hire w/data after validation
+        // For each step, create a hire_step associated to hire
+        // Add into the hire_locks table
         return $request;
     }
 
@@ -87,9 +86,13 @@ class HiresController extends Controller
      * @param  \App\Hire  $hire
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Hire $hire)
-    {
-        //
+    public function update(Request $request, Hire $hire) {
+        $validatedData = $this->validateHire();
+        
+        $hire->update([
+            // TODO: Complete with actual data or inline validation in names are the same
+            'this' => $validatedData->attributeName
+        ]);
     }
 
     /**
@@ -98,8 +101,16 @@ class HiresController extends Controller
      * @param  \App\Hire  $hire
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Hire $hire)
-    {
-        //
+    public function destroy(Hire $hire){
+        $hire->delete();
+        // Everything else SHOULD cascade, but add here if not...
+        return;
+    }
+
+    protected function validateHire(){
+        // TODO: Complete validateHire with actual request data
+        return request()->validate([
+            'example' => ['required', 'min:3', 'max:255'],
+        ]);
     }
 }

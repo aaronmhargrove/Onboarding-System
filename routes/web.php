@@ -29,8 +29,8 @@ Route::get('/', function () {
 
 
 Route::get('/hires', 'HiresController@index');
-Route::get('/hires/{hire}/lock', 'HiresController@lock');
-Route::get('/hires/{hire}/unlock', 'HiresController@unlock');
+Route::patch('/hires/{hire}/lock', 'HiresController@lock');
+Route::patch('/hires/{hire}/unlock', 'HiresController@unlock');
 Route::get('/hires/search', 'HiresController@search'); // This may need to become a post to use a body
 Route::get('/hires/search/steps/{step}', 'HiresController@hiresWithIncompleteStep');
 Route::post('/hires', 'HiresController@store');

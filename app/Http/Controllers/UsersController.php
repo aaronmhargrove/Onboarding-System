@@ -12,8 +12,7 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         return User::get();
     }
 
@@ -22,8 +21,7 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function hires(User $user)
-    {
+    public function hires(User $user){
         return $user->hires();
     }
 
@@ -34,8 +32,7 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
-    {
+    public function update(Request $request, User $user){
         //
     }
 }

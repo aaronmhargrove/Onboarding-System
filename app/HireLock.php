@@ -4,8 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class HireLock extends Model
-{
+class HireLock extends Model{
     protected $guarded = []; // accept all
     protected $primaryKey = 'hire_id';
 
