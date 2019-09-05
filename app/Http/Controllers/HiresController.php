@@ -90,4 +90,8 @@ class HiresController extends Controller
     {
         //
     }
+
+    public function getAllHires() {
+        dd(Hire::select()->with('hireSteps')->get());
+    }
 }
