@@ -21,7 +21,12 @@ class HiresController extends Controller
      */
     public function index(){
         // TODO: Figure out data structure before beginning, then complete.
-        return Hire::where('is_active', 1)->get();
+        $filters = json_decode(request()->getContent());    // This returns request as a json object
+        if($filters->hello){                                // Checks if the json contains data
+            return $filters->hello;
+        }
+        
+        return Hire::where('is_active', 1)->get();;
     }
 
     /**
