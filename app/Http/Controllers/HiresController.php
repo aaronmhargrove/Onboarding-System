@@ -20,13 +20,7 @@ class HiresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        // TODO: Figure out data structure before beginning, then complete.
-        $filters = json_decode(request()->getContent());    // This returns request as a json object
-        if($filters->hello){                                // Checks if the json contains data
-            return $filters->hello;
-        }
-        
-        return Hire::where('is_active', 1)->get();;
+        return Hire::where('is_active', 1)->with('hireSteps')->get();
     }
 
     /**
@@ -55,7 +49,10 @@ class HiresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function search(){
-        dd(request());
+        $filters = json_decode(request()->getContent());    // This returns request as a json object
+        if($filters->hello){                                // Checks if the json contains data
+            return $filters->hello;
+        }
         // TODO: Figure out data structure before beginning, then complete.
         return request();
     }
@@ -74,30 +71,37 @@ class HiresController extends Controller
     /**
      * Store a newly created hire in database.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request){
-        // create hire w/data after validation
+    public function store(){
+        // Create hire w/data after validation
+        $hire = Hire::create($this->validateHire());
+
         // For each step, create a hire_step associated to hire
+        $steps = Steps::get();
+        foreach ($steps as $step) {
+            HireStep::create([
+                "hire_id" => $hire->id,
+                "step_id" => $step->id
+            ]);
+        }
+
         // Add into the hire_locks table
-        return $request;
+        HireLock::create([
+            "hire_id" => $hire->id
+        ]);
     }
 
     /**
      * Update the hire in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Hire  $hire
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Hire $hire) {
+    public function update(Hire $hire) {
         $validatedData = $this->validateHire();
         
-        $hire->update([
-            // TODO: Complete with actual data or inline validation in names are the same
-            'this' => $validatedData->attributeName
-        ]);
+        $hire->update($this->validateHire());
     }
 
     /**
@@ -107,15 +111,40 @@ class HiresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Hire $hire){
+        HireStep::where('hire_id', $hire->id)->delete();
+        HireLock::where('hire_id', $hire->id)->delete();
         $hire->delete();
-        // Everything else SHOULD cascade, but add here if not...
         return;
     }
 
     protected function validateHire(){
-        // TODO: Complete validateHire with actual request data
         return request()->validate([
-            'example' => ['required', 'min:3', 'max:255'],
+            'regional_location' => ['nullable', 'max:255'],
+            'first_name' => ['required', 'min:1', 'max:255'],
+            'last_name' => ['required', 'min:1', 'max:255'],
+            'email' => ['nullabe', 'max:255', 'email'],
+            'cwid' => ['nullabe', 'max:100'],
+            'gender' => ['nullable', 'max:100'],
+            'hire_type_id' => ['nullabe', 'numeric'],
+            'start_date' => ['nullabe', 'date'],
+            'vendor' => ['nullabe', 'max:255'],
+            'role' => ['nullabe', 'max:255'],
+            'pl_ic' => ['nullabe', 'max:255'],
+            'team_name' => ['nullabe', 'max:255'],
+            'platform' => ['nullabe', 'max:255'],
+            'manager_id' => ['nullabe', 'numeric'],
+            'hire_status' => ['nullabe', 'max:255'],
+            'onboarding_buddy' => ['nullabe', 'max:255'],
+            'computer_needs' => ['nullabe', 'max:255'],
+            'seat_number' => ['nullabe', 'max:255'],
+            'campus' => ['nullabe', 'max:100'],
+            'manager_comments' => ['nullabe'],
+            'neid' => ['nullabe', 'numeric'],
+            'hire_ticket' => ['nullabe', 'max:255'],
+            'mac_ticket' => ['nullabe', 'max:255'],
+            'admin_id' => ['nullabe', 'numeric'],
+            'slack_url' => ['nullabe', 'max:255'],
+            'is_active' => ['nullabe'],
         ]);
     }
 }

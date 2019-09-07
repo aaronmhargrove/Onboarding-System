@@ -16,7 +16,7 @@ class Hire extends Model{
     }
 
     public function hireSteps(){
-        return $this->hasMany(HireStep::class, 'step_id');
+        return $this->hasMany(HireStep::class, 'hire_id');
     }
 
     public function hireType(){

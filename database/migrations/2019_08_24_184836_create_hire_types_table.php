@@ -16,7 +16,6 @@ class CreateHireTypesTable extends Migration
         Schema::create('hire_types', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name'); // Direct, Contract, SOW...
-            $table->timestamps();
         });
     }
 

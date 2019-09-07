@@ -39,6 +39,7 @@ class CreateHiresTable extends Migration
             $table->string('hire_ticket')->unique()->nullable();
             $table->string('mac_ticket')->unique()->nullable();
             $table->bigInteger('admin_id')->unsigned()->nullable();
+            $table->string('slack_url')->nullable();
             $table->boolean('is_active')->default(1);
             $table->date('set_inactive_on')->nullable();
             $table->timestamps();

@@ -18,6 +18,7 @@ Route::get('/', function () {
 
 // ================ STANDARD ===================
 // METHOD   RESOURCE            FUNCTION-NAME
+// ---------------------------------------------
 // GET      /base               (index)
 // GET      /base/create        (create)
 // GET      /base/1             (show)
@@ -28,24 +29,27 @@ Route::get('/', function () {
 // =============================================
 
 
-Route::get('/hires', 'HiresController@index');
-Route::patch('/hires/{hire}/lock', 'HiresController@lock');
-Route::patch('/hires/{hire}/unlock', 'HiresController@unlock');
-Route::get('/hires/search', 'HiresController@search'); // This may need to become a post to use a body
-Route::get('/hires/search/steps/{step}', 'HiresController@hiresWithIncompleteStep');
-Route::post('/hires', 'HiresController@store');
-Route::patch('/hires/{hire}', 'HiresController@update');
-Route::delete('/hires/{hire}', 'HiresController@destroy');
+Route::get('/hires', 'HiresController@index');                                          // Get all hires
+Route::get('/hires/search', 'HiresController@search');                                  // Get hires w/ search filter (put filter json in request body)
+Route::get('/hires/search/steps/{step}', 'HiresController@hiresWithIncompleteStep');    // Get hires with incomplete step (Depricated? is this replaced by the above?)
+Route::post('/hires', 'HiresController@store');                                         // Create Hire (request body)
+Route::patch('/hires/{hire}', 'HiresController@update');                                // Update Hire (place updated fields in request body)
+Route::patch('/hires/{hire}/lock', 'HiresController@lock');                             // Lock a Hire
+Route::patch('/hires/{hire}/unlock', 'HiresController@unlock');                         // Unlock a Hire
+Route::delete('/hires/{hire}', 'HiresController@destroy');                              // Delete a Hire
 
-Route::patch('/hire-steps/{hireStep}', 'HireStepsController@update');
+Route::patch('/hire-steps/{hireStep}', 'HireStepsController@update');                   // Update a Hire Step by id (new status in request body)
 
-Route::get('/hire-types', 'HireTypesController@index');
+Route::get('/hire-types', 'HireTypesController@index');                                 // Get hire types
 
-Route::get('/steps', 'StepsController@index');
+Route::get('/steps', 'StepsController@index');                                          // Get steps
 
-Route::get('/users', 'UsersController@index');
-Route::get('/users/{user}/hires', 'UsersController@hires');
-Route::patch('/users', 'UsersController@update');
+Route::get('/users', 'UsersController@index');                                          // Get all users
+Route::get('/users/current', 'UsersController@index');                                  // Get current user (this will be to get info for display and or use the 2 endpoints below)
+Route::get('/users/{user}/hires', 'UsersController@hires');                             // Get all of a user's hires
+Route::get('/users/{user}/hires/filtered', 'UsersController@filteredHires');            // Get a user's hires w/ their filter applied
+Route::get('/users/{user}/upcoming', 'UsersController@upcomingDates');                  // Get upcoming dates for a user
+Route::patch('/users', 'UsersController@update');                                       // Update a user (if updating search filter, stringify json and pass in with request body under "search_filter")
 
 
 

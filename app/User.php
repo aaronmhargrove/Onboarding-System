@@ -17,18 +17,14 @@ class User extends Authenticatable{
     ];
 
     public function manages(){
-        return $this->hasMany(Hire::class, 'manager_id');
+        return $this->hasMany(Hire::class, 'manager_id')->with('hireSteps');
     }
 
     public function admins(){
-        return $this->hasMany(Hire::class, 'admin_id');
+        return $this->hasMany(Hire::class, 'admin_id')->with('hireSteps');
     }
 
     public function hires(){
         return $this->manages->merge($this->admins); // TODO: figure out how to do this one
-    }
-
-    public function role(){
-        return $this->has(UserRole::class, 'role_id');
     }
 }

@@ -17,7 +17,6 @@ class CreateStepsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('order')->nullable();
-            $table->timestamps();
         });
     }
 
