@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class HireLock extends Model{
     protected $guarded = []; // accept all
     protected $primaryKey = 'hire_id';
+    public $timestamps = false;
 
     public function lock(){
         if($this->locked){

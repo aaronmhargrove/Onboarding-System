@@ -45,11 +45,11 @@ Route::get('/hire-types', 'HireTypesController@index');                         
 Route::get('/steps', 'StepsController@index');                                          // Get steps
 
 Route::get('/users', 'UsersController@index');                                          // Get all users
-Route::get('/users/current', 'UsersController@index');                                  // Get current user (this will be to get info for display and or use the 2 endpoints below)
+Route::get('/users/current', 'UsersController@currentUser');                            // Get current user (this will be to get info for display and or use the 2 endpoints below)
 Route::get('/users/{user}/hires', 'UsersController@hires');                             // Get all of a user's hires
 Route::get('/users/{user}/hires/filtered', 'UsersController@filteredHires');            // Get a user's hires w/ their filter applied
 Route::get('/users/{user}/upcoming', 'UsersController@upcomingDates');                  // Get upcoming dates for a user
-Route::patch('/users', 'UsersController@update');                                       // Update a user (if updating search filter, stringify json and pass in with request body under "search_filter")
+Route::patch('/users/{user}', 'UsersController@update');                                // Update a user (if updating search filter, stringify json and pass in with request body under "search_filter")
 
 
 

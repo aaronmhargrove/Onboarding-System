@@ -74,11 +74,10 @@ class HiresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(){
-        // Create hire w/data after validation
         $hire = Hire::create($this->validateHire());
 
         // For each step, create a hire_step associated to hire
-        $steps = Steps::get();
+        $steps = Step::get();
         foreach ($steps as $step) {
             HireStep::create([
                 "hire_id" => $hire->id,
@@ -119,32 +118,32 @@ class HiresController extends Controller
 
     protected function validateHire(){
         return request()->validate([
-            'regional_location' => ['nullable', 'max:255'],
+            'regional_location' => ['max:255'],
             'first_name' => ['required', 'min:1', 'max:255'],
             'last_name' => ['required', 'min:1', 'max:255'],
-            'email' => ['nullabe', 'max:255', 'email'],
-            'cwid' => ['nullabe', 'max:100'],
-            'gender' => ['nullable', 'max:100'],
-            'hire_type_id' => ['nullabe', 'numeric'],
-            'start_date' => ['nullabe', 'date'],
-            'vendor' => ['nullabe', 'max:255'],
-            'role' => ['nullabe', 'max:255'],
-            'pl_ic' => ['nullabe', 'max:255'],
-            'team_name' => ['nullabe', 'max:255'],
-            'platform' => ['nullabe', 'max:255'],
-            'manager_id' => ['nullabe', 'numeric'],
-            'hire_status' => ['nullabe', 'max:255'],
-            'onboarding_buddy' => ['nullabe', 'max:255'],
-            'computer_needs' => ['nullabe', 'max:255'],
-            'seat_number' => ['nullabe', 'max:255'],
-            'campus' => ['nullabe', 'max:100'],
-            'manager_comments' => ['nullabe'],
-            'neid' => ['nullabe', 'numeric'],
-            'hire_ticket' => ['nullabe', 'max:255'],
-            'mac_ticket' => ['nullabe', 'max:255'],
-            'admin_id' => ['nullabe', 'numeric'],
-            'slack_url' => ['nullabe', 'max:255'],
-            'is_active' => ['nullabe'],
+            'email' => ['max:255', 'email'],
+            'cwid' => ['max:100'],
+            'gender' => ['max:100'],
+            'hire_type_id' => ['numeric'],
+            'start_date' => ['date'],
+            'vendor' => ['max:255'],
+            'role' => ['max:255'],
+            'pl_ic' => ['max:255'],
+            'team_name' => ['max:255'],
+            'platform' => ['max:255'],
+            'manager_id' => ['numeric'],
+            'hire_status' => ['max:255'],
+            'onboarding_buddy' => ['max:255'],
+            'computer_needs' => ['max:255'],
+            'seat_number' => ['max:255'],
+            'campus' => ['max:100'],
+            'manager_comments' => [],
+            'neid' => ['numeric'],
+            'hire_ticket' => ['max:255'],
+            'mac_ticket' => ['max:255'],
+            'admin_id' => ['numeric'],
+            'slack_url' => ['max:255'],
+            'is_active' => [],
         ]);
     }
 }
