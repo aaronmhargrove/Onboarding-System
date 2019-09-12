@@ -64,7 +64,12 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user){
-        return 'hi';
+    public function update(Request $request){
+        $user = User::find($request->userId);
+        $searchFilter = $request->except('userId');
+        $user->search_filter = json_encode($searchFilter);
+
+
+        return ($user->save()) ? "yay!" : "neigh";
     }
 }
