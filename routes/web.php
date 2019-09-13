@@ -38,7 +38,7 @@ Route::patch('/hires/{hire}/lock', 'HiresController@lock');                     
 Route::patch('/hires/{hire}/unlock', 'HiresController@unlock');                         // Unlock a Hire
 Route::delete('/hires/{hire}', 'HiresController@destroy');                              // Delete a Hire
 
-Route::patch('/hire-steps/{hireStep}', 'HireStepsController@update');                   // Update a Hire Step by id (new status in request body)
+Route::patch('/hire-steps/{hireStep}', 'HireStepsController@update');                   // Update a Hire Step by id (new status and/or date in request body)
 
 Route::get('/hire-types', 'HireTypesController@index');                                 // Get hire types
 

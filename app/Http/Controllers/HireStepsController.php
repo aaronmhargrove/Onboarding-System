@@ -17,7 +17,14 @@ class HireStepsController extends Controller
      * @param  \App\HireStep  $hireStep
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, HireStep $hireStep){
-        //
+    public function update(HireStep $hireStep){
+        $hireStep->update($this->validateHireStep());
+    }
+
+    protected function validateHireStep(){
+        return request()->validate([
+            'status' => ['min:1','max:255'],
+            'date_completed' => ['date']
+        ]);
     }
 }

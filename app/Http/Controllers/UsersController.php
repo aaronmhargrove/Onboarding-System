@@ -69,7 +69,6 @@ class UsersController extends Controller
         $searchFilter = $request->except('userId');
         $user->search_filter = json_encode($searchFilter);
 
-
         return ($user->save()) ? "yay!" : "neigh";
     }
 }

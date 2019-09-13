@@ -98,8 +98,6 @@ class HiresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Hire $hire) {
-        $validatedData = $this->validateHire();
-        
         $hire->update($this->validateHire());
     }
 
@@ -144,6 +142,7 @@ class HiresController extends Controller
             'admin_id' => ['numeric'],
             'slack_url' => ['max:255'],
             'is_active' => [],
+            'set_inactive_on' => ['date'],
         ]);
     }
 }
