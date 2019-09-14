@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserRolesTable extends Migration
+class CreateHireLocksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateUserRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_roles', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name'); // Admin, Manager (this might go away?)
-            $table->timestamps();
+        Schema::create('hire_locks', function (Blueprint $table) {
+            $table->bigInteger('hire_id')->unsigned()->unique();
+            $table->boolean('locked')->default(0);
+
+            $table->foreign('hire_id')->references('id')->on('hires')->onDelete('cascade');
         });
     }
 
@@ -27,6 +28,6 @@ class CreateUserRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_roles');
+        Schema::dropIfExists('hire_locks');
     }
 }
