@@ -45,7 +45,10 @@ class AddHire extends React.Component {
         this.setState({firstName: event.target.value});
     }
 
-    onDateHiredPick = (event) => {}
+    onDateHiredPick = (event) => {
+        console.log(event.target.value);
+        this.setState({hireDate: event.target.value});
+    }
 
     onRegionalLocationEnter = (event) => {
         this.setState({regionalLocation: event.target.value});
@@ -59,7 +62,9 @@ class AddHire extends React.Component {
         this.setState({hireType: event.target.value});
     }
 
-    onPdStartDatePick = (event) => {}
+    onPdStartDatePick = (event) => {
+        this.setState({pdStartDate: event.target.value});
+    }
 
     onRoleEnter = (event) => {
         this.setState({role: event.target.value});
@@ -138,7 +143,17 @@ class AddHire extends React.Component {
                         <TextField label="First Name" value={this.state.firstName} onChange={this.onFirstNameEnter} required/>
                     </Grid>
                     <Grid item xs={6} className="gridItem">
-                        <DatePickers label="Today's Date" required={true} onChange={this.onDateHiredPick} required/>
+                        <TextField
+                            label="Today's Date"
+                            type="date"
+                            value={this.state.hireDate}
+                            InputLabelProps={{
+                            shrink: true,
+                            }}
+                            onChange={this.onDateHiredPick}
+                            required={true}
+                            required
+                        />
                     </Grid>
                     <Grid item xs={6} className="gridItem">
                         <TextField label="Regional Location" value={this.state.regionalLocation} onChange={this.onRegionalLocationEnter} required/>
@@ -175,7 +190,17 @@ class AddHire extends React.Component {
                         </FormControl>
                     </Grid> 
                     <Grid item xs={6} className="gridItem">
-                        <DatePickers label="PD Start Date" required={true}></DatePickers>
+                        <TextField
+                            label="PD Start Date"
+                            type="date"
+                            value={this.state.pdStartDate}
+                            InputLabelProps={{
+                            shrink: true,
+                            }}
+                            onChange={this.onPdStartDatePick}
+                            required={true}
+                            required
+                        />
                     </Grid>
                     <Grid item xs={6} className="gridItem">
                         <TextField label="Role" value={this.state.role} onChange={this.onRoleEnter} required/>
