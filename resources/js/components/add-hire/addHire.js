@@ -1,5 +1,4 @@
 import React from 'react';
-import DatePickers from '../global/datePicker';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
@@ -8,6 +7,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
 import './addHire.css';
 
 class AddHire extends React.Component {
@@ -130,7 +130,63 @@ class AddHire extends React.Component {
         this.setState({macTicket: event.target.value});
     }
 
-    onSubmitClick = (event) => {console.log('Submit')}
+    onSubmitClick = (event) => {
+        var postObject = {
+            "regional_location": this.state.regionalLocation,
+            "first_name": this.state.firstName,
+            "last_name": this.state.lastName,
+            "email": this.state.email,
+            "cwid": this.state.cwid,
+            "gender": this.state.gender,
+            "hire_type_id": this.state.hireType,
+            "start_date": this.state.hireDate,
+            "vendor": this.state.vendor,
+            "role": this.state.role,
+            "pl_ic": this.state.plic,
+            "team_name": this.state.teamName,
+            "platform": this.state.platform,
+            "manager_id": this.state.manager,
+            "hire_status": this.state.hireStatus,
+            "onboarding_buddy": this.state.onboardingBuddy,
+            "computer_needs": this.state.computerNeeds,
+            "seat_number": this.state.seatNum,
+            "campus": this.state.onboardingCampus,
+            "neid": this.state.neid,
+            "hire_ticket": this.state.newHireRehireTicket,
+            "mac_ticket": this.state.macTicket,
+        };
+
+        axios.post('/hires', 
+        {
+            "regional_location": this.state.regionalLocation,
+            "first_name": this.state.firstName,
+            "last_name": this.state.lastName,
+            "email": this.state.email,
+            "cwid": this.state.cwid,
+            "gender": this.state.gender,
+            "hire_type_id": this.state.hireType,
+            "start_date": this.state.hireDate,
+            "vendor": this.state.vendor,
+            "role": this.state.role,
+            "pl_ic": this.state.plic,
+            "team_name": this.state.teamName,
+            "platform": this.state.platform,
+            "manager_id": this.state.manager,
+            "hire_status": this.state.hireStatus,
+            "onboarding_buddy": this.state.onboardingBuddy,
+            "computer_needs": this.state.computerNeeds,
+            "seat_number": this.state.seatNum,
+            "campus": this.state.onboardingCampus,
+            "neid": this.state.neid,
+            "hire_ticket": this.state.newHireRehireTicket,
+            "mac_ticket": this.state.macTicket,
+        })
+        .then((response) => {
+            console.log(response)
+        }).catch((response) => {
+            console.log(response);
+        });
+    }
 
     render() {
         return(

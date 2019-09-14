@@ -74,6 +74,7 @@ class HiresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(){
+        return request();
         $hire = Hire::create($this->validateHire());
 
         // For each step, create a hire_step associated to hire
