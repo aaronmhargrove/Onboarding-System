@@ -5,17 +5,21 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/FilterList';
 import CreateIcon from '@material-ui/icons/Create';
+import CalendarIcon from '@material-ui/icons/CalendarToday';
 import Modal from '@material-ui/core/Modal';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import './searchBar.css';
 
 class SearchBar extends React.Component {
     state = {
         searchValue: '', 
         filterModalOpen: false,
+        dateRangeModalOpen: false,
         dateEnteredFlag: true,
         regionalLocationFlag: true,
         cwidFlag: true,
@@ -57,6 +61,12 @@ class SearchBar extends React.Component {
         });
     }
 
+    onRangeClick = (event) => {
+        this.setState({
+            dateRangeModalOpen: true
+        });
+    }
+
     onSearchClick = (event) => {
         console.log('Search clicked.');
     }
@@ -68,6 +78,12 @@ class SearchBar extends React.Component {
     onModalClose = (event) => {
         this.setState({
             filterModalOpen: false
+        });
+    }
+
+    onRangeModalClose = (event) => {
+        this.setState({
+            dateRangeModalOpen: false
         });
     }
 
@@ -597,12 +613,59 @@ class SearchBar extends React.Component {
                                         label="Admin Name"
                                     />
                                 </Grid>
+                                <Grid item xs={6} className="gridItem">
+                                    <KeyboardDatePicker 
+                                        disableToolbar
+                                        variant="inline"
+                                        format="MM/dd/yyyy"
+                                        margin="normal"
+                                        id="date-picker-inline"
+                                        label="Date picker inline"
+                                    />
+                                </Grid>
+                                <Grid item xs={6} className="gridItem">
+
+                                </Grid>
                             </Grid>
                         </Paper>
                     </Modal>
                     <IconButton className="searchWidgetButton" onClick={this.onHighlightClick}>
                         <CreateIcon />
                     </IconButton>
+                    <IconButton className="searchWidgetButton" onClick={this.onRangeClick}>
+                        <CalendarIcon />
+                    </IconButton>
+                    <Modal
+                        open={this.state.dateRangeModalOpen}
+                        onClose={this.onRangeModalClose}
+                    >
+                        <Paper className="datePickerWidget">
+                            <div className="datePickerHeader">Select a Date Range</div>
+                            <Divider className="headerDivider"/>
+                            <Grid container space={40} className="gridContainer">
+                                <Grid item xs={6} className="gridItem">
+                                    <TextField
+                                        label="Start Date"
+                                        type="date"
+                                        defaultValue="2017-05-24"
+                                        InputLabelProps={{
+                                        shrink: true,
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={6} className="gridItem">
+                                    <TextField
+                                        label="End Date"
+                                        type="date"
+                                        defaultValue="2017-05-24"
+                                        InputLabelProps={{
+                                        shrink: true,
+                                        }}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </Paper>
+                    </Modal>
                 </div>
             </Paper>
         );
