@@ -26,16 +26,8 @@
 
 .filterWidget {
     width: 50%;
-    height: 50%;
-    top: 25%;
-    left: 25%;
-    position: absolute;
-}
-
-.datePickerWidget {
-    width: 50%;
-    height: 30%;
-    top: 40%;
+    height: 70%;
+    top: 15%;
     left: 25%;
     position: absolute;
 }
@@ -54,22 +46,30 @@
     align-items: center;
 }
 
-.datePickerHeader {
+.headerDivider {
+    width: 95%;
+    left: 2.5%;
+    position: relative;
+}
+
+.dateRangeHeader, .columnFilterHeader {
     font-family: 'Roboto';
     font-size: 1.5vw;
     display: flex;
     position: relative;
     top: 0%;
-    width: 90%;
-    height: 10%;
-    left: 5%;
+    width: 100%;
     text-align: center;
     justify-content: center;
-    align-items: center;
+    align-items: center; 
+    margin-bottom: 3%;
 }
 
-.headerDivider {
-    width: 95%;
-    left: 2.5%;
-    position: relative;
+.dateRangeHeader {
+    margin-top: 3%;
+}
+
+.headerGrid {
+    margin-top: 3% !important;
+    margin-bottom: 3% !important;
 }

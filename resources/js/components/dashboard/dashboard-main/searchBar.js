@@ -12,14 +12,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import { KeyboardDatePicker } from '@material-ui/pickers';
 import './searchBar.css';
 
 class SearchBar extends React.Component {
     state = {
         searchValue: '', 
         filterModalOpen: false,
-        dateRangeModalOpen: false,
         dateEnteredFlag: true,
         regionalLocationFlag: true,
         cwidFlag: true,
@@ -48,6 +46,8 @@ class SearchBar extends React.Component {
         addToDlsFlag: true,
         welcomeEmailFlag: true,
         adminNameFlag: true,
+        startRangeDate: '',
+        endRangeDate: '',
     };
 
     onSearchInput = (event) => {
@@ -81,9 +81,15 @@ class SearchBar extends React.Component {
         });
     }
 
-    onRangeModalClose = (event) => {
+    onStartDatePick = (event) => {
         this.setState({
-            dateRangeModalOpen: false
+            startRangeDate: event.target.value,
+        });
+    }
+
+    onEndDatePick = (event) => {
+        this.setState({
+            endRangeDate: event.target.value,
         });
     }
 
@@ -108,6 +114,10 @@ class SearchBar extends React.Component {
                             </div>
                             <Divider className="headerDivider"/>
                             <Grid container space={40} className="gridContainer">
+                                <Grid item xs={12} className="headerGrid">
+                                    <div className="columnFilterHeader">Columns Shown</div>
+                                    <Divider className="headerDivider"/>
+                                </Grid>
                                 <Grid item xs={6} className="gridItem">
                                     <FormControlLabel
                                         control={
@@ -613,18 +623,32 @@ class SearchBar extends React.Component {
                                         label="Admin Name"
                                     />
                                 </Grid>
+                                <Grid item xs={12} className="headerGrid">
+                                    <Divider className="headerDivider"/>
+                                    <div className="dateRangeHeader">Date Range</div>
+                                    <Divider className="headerDivider"/>
+                                </Grid>
                                 <Grid item xs={6} className="gridItem">
-                                    <KeyboardDatePicker 
-                                        disableToolbar
-                                        variant="inline"
-                                        format="MM/dd/yyyy"
-                                        margin="normal"
-                                        id="date-picker-inline"
-                                        label="Date picker inline"
+                                    <TextField
+                                        label="Start Date"
+                                        type="date"
+                                        value={this.state.startRangeDate}
+                                        InputLabelProps={{
+                                        shrink: true,
+                                        }}
+                                        onChange={this.onStartDatePick}
                                     />
                                 </Grid>
                                 <Grid item xs={6} className="gridItem">
-
+                                    <TextField
+                                        label="End Date"
+                                        type="date"
+                                        value={this.state.endRangeDate}
+                                        InputLabelProps={{
+                                        shrink: true,
+                                        }}
+                                        onChange={this.onEndDatePick}
+                                    />
                                 </Grid>
                             </Grid>
                         </Paper>
@@ -632,40 +656,6 @@ class SearchBar extends React.Component {
                     <IconButton className="searchWidgetButton" onClick={this.onHighlightClick}>
                         <CreateIcon />
                     </IconButton>
-                    <IconButton className="searchWidgetButton" onClick={this.onRangeClick}>
-                        <CalendarIcon />
-                    </IconButton>
-                    <Modal
-                        open={this.state.dateRangeModalOpen}
-                        onClose={this.onRangeModalClose}
-                    >
-                        <Paper className="datePickerWidget">
-                            <div className="datePickerHeader">Select a Date Range</div>
-                            <Divider className="headerDivider"/>
-                            <Grid container space={40} className="gridContainer">
-                                <Grid item xs={6} className="gridItem">
-                                    <TextField
-                                        label="Start Date"
-                                        type="date"
-                                        defaultValue="2017-05-24"
-                                        InputLabelProps={{
-                                        shrink: true,
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={6} className="gridItem">
-                                    <TextField
-                                        label="End Date"
-                                        type="date"
-                                        defaultValue="2017-05-24"
-                                        InputLabelProps={{
-                                        shrink: true,
-                                        }}
-                                    />
-                                </Grid>
-                            </Grid>
-                        </Paper>
-                    </Modal>
                 </div>
             </Paper>
         );
