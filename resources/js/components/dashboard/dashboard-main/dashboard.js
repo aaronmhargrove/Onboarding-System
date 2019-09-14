@@ -11,7 +11,6 @@ class Dashboard extends React.Component {
             <Paper className="dashboardWidget">
                 <SearchBar />
                 <SearchResults />
-                
             </Paper>
         );
     }

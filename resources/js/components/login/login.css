@@ -30,15 +30,6 @@
     bottom: 45%;
 }
 
-.forgotPassButton {
-    display: flex;
-    position: absolute !important;
-    width: 30%;
-    left: 35%;
-    bottom: 15%;
-    height: 5%; 
-}
-
 .loginButton {
     display: flex;
     position: absolute !important;
