@@ -34,193 +34,161 @@ const data = [
 
 //Keeper Code Begins here
   var columns = [
-    {
-        width: 120,
-        flexGrow: 1.0,
-        label: 'Name',
-        dataKey: 'dessert',
+    {         
+        title: 'Name',
+        field: 'name',
     },
   ]
 
   var columnsBase = [    
     {
-        width: 120,
-        label: 'Date Entered',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Date Entered',
+        field: 'dateEntered',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'Regional Location',
-        dataKey: 'fat',
-        numeric: true,
+        title: 'Regional Location',
+        field: 'regionalLocation',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'CWID',
-        dataKey: 'carbs',
-        numeric: true,
+        title: 'CWID',
+        field: 'cwid',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'Gender',
-        dataKey: 'protein',
-        numeric: true,
+        title: 'Gender',
+        field: 'gender',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'Hire Type',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Hire Type',
+        field: 'hireType',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'PD Start Date',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'PD Start Date',
+        field: 'pdStartDate',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'Vendor',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Vendor',
+        field: 'vendor',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'Role',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Role',
+        field: 'role',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'PL/IC',
-        dataKey: 'fat',
-        numeric: true,
+        title: 'PL/IC',
+        field: 'plic',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'Team Name',
-        dataKey: 'carbs',
-        numeric: true,
+        title: 'Team Name',
+        field: 'teamName',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'Platform',
-        dataKey: 'protein',
-        numeric: true,
+        title: 'Platform',
+        field: 'platform',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'Manager',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Manager',
+        field: 'manager',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'Hire Status',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Hire Status',
+        field: 'hireStatus',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'Onboarding Buddy',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Onboarding Buddy',
+        field: 'onboardingBuddy',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'Computer Needs',
-        dataKey: 'fat',
-        numeric: true,
+        title: 'Computer Needs',
+        field: 'computerNeeds',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'SEAT Number Assigned',
-        dataKey: 'carbs',
-        numeric: true,
+        title: 'SEAT Number Assigned',
+        field: 'seatNumberAssigned',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'Campus',
-        dataKey: 'protein',
-        numeric: true,
+        title: 'Campus',
+        field: 'campus',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'Manager Comments',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Manager Comments',
+        field: 'managerComments',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'NEID / EID',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'NEID / EID',
+        field: 'neidEid',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'New Hire / Re Hire',
-        dataKey: 'carbs',
-        numeric: true,
+        title: 'New Hire / Re Hire',
+        field: 'newHireReHire',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: '(Date Entered)',
-        dataKey: 'protein',
-        numeric: true,
+        title: '(Date Entered)',
+        field: 'dateEnteredHire',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'MAC Ticket',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'MAC Ticket',
+        field: 'macTicket',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: '(Date Entered)',
-        dataKey: 'calories',
-        numeric: true,
+        title: '(Date Entered)',
+        field: 'dateEnteredMacTicket',
+        type: 'numeric'
     },  
     {
-        width: 120,
-        label: 'Date Laptop Delivered',
-        dataKey: 'carbs',
-        numeric: true,
+        title: 'Date Laptop Delivered',
+        field: 'dateLaptopDelivered',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'Onboarding Buddy Email Sent',
-        dataKey: 'protein',
-        numeric: true,
+        title: 'Onboarding Buddy Email Sent',
+        field: 'onboardingBuddyEmailSent',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'Add to DLs and PD Org',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Add to DLs and PD Org',
+        field: 'addToDlsAndPdOrg',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'Welcome Email Sent',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Welcome Email Sent',
+        field: 'welcomeEmailSent',
+        type: 'numeric'
     },
     {
-        width: 120,
-        label: 'Admin Name',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Admin Name',
+        field: 'adminName',
+        type: 'numeric'
     },
 ]
 
 function updateColumns(page, count, columnsPerPage) {
     columns = [];
     columns = [
-        {
-            width: 120,
-            flexGrow: 1.0,
-            label: 'Name',
-            dataKey: 'dessert',
+        {           
+            title: 'Name',
+            field: 'name',
         },
       ]
 
