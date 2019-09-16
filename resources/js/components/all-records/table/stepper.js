@@ -43,7 +43,7 @@ const data = [
   var columnsBase = [    
     {
         title: 'Date Entered',
-        field: 'dateEntered',
+        field: 'hireDate',
         type: 'date'
     },
     {
@@ -105,11 +105,11 @@ const data = [
     },
     {
         title: 'SEAT Number Assigned',
-        field: 'seatNumberAssigned'
+        field: 'seatNum'
     },
     {
         title: 'Campus',
-        field: 'campus'
+        field: 'onboardingCampus'
     },
     {
         title: 'Manager Comments',
@@ -117,12 +117,12 @@ const data = [
     },
     {
         title: 'NEID/EID',
-        field: 'neidEid',
+        field: 'neid',
         type: 'numeric'
     },
     {
         title: 'New Hire/Re Hire',
-        field: 'newHireReHire'
+        field: 'newHireRehireTicket'
     },
     {
         title: 'Hire Ticket Entered',

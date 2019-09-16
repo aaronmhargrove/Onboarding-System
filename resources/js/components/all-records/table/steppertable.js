@@ -10,32 +10,24 @@ import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
+import ListItemIcon from '@material-ui/core/ListItemIcon'
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
-import DatePickers from '../../global/datePicker';
-/*import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
-import TableCell from '@material-ui/core/TableCell';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import { AutoSizer, Column, SortDirection, Table } from 'react-virtualized';*/
-import { SvgIconProps } from '@material-ui/core/SvgIcon'
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import HourglassEmpty from '@material-ui/icons/HourglassEmpty'
 import Search from '@material-ui/icons/Search'
-import ViewColumn from '@material-ui/icons/ViewColumn'
 import SaveAlt from '@material-ui/icons/SaveAlt'
+import Done from '@material-ui/icons/Done'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import ChevronRight from '@material-ui/icons/ChevronRight'
 import FirstPage from '@material-ui/icons/FirstPage'
 import LastPage from '@material-ui/icons/LastPage'
-import Add from '@material-ui/icons/Add'
 import Check from '@material-ui/icons/Check'
 import FilterList from '@material-ui/icons/FilterList'
 import Remove from '@material-ui/icons/Remove'
@@ -49,6 +41,7 @@ class StepperTable extends React.Component {
     filterModalOpen: false,
     lastName: '',
     firstName: '',
+    name: '',
     hireDate: '',
     regionalLocation: '',
     gender: '',
@@ -70,6 +63,28 @@ class StepperTable extends React.Component {
     neid: '',
     newHireRehireTicket: '',
     macTicket: '',
+    managerComments: '',
+    dateEnteredHire: '',
+    dateEnteredMacTicket: '',
+    dateLaptopDelivered: '',
+    onboardingBuddyEmailSent: '',
+    addToDlsAndPdOrg: '',
+    welcomeEmailSent: '',
+    hireTicketIncomplete: false,
+    hireTicketInProgress: false,
+    hireTicketComplete: true,
+    macTicketIncomplete: false,
+    macTicketInProgress: false,
+    macTicketComplete: true,
+    laptopDeliveredIncomplete: false, 
+    laptopDeliveredInProgress: true,
+    laptopDeliveredComplete: false,
+    onBoardingEmailIncomplete: true,
+    onBoardingEmailInProgress: false,
+    onBoardingEmailComplete: false,
+    addToDlsAndPdOrgIncomplete: true,
+    addToDlsAndPdOrgInProgress: false,
+    addToDlsAndPdOrgComplete: false
   };
   onModalClose = () => {
     this.setState({
@@ -324,27 +339,66 @@ class StepperTable extends React.Component {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={4} className="noScroll">
+              <Grid item xs={3} className="noScroll">
                 <Grid container space={20} className="gridContainer">
-                  <Grid item xs={4} className="noScroll">
+                  <Grid item xs={3} className="noScroll">
                     <div className="headerText">Progress</div>
                   </Grid>
-                  <Grid item xs={4} className="noScroll">
+                  <Grid item xs={3} className="noScroll">
                     <List className="progress-list">
                       <ListItem>
-                        <ListItemText primary="Hire Ticket Submitted" />
+                        <ListItemText primary="Hire Ticket Submitted" style={{ borderColor: this.state.hireTicketStatus }} />
                       </ListItem>
                       <ListItem>
-                        <ListItemText primary="MAC Ticket Submitted" />
+                        <ListItemText primary="MAC Ticket Submitted" style={{ borderColor: this.state.macTicketStatus }} />
                       </ListItem>
                       <ListItem>
-                        <ListItemText primary="Laptop Delivered" />
+                        <ListItemText primary="Laptop Delivered" style={{ borderColor: this.state.laptopDeliveredStatus }} />
                       </ListItem>
                       <ListItem>
-                        <ListItemText primary="Onboarding Email Sent" />
+                        <ListItemText primary="Onboarding Email Sent" style={{ borderColor: this.state.onboardingEmailStatus }} />
                       </ListItem>
                       <ListItem>
-                        <ListItemText primary="Added to DLs/PD Org" />
+                        <ListItemText primary="Added to DLs/PD Org" style={{ borderColor: this.state.addToDlsAndPdOrgStatus }} />
+                      </ListItem>
+                    </List>
+                  </Grid>
+                  <Grid item xs={1} className="noScroll-icons">
+                    <List className="progress-list">
+                      <ListItem>
+                        <ListItemIcon >
+                          {this.state.hireTicketIncomplete && <Clear className="incomplete-icon"/>}
+                          {this.state.hireTicketInProgress && <HourglassEmpty className="in-progress-icon"/>}
+                          {this.state.hireTicketComplete && <Done className="complete-icon"/>}
+                        </ListItemIcon>
+                      </ListItem>
+                      <ListItem>
+                      <ListItemIcon >
+                      {this.state.macTicketIncomplete && <Clear className="incomplete-icon"/>}
+                          {this.state.macTicketInProgress && <HourglassEmpty className="in-progress-icon"/>}
+                          {this.state.macTicketComplete && <Done className="complete-icon"/>}
+                        </ListItemIcon>
+                      </ListItem>
+                      <ListItem>
+                      <ListItemIcon >
+                      {this.state.laptopDeliveredIncomplete && <Clear className="incomplete-icon"/>}
+                          {this.state.laptopDeliveredInProgress && <HourglassEmpty className="in-progress-icon"/>}
+                          {this.state.laptopDeliveredComplete && <Done className="complete-icon"/>}
+                        </ListItemIcon>
+                      </ListItem>
+                      <ListItem>
+                      <ListItemIcon >
+                      {this.state.onBoardingEmailIncomplete && <Clear className="incomplete-icon"/>}
+                          {this.state.onBoardingEmailInProgress && <HourglassEmpty className="in-progress-icon"/>}
+                          {this.state.onBoardingEmailComplete && <Done className="complete-icon"/>}
+                        </ListItemIcon>
+                      </ListItem>
+                      <ListItem>
+                      <ListItemIcon >
+                      {this.state.addToDlsAndPdOrgIncomplete && <Clear className="incomplete-icon"/>}
+                          {this.state.addToDlsAndPdOrgInProgress && <HourglassEmpty className="in-progress-icon"/>}
+                          {this.state.addToDlsAndPdOrgComplete && <Done className="complete-icon"/>}
+                        </ListItemIcon>
                       </ListItem>
                     </List>
                   </Grid>
@@ -371,21 +425,10 @@ class StepperTable extends React.Component {
           }}
           columns={columns}
           onRowClick={(rowData) => this.onModalOpen(rowData)}
-          /*columns={[
-            { title: 'First Name', field: 'name' },
-            { title: 'Last Name', field: 'surname' },
-            { title: 'BirthDate', field: 'birthYear', type: 'numeric' },
-            { title: 'BirthCity', field: 'birthCity', lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' } }
-          ]}*/
           data={[
-            // { name: 'Jace', surname: 'Plute', birthYear: 1995, birthCity: 63 },
-            // { name: 'Bob', surname: 'Ross', birthYear: 1955, birthCity: 63 },
-            // { name: 'Vanilla', surname: 'Ice', birthYear: 1975, birthCity: 63 },
-            // { name: 'Jay', surname: 'Jay', birthYear: 1980, birthCity: 63 },
-            // { name: 'Jay', surname: 'Jay', birthYear: 1981, birthCity: 63 }
             {
               name: 'Winky, Tinky',
-              dateEntered: '11/5/2018',
+              hireDate: '11/5/2018',
               regionalLocation: 'US-STL',
               cwid: 'TLWIN',
               gender: 'F',
@@ -400,11 +443,11 @@ class StepperTable extends React.Component {
               hireStatus: 'New',
               onboardingBuddy: 'Hunt, Naomi',
               computerNeeds: 'Macbook',
-              seatNumberAssigned: 'G2022E',
-              campus: 'MC',
+              seatNum: 'G2022E',
+              onboardingCampus: 'MC',
               managerComments: '',
-              neidEid: 12345,
-              newHireReHire: 'REQ55555',
+              neid: 12345,
+              newHireRehireTicket: 'REQ55555',
               dateEnteredHire: '11/8/2018',
               macTicket: 'REQ11111',
               dateEnteredMacTicket: '11/8/2018',
@@ -429,159 +472,4 @@ class StepperTable extends React.Component {
   }
 }
 
-//const StepperTable = withStyles(styles)(MuiVirtualizedTable);
-
 export default StepperTable;
-/*
-const styles = theme => ({
-  table: {
-    fontFamily: theme.typography.fontFamily,
-  },
-  flexContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    boxSizing: 'border-box',
-  },
-  tableRow: {
-    cursor: 'pointer',
-  },
-  tableRowHover: {
-    '&:hover': {
-      backgroundColor: theme.palette.grey[200],
-    },
-  },
-  tableCell: {
-    flex: 1,
-  },
-  noClick: {
-    cursor: 'initial',
-  },
-});
-
-class MuiVirtualizedTable extends React.PureComponent {
-  getRowClassName = ({ index }) => {
-    const { classes, rowClassName, onRowClick } = this.props;
-
-    return classNames(classes.tableRow, classes.flexContainer, rowClassName, {
-      [classes.tableRowHover]: index !== -1 && onRowClick != null,
-    });
-  };
-
-  cellRenderer = ({ cellData, columnIndex = null }) => {
-    const { columns, classes, rowHeight, onRowClick } = this.props;
-    return (
-      <TableCell
-        component="div"
-        className={classNames(classes.tableCell, classes.flexContainer, {
-          [classes.noClick]: onRowClick == null,
-        })}
-        variant="body"
-        style={{ height: rowHeight }}
-        align={(columnIndex != null && columns[columnIndex].numeric) || false ? 'right' : 'left'}
-      >
-        {cellData}
-      </TableCell>
-    );
-  };
-
-  headerRenderer = ({ label, columnIndex, dataKey, sortBy, sortDirection }) => {
-    const { headerHeight, columns, classes, sort } = this.props;
-    const direction = {
-      [SortDirection.ASC]: 'asc',
-      [SortDirection.DESC]: 'desc',
-    };
-
-    const inner =
-      !columns[columnIndex].disableSort && sort != null ? (
-        <TableSortLabel active={dataKey === sortBy} direction={direction[sortDirection]}>
-          {label}
-        </TableSortLabel>
-      ) : (
-        label
-      );
-
-    return (
-      <TableCell
-        component="div"
-        className={classNames(classes.tableCell, classes.flexContainer, classes.noClick)}
-        variant="head"
-        style={{ height: headerHeight }}
-        align={columns[columnIndex].numeric || false ? 'right' : 'left'}
-      >
-        {inner}
-      </TableCell>
-    );
-  };
-
-  render() {
-    const { classes, columns, ...tableProps } = this.props;
-    return (
-      <AutoSizer>
-        {({ height, width }) => (
-          <Table
-            className={classes.table}
-            height={height}
-            width={width}
-            {...tableProps}
-            rowClassName={this.getRowClassName}
-          >
-            {columns.map(({ cellContentRenderer = null, className, dataKey, ...other }, index) => {
-              let renderer;
-              if (cellContentRenderer != null) {
-                renderer = cellRendererProps =>
-                  this.cellRenderer({
-                    cellData: cellContentRenderer(cellRendererProps),
-                    columnIndex: index,
-                  });
-              } else {
-                renderer = this.cellRenderer;
-              }
-
-              return (
-                <Column
-                  key={dataKey}
-                  headerRenderer={headerProps =>
-                    this.headerRenderer({
-                      ...headerProps,
-                      columnIndex: index,
-                    })
-                  }
-                  className={classNames(classes.flexContainer, className)}
-                  cellRenderer={renderer}
-                  dataKey={dataKey}
-                  {...other}
-                />
-              );
-            })}
-          </Table>
-        )}
-      </AutoSizer>      
-    );
-  }
-}
-
-MuiVirtualizedTable.propTypes = {
-  classes: PropTypes.object.isRequired,
-  columns: PropTypes.arrayOf(
-    PropTypes.shape({
-      cellContentRenderer: PropTypes.func,
-      dataKey: PropTypes.string.isRequired,
-      width: PropTypes.number.isRequired,
-    }),
-  ).isRequired,
-  headerHeight: PropTypes.number,
-  onRowClick: PropTypes.func,
-  rowClassName: PropTypes.string,
-  rowHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-  sort: PropTypes.func,
-};
-
-MuiVirtualizedTable.defaultProps = {
-  headerHeight: 56,
-  rowHeight: 56,
-};
-
-const StepperTable = withStyles(styles)(MuiVirtualizedTable);
-
-export default StepperTable;
-*/
