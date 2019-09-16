@@ -6,6 +6,7 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 import Modal from '@material-ui/core/Modal'
+import Paper from '@material-ui/core/Paper';
 /*import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -13,7 +14,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { AutoSizer, Column, SortDirection, Table } from 'react-virtualized';*/
 import { SvgIconProps } from '@material-ui/core/SvgIcon'
-
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 import Search from '@material-ui/icons/Search'
 import ViewColumn from '@material-ui/icons/ViewColumn'
 import SaveAlt from '@material-ui/icons/SaveAlt'
@@ -28,20 +30,50 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
 import Clear from '@material-ui/icons/Clear'
 
-class StepperTable extends React.Component {
-  render() {
+import './steppertable.css';
+
+class StepperTable extends React.Component {    
+  state = {filterModalOpen: false,
+
+            
+
+            
+
+            
+
+            
+
+            
+          };
+  onModalClose = () => {
+    this.setState({
+      filterModalOpen: false
+    });
+  }
+  onModalOpen = (rowData) => { 
+    this.setState({
+      filterModalOpen: true
+    });
+  }
+  render() {    
     const { columns } = this.props; 
-    this.state = {filterModalOpen: false};
     return (
       <div style={{ maxWidth: '100%' }}>
       <Modal
         open={this.state.filterModalOpen}
-        onClose={onModalClose = (event) => {
-          this.setState({
-            filterModalOpen: false
-          });
-        }}
-        ></Modal>        
+        onClose={this.onModalClose}
+        >
+          <Paper className="paper">
+            <Grid container space={40} className="gridContainer">
+                <Grid item xs={6} className="gridItem">
+                    <TextField label="Last Name" value={this.state.lastName} onChange={this.onLastNameEnter} required/>
+                </Grid>
+                <Grid item xs={6} className="gridItem">
+                    <TextField label="First Name" value={this.state.firstName} onChange={this.onFirstNameEnter} required/>
+                </Grid>
+            </Grid>
+        </Paper>
+      </Modal>        
         <MaterialTable className="table"
             icons={{ 
               Check: Check,
@@ -59,7 +91,7 @@ class StepperTable extends React.Component {
               ThirdStateCheck: Remove
             }}
             columns = {columns}
-            onRowClick = { (event) => Modal.open }
+            onRowClick = { (rowData) => this.onModalOpen(rowData) }
           /*columns={[
             { title: 'First Name', field: 'name' },
             { title: 'Last Name', field: 'surname' },
