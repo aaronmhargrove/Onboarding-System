@@ -10,8 +10,7 @@ class Dashboard extends React.Component {
         return(
             <Paper className="dashboardWidget">
                 <SearchBar />
-                <SearchResults />
-                
+                <SearchResults className="dashboardTable"/>                
             </Paper>
         );
     }
