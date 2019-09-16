@@ -125,7 +125,7 @@ const data = [
         field: 'newHireReHire'
     },
     {
-        title: '(Date Entered)',
+        title: 'Hire Ticket Entered',
         field: 'dateEnteredHire',
         type: 'date'
     },
@@ -134,7 +134,7 @@ const data = [
         field: 'macTicket'
     },
     {
-        title: '(Date Entered)',
+        title: 'MAC Entered',
         field: 'dateEnteredMacTicket',
         type: 'date'
     },  

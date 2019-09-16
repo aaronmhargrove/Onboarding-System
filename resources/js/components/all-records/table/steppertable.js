@@ -246,7 +246,7 @@ class StepperTable extends React.Component {
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
-                      label="(Date Entered)"
+                      label="Hire Ticket Entered"
                       type="date"
                       value={this.state.dateEnteredHire}
                       InputLabelProps={{
@@ -261,7 +261,7 @@ class StepperTable extends React.Component {
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
-                      label="(Date Entered)"
+                      label="MAC Ticket Entered"
                       type="date"
                       value={this.state.dateEnteredMacTicket}
                       InputLabelProps={{
@@ -402,7 +402,7 @@ class StepperTable extends React.Component {
               computerNeeds: 'Macbook',
               seatNumberAssigned: 'G2022E',
               campus: 'MC',
-              managerComments: 'Daisy was previously here in the Lab Platform',
+              managerComments: '',
               neidEid: 12345,
               newHireReHire: 'REQ55555',
               dateEnteredHire: '11/8/2018',
