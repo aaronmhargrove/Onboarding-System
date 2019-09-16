@@ -7,6 +7,13 @@ import React from 'react';
 import MaterialTable from 'material-table';
 import Modal from '@material-ui/core/Modal'
 import Paper from '@material-ui/core/Paper';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
+import FormControl from '@material-ui/core/FormControl';
+import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import DatePickers from '../../global/datePicker';
 /*import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -34,7 +41,7 @@ import './steppertable.css';
 
 class StepperTable extends React.Component {    
   state = {filterModalOpen: false,
-
+          
             
 
             
@@ -66,9 +73,106 @@ class StepperTable extends React.Component {
           <Paper className="paper">
             <Grid container space={40} className="gridContainer">
                 <Grid item xs={6} className="gridItem">
+                          
+                <Grid container space={20} >
+                <Grid item xs={12} className="gridItem">
                     <TextField label="Last Name" value={this.state.lastName} onChange={this.onLastNameEnter} required/>
                 </Grid>
-                <Grid item xs={6} className="gridItem">
+                <Grid item xs={12} className="gridItem">
+                    <TextField label="First Name" value={this.state.firstName} onChange={this.onFirstNameEnter} required/>
+                </Grid>
+                <Grid item xs={12} className="gridItem">
+                    <TextField
+                                        label="Date Entered"
+                                        type="date"
+                                        value={this.state.DateEntered}
+                                        InputLabelProps={{
+                                        shrink: true,
+                                        }}
+                                        onChange={this.onDateEntered}
+                                        required={true}
+                                        required
+                                    />
+                </Grid>
+                <Grid item xs={12} className="gridItem">
+                <TextField label="Regional Location" value={this.state.regionalLocation} onChange={this.onRegionalLocationEnter} required/>
+                </Grid>
+                <Grid item xs={12} className="gridItem">
+                    <TextField label="CWID" value={this.state.cwid} onChange={this.onCWID} />
+                </Grid>
+                <Grid item xs={12} className="gridItem">
+                <FormControl>
+                            <InputLabel htmlFor="gender-selector" required>Gender</InputLabel>
+                            <Select 
+                            value={this.state.gender} 
+                            onChange={this.onGenderSelect} 
+                            input={<Input id="gender-selector" />}
+                            required
+                            >
+                                <MenuItem value=""><em>None</em></MenuItem>
+                                <MenuItem value="male">Male</MenuItem>
+                                <MenuItem value="female">Female</MenuItem>
+                            </Select>
+                        </FormControl>
+                </Grid>
+                <Grid item xs={12} className="gridItem">
+                <FormControl>
+                            <InputLabel htmlFor="hireType-selector" required>Hire Type</InputLabel>
+                            <Select
+                            value={this.state.hireType}
+                            onChange={this.onHireTypeSelect}
+                            input={<Input id="hireType-selector" />}
+                            required
+                            >
+                                <MenuItem value=""><em>None</em></MenuItem>
+                                <MenuItem value="direct">Direct</MenuItem>
+                                <MenuItem value="contract">Contract</MenuItem>
+                                <MenuItem value="sow">SOW</MenuItem>
+                            </Select>
+                        </FormControl>
+                </Grid>
+                <Grid item xs={12} className="gridItem">
+                    <TextField
+                                        label="PD Start Date"
+                                        type="date"
+                                        value={this.state.pdStartDate}
+                                        InputLabelProps={{
+                                        shrink: true,
+                                        }}
+                                        onChange={this.onPdStartDatePick}
+                                        required={true}
+                                        required
+                                    />
+                </Grid>
+                <Grid item xs={12} className="gridItem">
+                    <FormControl>
+                        <InputLabel htmlFor="plic-selector" >PL/IC</InputLabel>
+                        <Select
+                        value={this.state.plic}
+                        onChange={this.onPLICSelect}
+                        input={<Input id="plic-selector" />}
+                        required
+                        >
+                            <MenuItem value=""><em>None</em></MenuItem>
+                            <MenuItem value="direct">PL</MenuItem>
+                            <MenuItem value="contract">IC</MenuItem>
+                        </Select>
+                    </FormControl>
+                  </Grid>
+                <Grid item xs={12} className="gridItem">
+                    <TextField label="First Name" value={this.state.firstName} onChange={this.onFirstNameEnter} required/>
+                </Grid>
+                <Grid item xs={12} className="gridItem">
+                    <TextField label="Last Name" value={this.state.lastName} onChange={this.onLastNameEnter} required/>
+                </Grid>
+                <Grid item xs={12} className="gridItem">
+                    <TextField label="First Name" value={this.state.firstName} onChange={this.onFirstNameEnter} required/>
+                </Grid>            
+            </Grid>
+
+
+                </Grid>
+                <Grid item xs={6} className="noScroll">
                     <TextField label="First Name" value={this.state.firstName} onChange={this.onFirstNameEnter} required/>
                 </Grid>
             </Grid>
@@ -105,531 +209,35 @@ class StepperTable extends React.Component {
             // { name: 'Jay', surname: 'Jay', birthYear: 1980, birthCity: 63 },
             // { name: 'Jay', surname: 'Jay', birthYear: 1981, birthCity: 63 }
             {
-              name: 'Bob Ross',
-              dateEntered: '5/14/19',
-              regionalLocation: 302,
-              cwid: 303,
-              gender: 304,
-              hireType: 305,
-              pdStartDate: 306,
-              vendor: 307,
-              role: 30,
-              plic: 30,
-              teamName: 30,
-              platform: 30,
-              manager: 30,
-              hireStatus: 30,
-              onboardingBuddy: 30,
-              computerNeeds: 30,
-              seatNumberAssigned: 30,
-              campus: 30,
-              managerComments: 30,
-              neidEid: 30,
-              newHireReHire: 30,
-              dateEnteredHire: 30,
-              macTicket: 30,
-              dateEnteredMacTicket: 30,
-              dateLaptopDelivered: 30,
-              onboardingBuddyEmailSent: 30,
-              addToDlsAndPdOrg: 30,
-              welcomeEmailSent: 30,
-              adminName: 30
-            },
-            {
-              name: 'Bob Ross',
-              dateEntered: '5/14/19',
-              regionalLocation: 302,
-              cwid: 303,
-              gender: 304,
-              hireType: 305,
-              pdStartDate: 306,
-              vendor: 307,
-              role: 30,
-              plic: 30,
-              teamName: 30,
-              platform: 30,
-              manager: 30,
-              hireStatus: 30,
-              onboardingBuddy: 30,
-              computerNeeds: 30,
-              seatNumberAssigned: 30,
-              campus: 30,
-              managerComments: 30,
-              neidEid: 30,
-              newHireReHire: 30,
-              dateEnteredHire: 30,
-              macTicket: 30,
-              dateEnteredMacTicket: 30,
-              dateLaptopDelivered: 30,
-              onboardingBuddyEmailSent: 30,
-              addToDlsAndPdOrg: 30,
-              welcomeEmailSent: 30,
-              adminName: 30
-            },
-            {
-              name: 'Bob Ross',
-              dateEntered: '5/14/19',
-              regionalLocation: 302,
-              cwid: 303,
-              gender: 304,
-              hireType: 305,
-              pdStartDate: 306,
-              vendor: 307,
-              role: 30,
-              plic: 30,
-              teamName: 30,
-              platform: 30,
-              manager: 30,
-              hireStatus: 30,
-              onboardingBuddy: 30,
-              computerNeeds: 30,
-              seatNumberAssigned: 30,
-              campus: 30,
-              managerComments: 30,
-              neidEid: 30,
-              newHireReHire: 30,
-              dateEnteredHire: 30,
-              macTicket: 30,
-              dateEnteredMacTicket: 30,
-              dateLaptopDelivered: 30,
-              onboardingBuddyEmailSent: 30,
-              addToDlsAndPdOrg: 30,
-              welcomeEmailSent: 30,
-              adminName: 30
-            },
-            {
-              name: 'Bob Ross',
-              dateEntered: '5/14/19',
-              regionalLocation: 302,
-              cwid: 303,
-              gender: 304,
-              hireType: 305,
-              pdStartDate: 306,
-              vendor: 307,
-              role: 30,
-              plic: 30,
-              teamName: 30,
-              platform: 30,
-              manager: 30,
-              hireStatus: 30,
-              onboardingBuddy: 30,
-              computerNeeds: 30,
-              seatNumberAssigned: 30,
-              campus: 30,
-              managerComments: 30,
-              neidEid: 30,
-              newHireReHire: 30,
-              dateEnteredHire: 30,
-              macTicket: 30,
-              dateEnteredMacTicket: 30,
-              dateLaptopDelivered: 30,
-              onboardingBuddyEmailSent: 30,
-              addToDlsAndPdOrg: 30,
-              welcomeEmailSent: 30,
-              adminName: 30
-            },
-            {
-              name: 'Bob Ross',
-              dateEntered: '5/14/19',
-              regionalLocation: 302,
-              cwid: 303,
-              gender: 304,
-              hireType: 305,
-              pdStartDate: 306,
-              vendor: 307,
-              role: 30,
-              plic: 30,
-              teamName: 30,
-              platform: 30,
-              manager: 30,
-              hireStatus: 30,
-              onboardingBuddy: 30,
-              computerNeeds: 30,
-              seatNumberAssigned: 30,
-              campus: 30,
-              managerComments: 30,
-              neidEid: 30,
-              newHireReHire: 30,
-              dateEnteredHire: 30,
-              macTicket: 30,
-              dateEnteredMacTicket: 30,
-              dateLaptopDelivered: 30,
-              onboardingBuddyEmailSent: 30,
-              addToDlsAndPdOrg: 30,
-              welcomeEmailSent: 30,
-              adminName: 30
-            },
-            {
-              name: 'Bob Ross',
-              dateEntered: '5/14/19',
-              regionalLocation: 302,
-              cwid: 303,
-              gender: 304,
-              hireType: 305,
-              pdStartDate: 306,
-              vendor: 307,
-              role: 30,
-              plic: 30,
-              teamName: 30,
-              platform: 30,
-              manager: 30,
-              hireStatus: 30,
-              onboardingBuddy: 30,
-              computerNeeds: 30,
-              seatNumberAssigned: 30,
-              campus: 30,
-              managerComments: 30,
-              neidEid: 30,
-              newHireReHire: 30,
-              dateEnteredHire: 30,
-              macTicket: 30,
-              dateEnteredMacTicket: 30,
-              dateLaptopDelivered: 30,
-              onboardingBuddyEmailSent: 30,
-              addToDlsAndPdOrg: 30,
-              welcomeEmailSent: 30,
-              adminName: 30
-            },
-            {
-              name: 'Bob Ross',
-              dateEntered: '5/14/19',
-              regionalLocation: 302,
-              cwid: 303,
-              gender: 304,
-              hireType: 305,
-              pdStartDate: 306,
-              vendor: 307,
-              role: 30,
-              plic: 30,
-              teamName: 30,
-              platform: 30,
-              manager: 30,
-              hireStatus: 30,
-              onboardingBuddy: 30,
-              computerNeeds: 30,
-              seatNumberAssigned: 30,
-              campus: 30,
-              managerComments: 30,
-              neidEid: 30,
-              newHireReHire: 30,
-              dateEnteredHire: 30,
-              macTicket: 30,
-              dateEnteredMacTicket: 30,
-              dateLaptopDelivered: 30,
-              onboardingBuddyEmailSent: 30,
-              addToDlsAndPdOrg: 30,
-              welcomeEmailSent: 30,
-              adminName: 30
-            },
-            {
-              name: 'Bob Ross',
-              dateEntered: '5/14/19',
-              regionalLocation: 302,
-              cwid: 303,
-              gender: 304,
-              hireType: 305,
-              pdStartDate: 306,
-              vendor: 307,
-              role: 30,
-              plic: 30,
-              teamName: 30,
-              platform: 30,
-              manager: 30,
-              hireStatus: 30,
-              onboardingBuddy: 30,
-              computerNeeds: 30,
-              seatNumberAssigned: 30,
-              campus: 30,
-              managerComments: 30,
-              neidEid: 30,
-              newHireReHire: 30,
-              dateEnteredHire: 30,
-              macTicket: 30,
-              dateEnteredMacTicket: 30,
-              dateLaptopDelivered: 30,
-              onboardingBuddyEmailSent: 30,
-              addToDlsAndPdOrg: 30,
-              welcomeEmailSent: 30,
-              adminName: 30
-            },
-            {
-              name: 'Bob Ross',
-              dateEntered: '5/14/19',
-              regionalLocation: 302,
-              cwid: 303,
-              gender: 304,
-              hireType: 305,
-              pdStartDate: 306,
-              vendor: 307,
-              role: 30,
-              plic: 30,
-              teamName: 30,
-              platform: 30,
-              manager: 30,
-              hireStatus: 30,
-              onboardingBuddy: 30,
-              computerNeeds: 30,
-              seatNumberAssigned: 30,
-              campus: 30,
-              managerComments: 30,
-              neidEid: 30,
-              newHireReHire: 30,
-              dateEnteredHire: 30,
-              macTicket: 30,
-              dateEnteredMacTicket: 30,
-              dateLaptopDelivered: 30,
-              onboardingBuddyEmailSent: 30,
-              addToDlsAndPdOrg: 30,
-              welcomeEmailSent: 30,
-              adminName: 30
-            },
-            {
-              name: 'Bob Ross',
-              dateEntered: '5/14/19',
-              regionalLocation: 302,
-              cwid: 303,
-              gender: 304,
-              hireType: 305,
-              pdStartDate: 306,
-              vendor: 307,
-              role: 30,
-              plic: 30,
-              teamName: 30,
-              platform: 30,
-              manager: 30,
-              hireStatus: 30,
-              onboardingBuddy: 30,
-              computerNeeds: 30,
-              seatNumberAssigned: 30,
-              campus: 30,
-              managerComments: 30,
-              neidEid: 30,
-              newHireReHire: 30,
-              dateEnteredHire: 30,
-              macTicket: 30,
-              dateEnteredMacTicket: 30,
-              dateLaptopDelivered: 30,
-              onboardingBuddyEmailSent: 30,
-              addToDlsAndPdOrg: 30,
-              welcomeEmailSent: 30,
-              adminName: 30
-            },
-            {
-              name: 'Bob Ross',
-              dateEntered: '5/14/19',
-              regionalLocation: 302,
-              cwid: 303,
-              gender: 304,
-              hireType: 305,
-              pdStartDate: 306,
-              vendor: 307,
-              role: 30,
-              plic: 30,
-              teamName: 30,
-              platform: 30,
-              manager: 30,
-              hireStatus: 30,
-              onboardingBuddy: 30,
-              computerNeeds: 30,
-              seatNumberAssigned: 30,
-              campus: 30,
-              managerComments: 30,
-              neidEid: 30,
-              newHireReHire: 30,
-              dateEnteredHire: 30,
-              macTicket: 30,
-              dateEnteredMacTicket: 30,
-              dateLaptopDelivered: 30,
-              onboardingBuddyEmailSent: 30,
-              addToDlsAndPdOrg: 30,
-              welcomeEmailSent: 30,
-              adminName: 30
-            },
-            {
-              name: 'Bob Ross',
-              dateEntered: '5/14/19',
-              regionalLocation: 302,
-              cwid: 303,
-              gender: 304,
-              hireType: 305,
-              pdStartDate: 306,
-              vendor: 307,
-              role: 30,
-              plic: 30,
-              teamName: 30,
-              platform: 30,
-              manager: 30,
-              hireStatus: 30,
-              onboardingBuddy: 30,
-              computerNeeds: 30,
-              seatNumberAssigned: 30,
-              campus: 30,
-              managerComments: 30,
-              neidEid: 30,
-              newHireReHire: 30,
-              dateEnteredHire: 30,
-              macTicket: 30,
-              dateEnteredMacTicket: 30,
-              dateLaptopDelivered: 30,
-              onboardingBuddyEmailSent: 30,
-              addToDlsAndPdOrg: 30,
-              welcomeEmailSent: 30,
-              adminName: 30
-            },
-            {
-              name: 'Bob Ross',
-              dateEntered: '5/14/19',
-              regionalLocation: 302,
-              cwid: 303,
-              gender: 304,
-              hireType: 305,
-              pdStartDate: 306,
-              vendor: 307,
-              role: 30,
-              plic: 30,
-              teamName: 30,
-              platform: 30,
-              manager: 30,
-              hireStatus: 30,
-              onboardingBuddy: 30,
-              computerNeeds: 30,
-              seatNumberAssigned: 30,
-              campus: 30,
-              managerComments: 30,
-              neidEid: 30,
-              newHireReHire: 30,
-              dateEnteredHire: 30,
-              macTicket: 30,
-              dateEnteredMacTicket: 30,
-              dateLaptopDelivered: 30,
-              onboardingBuddyEmailSent: 30,
-              addToDlsAndPdOrg: 30,
-              welcomeEmailSent: 30,
-              adminName: 30
-            },
-            {
-              name: 'Bob Ross',
-              dateEntered: '5/14/19',
-              regionalLocation: 302,
-              cwid: 303,
-              gender: 304,
-              hireType: 305,
-              pdStartDate: 306,
-              vendor: 307,
-              role: 30,
-              plic: 30,
-              teamName: 30,
-              platform: 30,
-              manager: 30,
-              hireStatus: 30,
-              onboardingBuddy: 30,
-              computerNeeds: 30,
-              seatNumberAssigned: 30,
-              campus: 30,
-              managerComments: 30,
-              neidEid: 30,
-              newHireReHire: 30,
-              dateEnteredHire: 30,
-              macTicket: 30,
-              dateEnteredMacTicket: 30,
-              dateLaptopDelivered: 30,
-              onboardingBuddyEmailSent: 30,
-              addToDlsAndPdOrg: 30,
-              welcomeEmailSent: 30,
-              adminName: 30
-            },
-            {
-              name: 'Bob Ross',
-              dateEntered: '5/14/19',
-              regionalLocation: 302,
-              cwid: 303,
-              gender: 304,
-              hireType: 305,
-              pdStartDate: 306,
-              vendor: 307,
-              role: 30,
-              plic: 30,
-              teamName: 30,
-              platform: 30,
-              manager: 30,
-              hireStatus: 30,
-              onboardingBuddy: 30,
-              computerNeeds: 30,
-              seatNumberAssigned: 30,
-              campus: 30,
-              managerComments: 30,
-              neidEid: 30,
-              newHireReHire: 30,
-              dateEnteredHire: 30,
-              macTicket: 30,
-              dateEnteredMacTicket: 30,
-              dateLaptopDelivered: 30,
-              onboardingBuddyEmailSent: 30,
-              addToDlsAndPdOrg: 30,
-              welcomeEmailSent: 30,
-              adminName: 30
-            },
-            {
-              name: 'Bob Ross',
-              dateEntered: '5/14/19',
-              regionalLocation: 302,
-              cwid: 303,
-              gender: 304,
-              hireType: 305,
-              pdStartDate: 306,
-              vendor: 307,
-              role: 30,
-              plic: 30,
-              teamName: 30,
-              platform: 30,
-              manager: 30,
-              hireStatus: 30,
-              onboardingBuddy: 30,
-              computerNeeds: 30,
-              seatNumberAssigned: 30,
-              campus: 30,
-              managerComments: 30,
-              neidEid: 30,
-              newHireReHire: 30,
-              dateEnteredHire: 30,
-              macTicket: 30,
-              dateEnteredMacTicket: 30,
-              dateLaptopDelivered: 30,
-              onboardingBuddyEmailSent: 30,
-              addToDlsAndPdOrg: 30,
-              welcomeEmailSent: 30,
-              adminName: 30
-            },
-            {
-              name: 'Bob Ross',
-              dateEntered: '5/14/19',
-              regionalLocation: 302,
-              cwid: 303,
-              gender: 304,
-              hireType: 305,
-              pdStartDate: 306,
-              vendor: 307,
-              role: 30,
-              plic: 30,
-              teamName: 30,
-              platform: 30,
-              manager: 30,
-              hireStatus: 30,
-              onboardingBuddy: 30,
-              computerNeeds: 30,
-              seatNumberAssigned: 30,
-              campus: 30,
-              managerComments: 30,
-              neidEid: 30,
-              newHireReHire: 30,
-              dateEnteredHire: 30,
-              macTicket: 30,
-              dateEnteredMacTicket: 30,
-              dateLaptopDelivered: 30,
-              onboardingBuddyEmailSent: 30,
-              addToDlsAndPdOrg: 30,
-              welcomeEmailSent: 30,
-              adminName: 30
+              name: 'Winky, Tinky',
+              dateEntered: '11/5/2018',
+              regionalLocation: 'US-STL',
+              cwid: 'TLWIN',
+              gender: 'F',
+              hireType: 'Contract',
+              pdStartDate: '11/26/2018',
+              vendor: 'ABC',
+              role: 'Software Developer',
+              plic: 'IC',
+              teamName: 'Teletubbies',
+              platform: 'Field',
+              manager: 'La, La',
+              hireStatus: 'New',
+              onboardingBuddy: 'Hunt, Naomi',
+              computerNeeds: 'Macbook',
+              seatNumberAssigned: 'G2022E',
+              campus: 'MC',
+              managerComments: '',
+              neidEid: 12345,
+              newHireReHire: 'REQ55555',
+              dateEnteredHire: '11/8/2018',
+              macTicket: 'REQ11111',
+              dateEnteredMacTicket: '11/8/2018',
+              dateLaptopDelivered: '11/22/2018',
+              onboardingBuddyEmailSent: '11/22/2018',
+              addToDlsAndPdOrg: '11/8/2018',
+              welcomeEmailSent: '11/22/2018',
+              adminName: 'Susan'
             }
         ]}
         options={{

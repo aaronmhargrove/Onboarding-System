@@ -1,4 +1,12 @@
 .paper {
-    width: 50 vw;
-    height: 50 vh;
+    width: 50%;
+    height: 70%;
+    top: 15%;
+    left: 25%;
+    position: absolute;
+}
+
+.noScroll {
+    position: fixed;
+    left: 50%;
 }
