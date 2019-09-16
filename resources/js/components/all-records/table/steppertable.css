@@ -1,12 +1,18 @@
-.paper {
-    width: 50%;
+.editWidget {
+    width: 80%;
     height: 70%;
     top: 15%;
-    left: 25%;
+    left: 10%;
     position: absolute;
+    padding-top: 1%;
 }
 
 .noScroll {
     position: fixed;
-    left: 50%;
+    left: 66.6%;
+}
+
+.progress-list {
+    position: fixed;
+    top: 5vh;
 }
