@@ -5,6 +5,7 @@
 */
 import React from 'react';
 import MaterialTable from 'material-table';
+import Modal from '@material-ui/core/Modal'
 /*import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -30,8 +31,17 @@ import Clear from '@material-ui/icons/Clear'
 class StepperTable extends React.Component {
   render() {
     const { columns } = this.props; 
+    this.state = {filterModalOpen: false};
     return (
       <div style={{ maxWidth: '100%' }}>
+      <Modal
+        open={this.state.filterModalOpen}
+        onClose={onModalClose = (event) => {
+          this.setState({
+            filterModalOpen: false
+          });
+        }}
+        ></Modal>        
         <MaterialTable className="table"
             icons={{ 
               Check: Check,
@@ -49,6 +59,7 @@ class StepperTable extends React.Component {
               ThirdStateCheck: Remove
             }}
             columns = {columns}
+            onRowClick = { (event) => Modal.open }
           /*columns={[
             { title: 'First Name', field: 'name' },
             { title: 'Last Name', field: 'surname' },
@@ -593,7 +604,8 @@ class StepperTable extends React.Component {
           search: false,
           paging: false,
           pageSize: 1, 
-          maxBodyHeight: '50vh'
+          maxBodyHeight: '58vh',
+          toolbar: false
         }}
           title="Demo Title"
         />
