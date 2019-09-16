@@ -422,26 +422,26 @@ class searchResults extends React.Component {
                 {         
                     title: 'Name',
                     field: 'name',
-                    headerStyle: {minWidth: '12.5vw'}, 
-                    cellStyle: {minWidth: '12.5vw'}
+                    headerStyle: {minWidth: '12.75vw'}, 
+                    cellStyle: {minWidth: '12.75vw'}
                 },
                 {
                     title: 'Regional Location',
                     field: 'regionalLocation',
-                    headerStyle: {minWidth: '12.5vw'}, 
-                    cellStyle: {minWidth: '12.5vw'}
+                    headerStyle: {minWidth: '12.75vw'}, 
+                    cellStyle: {minWidth: '12.75vw'}
                 },
                 {
                     title: 'CWID',
                     field: 'cwid',
-                    headerStyle: {minWidth: '12.5vw'}, 
-                    cellStyle: {minWidth: '12.5vw'}
+                    headerStyle: {minWidth: '12.75vw'}, 
+                    cellStyle: {minWidth: '12.75vw'}
                 },
                 {
                     title: 'Steps Completed',
                     field: 'numStepsComplete',
-                    headerStyle: {minWidth: '12.5vw'}, 
-                    cellStyle: {minWidth: '12.5vw'}
+                    headerStyle: {minWidth: '12.75vw'}, 
+                    cellStyle: {minWidth: '12.75vw'}
                 }
               ]
           }

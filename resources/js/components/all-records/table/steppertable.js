@@ -1,8 +1,3 @@
-/*
-* Author: Matthew Chaplin
-* Bayer Onboarding
-* Date: 4/6/19
-*/
 import React from 'react';
 import MaterialTable from 'material-table';
 import Modal from '@material-ui/core/Modal'
@@ -84,7 +79,7 @@ class StepperTable extends React.Component {
     onBoardingEmailComplete: false,
     addToDlsAndPdOrgIncomplete: true,
     addToDlsAndPdOrgInProgress: false,
-    addToDlsAndPdOrgComplete: false
+    addToDlsAndPdOrgComplete: false,
   };
   onModalClose = () => {
     this.setState({
@@ -92,8 +87,11 @@ class StepperTable extends React.Component {
     });
   }
   onModalOpen = (rowData) => {
+    console.log(rowData.regionalLocation)
     this.setState({
-      filterModalOpen: true
+      filterModalOpen: true,
+      hireDate: rowData.hireDate,
+      regionalLocation: rowData.regionalLocation
     });
   }
   render() {
@@ -131,7 +129,7 @@ class StepperTable extends React.Component {
                     />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Regional Location" value={this.state.regionalLocation} onChange={this.onRegionalLocationEnter} required />
+                    <TextField label="Regional Location" type="filledInput" value={this.state.regionalLocation} onChange={this.onRegionalLocationEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField label="CWID" value={this.state.cwid} onChange={this.onCWIDEnter} />
