@@ -116,12 +116,12 @@ const data = [
         field: 'managerComments'
     },
     {
-        title: 'NEID / EID',
+        title: 'NEID/EID',
         field: 'neidEid',
         type: 'numeric'
     },
     {
-        title: 'New Hire / Re Hire',
+        title: 'New Hire/Re Hire',
         field: 'newHireReHire'
     },
     {
@@ -139,17 +139,17 @@ const data = [
         type: 'date'
     },  
     {
-        title: 'Date Laptop Delivered',
+        title: 'Laptop Delivered',
         field: 'dateLaptopDelivered',
         type: 'date'
     },
     {
-        title: 'Onboarding Buddy Email Sent',
+        title: 'Onboarding Email Sent',
         field: 'onboardingBuddyEmailSent',
         type: 'date'
     },
     {
-        title: 'Add to DLs and PD Org',
+        title: 'Add to DLs/PD Org',
         field: 'addToDlsAndPdOrg',
         type: 'date'
     },
@@ -187,7 +187,7 @@ function updateColumns(page, count, columnsPerPage) {
 class Stepper extends React.Component {
     constructor(props){
         super(props);
-        this.state = {page: 0, count: 28, columnsPerPage: 8, garbage: 0};
+        this.state = {page: 0, count: 28, columnsPerPage: 7, garbage: 0};
         updateColumns(this.state.page, this.state.count, this.state.columnsPerPage);
     }      
 
