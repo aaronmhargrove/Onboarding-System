@@ -35,3 +35,7 @@
 .submitButton:first-child {
     line-height: 0 !important;
 }
+
+.loadingSpinner {
+    margin: auto;
+}
