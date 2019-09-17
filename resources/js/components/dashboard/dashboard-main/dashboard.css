@@ -1,8 +1,8 @@
 .dashboardWidget {
     display: flex;
-    width: 67%;
-    height: 83%;
-    top: 13%;
+    width: 67vw;
+    height: 83vh;
+    top: 13vh;
     position: absolute;
 }
 
