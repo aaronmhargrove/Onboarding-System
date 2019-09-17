@@ -71,7 +71,7 @@ class StepperTable extends React.Component {
     macTicketIncomplete: false,
     macTicketInProgress: false,
     macTicketComplete: true,
-    laptopDeliveredIncomplete: false, 
+    laptopDeliveredIncomplete: false,
     laptopDeliveredInProgress: true,
     laptopDeliveredComplete: false,
     onBoardingEmailIncomplete: true,
@@ -90,8 +90,6 @@ class StepperTable extends React.Component {
     console.log(rowData.regionalLocation)
     this.setState({
       filterModalOpen: true,
-      hireDate: rowData.hireDate,
-      regionalLocation: rowData.regionalLocation
     });
   }
   render() {
@@ -129,7 +127,7 @@ class StepperTable extends React.Component {
                     />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Regional Location" type="filledInput" value={this.state.regionalLocation} onChange={this.onRegionalLocationEnter} required />
+                    <TextField label="Regional Location" value={this.state.regionalLocation} onChange={this.onRegionalLocationEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField label="CWID" value={this.state.cwid} onChange={this.onCWIDEnter} />
@@ -140,7 +138,7 @@ class StepperTable extends React.Component {
                       <Select
                         value={this.state.gender}
                         onChange={this.onGenderSelect}
-                        input={<Input id="gender-selector" />}
+                        input={<Input id="gender-selector" />} 
                         required
                       >
                         <MenuItem value=""><em>None</em></MenuItem>
@@ -365,37 +363,37 @@ class StepperTable extends React.Component {
                     <List className="progress-list">
                       <ListItem>
                         <ListItemIcon >
-                          {this.state.hireTicketIncomplete && <Clear className="incomplete-icon"/>}
-                          {this.state.hireTicketInProgress && <HourglassEmpty className="in-progress-icon"/>}
-                          {this.state.hireTicketComplete && <Done className="complete-icon"/>}
+                          {this.state.hireTicketIncomplete && <Clear className="incomplete-icon" />}
+                          {this.state.hireTicketInProgress && <HourglassEmpty className="in-progress-icon" />}
+                          {this.state.hireTicketComplete && <Done className="complete-icon" />}
                         </ListItemIcon>
                       </ListItem>
                       <ListItem>
-                      <ListItemIcon >
-                      {this.state.macTicketIncomplete && <Clear className="incomplete-icon"/>}
-                          {this.state.macTicketInProgress && <HourglassEmpty className="in-progress-icon"/>}
-                          {this.state.macTicketComplete && <Done className="complete-icon"/>}
+                        <ListItemIcon >
+                          {this.state.macTicketIncomplete && <Clear className="incomplete-icon" />}
+                          {this.state.macTicketInProgress && <HourglassEmpty className="in-progress-icon" />}
+                          {this.state.macTicketComplete && <Done className="complete-icon" />}
                         </ListItemIcon>
                       </ListItem>
                       <ListItem>
-                      <ListItemIcon >
-                      {this.state.laptopDeliveredIncomplete && <Clear className="incomplete-icon"/>}
-                          {this.state.laptopDeliveredInProgress && <HourglassEmpty className="in-progress-icon"/>}
-                          {this.state.laptopDeliveredComplete && <Done className="complete-icon"/>}
+                        <ListItemIcon >
+                          {this.state.laptopDeliveredIncomplete && <Clear className="incomplete-icon" />}
+                          {this.state.laptopDeliveredInProgress && <HourglassEmpty className="in-progress-icon" />}
+                          {this.state.laptopDeliveredComplete && <Done className="complete-icon" />}
                         </ListItemIcon>
                       </ListItem>
                       <ListItem>
-                      <ListItemIcon >
-                      {this.state.onBoardingEmailIncomplete && <Clear className="incomplete-icon"/>}
-                          {this.state.onBoardingEmailInProgress && <HourglassEmpty className="in-progress-icon"/>}
-                          {this.state.onBoardingEmailComplete && <Done className="complete-icon"/>}
+                        <ListItemIcon >
+                          {this.state.onBoardingEmailIncomplete && <Clear className="incomplete-icon" />}
+                          {this.state.onBoardingEmailInProgress && <HourglassEmpty className="in-progress-icon" />}
+                          {this.state.onBoardingEmailComplete && <Done className="complete-icon" />}
                         </ListItemIcon>
                       </ListItem>
                       <ListItem>
-                      <ListItemIcon >
-                      {this.state.addToDlsAndPdOrgIncomplete && <Clear className="incomplete-icon"/>}
-                          {this.state.addToDlsAndPdOrgInProgress && <HourglassEmpty className="in-progress-icon"/>}
-                          {this.state.addToDlsAndPdOrgComplete && <Done className="complete-icon"/>}
+                        <ListItemIcon >
+                          {this.state.addToDlsAndPdOrgIncomplete && <Clear className="incomplete-icon" />}
+                          {this.state.addToDlsAndPdOrgInProgress && <HourglassEmpty className="in-progress-icon" />}
+                          {this.state.addToDlsAndPdOrgComplete && <Done className="complete-icon" />}
                         </ListItemIcon>
                       </ListItem>
                     </List>
@@ -422,7 +420,37 @@ class StepperTable extends React.Component {
             ThirdStateCheck: Remove
           }}
           columns={columns}
-          onRowClick={(rowData) => this.onModalOpen(rowData)}
+          onRowClick={(event, rowData) => this.setState({
+            hireDate: rowData.hireDate,
+            regionalLocation: rowData.regionalLocation,
+            gender: rowData.gender,
+            hireType: rowData.hireType,
+            pdStartDate: rowData.pdStartDate,
+            role: rowData.role,
+            teamName: rowData.teamName,
+            platform: rowData.platform,
+            manager: rowData.manager,
+            hireStatus: rowData.hireStatus,
+            computerNeeds: rowData.computerNeeds,
+            onboardingCampus: rowData.onboardingCampus,
+            onboardingBuddy: rowData.onboardingBuddy,
+            adminName: rowData.adminName,
+            cwid: rowData.cwid,
+            vendor: rowData.v,
+            plic: '',
+            seatNum: '',
+            neid: '',
+            newHireRehireTicket: '',
+            macTicket: '',
+            managerComments: '',
+            dateEnteredHire: '',
+            dateEnteredMacTicket: '',
+            dateLaptopDelivered: '',
+            onboardingBuddyEmailSent: '',
+            addToDlsAndPdOrg: '',
+            welcomeEmailSent: '',
+          },
+            () => this.onModalOpen(rowData))}
           data={[
             {
               name: 'Winky, Tinky',
