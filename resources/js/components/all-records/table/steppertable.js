@@ -139,7 +139,7 @@ class StepperTable extends React.Component {
                         value={this.state.gender}
                         onChange={this.onGenderSelect}
                         input={<Input id="gender-selector" />} 
-                        required
+                        required                        
                       >
                         <MenuItem value=""><em>None</em></MenuItem>
                         <MenuItem value="male">Male</MenuItem>
@@ -420,7 +420,9 @@ class StepperTable extends React.Component {
             ThirdStateCheck: Remove
           }}
           columns={columns}
-          onRowClick={(event, rowData) => this.setState({
+          onRowClick={(event, rowData) => this.setState({  
+            lastName: rowData.lastName,
+            firstName: rowData.firstName,    
             hireDate: rowData.hireDate,
             regionalLocation: rowData.regionalLocation,
             gender: rowData.gender,
@@ -436,28 +438,30 @@ class StepperTable extends React.Component {
             onboardingBuddy: rowData.onboardingBuddy,
             adminName: rowData.adminName,
             cwid: rowData.cwid,
-            vendor: rowData.v,
-            plic: '',
-            seatNum: '',
-            neid: '',
-            newHireRehireTicket: '',
-            macTicket: '',
-            managerComments: '',
-            dateEnteredHire: '',
-            dateEnteredMacTicket: '',
-            dateLaptopDelivered: '',
-            onboardingBuddyEmailSent: '',
-            addToDlsAndPdOrg: '',
-            welcomeEmailSent: '',
+            vendor: rowData.vendor,
+            plic: rowData.plic,
+            seatNum: rowData.seatNum,
+            neid: rowData.neid,
+            newHireRehireTicket: rowData.newHireRehireTicket,
+            macTicket: rowData.macTicket,
+            managerComments: rowData.managerComments,
+            dateEnteredHire: rowData.dateEnteredHire,
+            dateEnteredMacTicket: rowData.dateEnteredMacTicket,
+            dateLaptopDelivered: rowData.dateLaptopDelivered,
+            onboardingBuddyEmailSent: rowData.onboardingBuddyEmailSent,
+            addToDlsAndPdOrg: rowData.addToDlsAndPdOrg,
+            welcomeEmailSent: rowData.welcomeEmailSent,
           },
             () => this.onModalOpen(rowData))}
           data={[
             {
+              lastName: 'Winky',
+              firstName: 'Tinky',
               name: 'Winky, Tinky',
               hireDate: '11/5/2018',
               regionalLocation: 'US-STL',
               cwid: 'TLWIN',
-              gender: 'F',
+              gender: 'Female',
               hireType: 'Contract',
               pdStartDate: '11/26/2018',
               vendor: 'ABC',
