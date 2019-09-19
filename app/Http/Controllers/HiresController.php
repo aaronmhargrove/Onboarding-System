@@ -28,8 +28,8 @@ class HiresController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function lock($id) {
-        $hireLock = HireLock::where('hire_id', $id)->first();
+    public function lock(Hire $hire) {
+        $hireLock = HireLock::where('hire_id', $hire->id)->first();
         return response()->json(['success' => $hireLock->lock()]);
     }
 
@@ -38,8 +38,8 @@ class HiresController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function unlock($id){
-        $hireLock = HireLock::where('hire_id', $id)->first();
+    public function unlock(Hire $hire){
+        $hireLock = HireLock::where('hire_id', $hire->id)->first();
         return response()->json(['success' => $hireLock->unlock()]);
     }
 

@@ -18,14 +18,14 @@ class HiresTableSeeder extends Seeder
             'regional_location' => 'STL',
             'start_date' => '2019-9-28',
             'vendor' => 'NBC',
-            'role' => 'Sales',
+            'role' => 'Assistant to Regional Manager',
             'team_name' => 'The Office',
             'platform' => 'Sales',
             'manager_id' => 1,
             'admin_id' => 2,
             'hire_status' => 'New',
-            'onboarding_buddy' => 'Pam',
-            'computer_needs' => 'macbook'
+            'onboarding_buddy' => 'Angela',
+            'computer_needs' => 'Macbook'
         ));
         Hire::create(array(
             'first_name' => 'Creed',
@@ -33,14 +33,14 @@ class HiresTableSeeder extends Seeder
             'regional_location' => 'STL',
             'start_date' => '2019-9-28',
             'vendor' => 'NBC',
-            'role' => 'Sales',
+            'role' => 'Associate',
             'team_name' => 'The Office',
             'platform' => 'Sales',
-            'manager_id' => 1,
-            'admin_id' => 2,
+            'manager_id' => 2,
+            'admin_id' => 1,
             'hire_status' => 'New',
             'onboarding_buddy' => 'Pam',
-            'computer_needs' => 'macbook'
+            'computer_needs' => 'Macbook'
         ));
     }
 }

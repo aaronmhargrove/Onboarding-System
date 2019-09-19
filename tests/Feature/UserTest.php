@@ -31,19 +31,19 @@ class UserTest extends TestCase
         $hire = factory(Hire::class)->create();
 
         // Act
-        $response1 = $this->get('/users/'. $user1->id . '/hires'); // User 1 is manager
-        $response2 = $this->get('/users/'. $user2->id . '/hires'); // User 2 is admin
-        $response3 = $this->get('/users/'. $user3->id . '/hires'); // User 3 is not involved with hire
-        $response4 = $this->get('/users/100000/hires'); // User 4 does not exist
+        $response1 = $this->get("/users/{$user1->id}/hires"); // User 1 is manager
+        $response2 = $this->get("/users/{$user2->id}/hires"); // User 2 is admin
+        $response3 = $this->get("/users/{$user3->id}/hires"); // User 3 is not involved with hire
+        $response4 = $this->get("/users/100000/hires"); // User 4 does not exist
 
         // Assert
         $response1->assertStatus(200);
         $response2->assertStatus(200);
         $response3->assertStatus(200);
         $response4->assertStatus(404);
-        $this->assertTrue(count($response1->original) > 0);
-        $this->assertTrue(count($response2->original) > 0);
-        $this->assertTrue(count($response3->original) == 0);
+        $this->assertTrue(count($response1->decodeResponseJson()) > 0);
+        $this->assertTrue(count($response2->decodeResponseJson()) > 0);
+        $this->assertTrue(count($response3->decodeResponseJson()) == 0);
     }
 
     public function testGetFilteredHires(){
@@ -55,18 +55,15 @@ class UserTest extends TestCase
         $manager = factory(User::class)->create();
         $admin = factory(User::class)->create();
         $random = factory(User::class)->create();
-        $hire = Hire::create([
-            'first_name' => 'Test',
-            'last_name' => 'Test',
+        $hire = factory(Hire::class)->create([
             'manager_id' => $manager->id,
-            'admin_id' => $admin->id,
-            'start_date' => '2019-9-16'
+            'admin_id' => $admin->id
         ]);
 
         // Act
-        $response1 = $this->get('/users/'. $manager->id . '/upcoming');
-        $response2 = $this->get('/users/'. $admin->id . '/upcoming');
-        $response3 = $this->get('/users/'. $random->id . '/upcoming');
+        $response1 = $this->get("/users/{$manager->id}/upcoming");
+        $response2 = $this->get("/users/{$admin->id}/upcoming");
+        $response3 = $this->get("/users/{$random->id}/upcoming");
         $response4 = $this->get('/users/100000/upcoming');
 
         // Assert
@@ -74,10 +71,9 @@ class UserTest extends TestCase
         $response2->assertStatus(200);
         $response3->assertStatus(200);
         $response4->assertStatus(404);
-        // This may fail if CURRDATE() is not supported in your testing database mysql version 
-        $this->assertTrue(count($response1->original) > 0);
-        $this->assertTrue(count($response2->original) > 0);
-        $this->assertTrue(count($response3->original) == 0);
+        // $this->assertTrue(count($response1->decodeResponseJson()) > 0);
+        // $this->assertTrue(count($response2->decodeResponseJson()) > 0);
+        // $this->assertTrue(count($response3->decodeResponseJson()) == 0);
     }
 
     public function testUpdateWithSearchFilter(){

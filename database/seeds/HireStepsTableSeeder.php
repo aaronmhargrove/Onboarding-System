@@ -15,92 +15,92 @@ class HireStepsTableSeeder extends Seeder
         HireStep::create(array(
             'hire_id' => 1,
             'step_id' => 1,
-            'status' => "Incomplete"
+            'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 1,
             'step_id' => 2,
-            'status' => "Incomplete"
+            'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 1,
             'step_id' => 3,
-            'status' => "Incomplete"
+            'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 1,
             'step_id' => 4,
-            'status' => "Incomplete"
+            'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 1,
             'step_id' => 5,
-            'status' => "Incomplete"
+            'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 1,
             'step_id' => 6,
-            'status' => "Incomplete"
+            'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 1,
             'step_id' => 7,
-            'status' => "Incomplete"
+            'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 1,
             'step_id' => 8,
-            'status' => "Incomplete"
+            'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 1,
             'step_id' => 9,
-            'status' => "Incomplete"
+            'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 2,
             'step_id' => 1,
-            'status' => "Incomplete"
+            'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 2,
             'step_id' => 2,
-            'status' => "Incomplete"
+            'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 2,
             'step_id' => 3,
-            'status' => "Incomplete"
+            'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 2,
             'step_id' => 4,
-            'status' => "Incomplete"
+            'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 2,
             'step_id' => 5,
-            'status' => "Incomplete"
+            'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 2,
             'step_id' => 6,
-            'status' => "Incomplete"
+            'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 2,
             'step_id' => 7,
-            'status' => "Incomplete"
+            'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 2,
             'step_id' => 8,
-            'status' => "Incomplete"
+            'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 2,
             'step_id' => 9,
-            'status' => "Incomplete"
+            'status' => 0
         ));
     }
 }
