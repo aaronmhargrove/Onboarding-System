@@ -22,8 +22,4 @@ class Hire extends Model{
     public function hireType(){
         return $this->has(HireType::class);
     }
-
-    //complete step
-
-    //add step
 }
