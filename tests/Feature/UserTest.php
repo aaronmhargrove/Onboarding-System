@@ -4,12 +4,14 @@ namespace Tests\Feature;
 
 use App\User;
 use App\Hire;
+use App\Step;
+use App\HireStep;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase; // NOTICE: tests are set up to run on a testing database. Adjust .env accordingly
 
     public function testGetAllUsers(){
         // Arrange
@@ -59,6 +61,15 @@ class UserTest extends TestCase
             'manager_id' => $manager->id,
             'admin_id' => $admin->id
         ]);
+        $step1 = factory(Step::class)->create([
+            'name' => 'step 1',
+            'order' => 1
+        ]);
+        factory(HireStep::class)->create([
+            'hire_id' => $hire->id,
+            'step_id' => $step1->id,
+            'status' => 0
+        ]);
 
         // Act
         $response1 = $this->get("/users/{$manager->id}/upcoming");
@@ -71,9 +82,9 @@ class UserTest extends TestCase
         $response2->assertStatus(200);
         $response3->assertStatus(200);
         $response4->assertStatus(404);
-        // $this->assertTrue(count($response1->decodeResponseJson()) > 0);
-        // $this->assertTrue(count($response2->decodeResponseJson()) > 0);
-        // $this->assertTrue(count($response3->decodeResponseJson()) == 0);
+        $this->assertTrue(count($response1->decodeResponseJson()) > 0);
+        $this->assertTrue(count($response2->decodeResponseJson()) > 0);
+        $this->assertTrue(count($response3->decodeResponseJson()) == 0);
     }
 
     public function testUpdateWithSearchFilter(){
