@@ -117,8 +117,7 @@ const data = [
     },
     {
         title: 'NEID/EID',
-        field: 'neid',
-        type: 'numeric'
+        field: 'neid'
     },
     {
         title: 'New Hire/Re Hire',

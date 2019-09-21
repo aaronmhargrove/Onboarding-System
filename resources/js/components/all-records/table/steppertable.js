@@ -65,21 +65,11 @@ class StepperTable extends React.Component {
     onboardingBuddyEmailSent: '',
     addToDlsAndPdOrg: '',
     welcomeEmailSent: '',
-    hireTicketIncomplete: false,
-    hireTicketInProgress: false,
-    hireTicketComplete: true,
-    macTicketIncomplete: false,
-    macTicketInProgress: false,
-    macTicketComplete: true,
-    laptopDeliveredIncomplete: false,
-    laptopDeliveredInProgress: true,
-    laptopDeliveredComplete: false,
-    onBoardingEmailIncomplete: true,
-    onBoardingEmailInProgress: false,
-    onBoardingEmailComplete: false,
-    addToDlsAndPdOrgIncomplete: true,
-    addToDlsAndPdOrgInProgress: false,
-    addToDlsAndPdOrgComplete: false,
+    hireTicketStatus: '',
+    macTicketStatus: '',
+    laptopDeliveredStatus: '',
+    onboardingEmailStatus: '',
+    addToDlsAndPdOrgStatus: ''
   };
   onModalClose = () => {
     this.setState({
@@ -92,6 +82,149 @@ class StepperTable extends React.Component {
       filterModalOpen: true,
     });
   }
+
+  onLastNameEnter = (event) => {
+    this.setState({ lastName: event.target.value });
+  }
+
+  onFirstNameEnter = (event) => {
+    this.setState({ firstName: event.target.value });
+  }
+
+  onDateHiredPick = (event) => {
+    this.setState({ dateEnteredHire: event.target.value });
+  }
+
+  onRegionalLocationEnter = (event) => {
+    this.setState({ regionalLocation: event.target.value });
+  }
+
+  onGenderSelect = (event) => {
+    this.setState({ gender: event.target.value });
+  }
+
+  onHireTypeSelect = (event) => {
+    this.setState({ hireType: event.target.value });
+  }
+
+  onPdStartDatePick = (event) => {
+    this.setState({ pdStartDate: event.target.value });
+  }
+
+  onRoleEnter = (event) => {
+    this.setState({ role: event.target.value });
+  }
+
+  onTeamNameEnter = (event) => {
+    this.setState({ teamName: event.target.value });
+  }
+
+  onPlatformEnter = (event) => {
+    this.setState({ platform: event.target.value });
+  }
+
+  onManagerEnter = (event) => {
+    this.setState({ manager: event.target.value });
+  }
+
+  onHireStatusSelect = (event) => {
+    this.setState({ hireStatus: event.target.value });
+  }
+
+  onComputerNeedsSelect = (event) => {
+    this.setState({ computerNeeds: event.target.value });
+  }
+
+  onOnboardingCampusEnter = (event) => {
+    this.setState({ onboardingCampus: event.target.value });
+  }
+
+  onOnboardingBuddyEnter = (event) => {
+    this.setState({ onboardingBuddy: event.target.value });
+  }
+
+  onAdminEnter = (event) => {
+    this.setState({ adminName: event.target.value });
+  }
+
+  onCWIDEnter = (event) => {
+    this.setState({ cwid: event.target.value });
+  }
+
+  onVendorEnter = (event) => {
+    this.setState({ vendor: event.target.value });
+  }
+
+  onPLICSelect = (event) => {
+    this.setState({ plic: event.target.value });
+  }
+
+  onSeatNumberEnter = (event) => {
+    this.setState({ seatNum: event.target.value });
+  }
+
+  onNEIDEnter = (event) => {
+    this.setState({ neid: event.target.value });
+  }
+
+  onNewHireRehireTicketEnter = (event) => {
+    this.setState({ newHireRehireTicket: event.target.value });
+  }
+
+  onMacTicketEnter = (event) => {
+    this.setState({ macTicket: event.target.value });
+  }
+
+  onManagerCommentsEnter = (event) => {
+    this.setState({ managerComments: event.target.value });
+  }
+
+  onDateEnteredHireDatePick = (event) => {
+    this.setState({ dateEnteredHire: event.target.value });
+  }
+
+  onDateEnteredMacTicketDatePick = (event) => {
+    this.setState({ dateEnteredMacTicket: event.target.value });
+  }
+
+  onDateLaptopDeliveredDatePick = (event) => {
+    this.setState({ dateLaptopDelivered: event.target.value });
+  }
+
+  onOnboardingBuddyEmailSentDatePick = (event) => {
+    this.setState({ onboardingBuddyEmailSent: event.target.value });
+  }
+
+  onAddToDlsAndPdOrgDatePick = (event) => {
+    this.setState({ addToDlsAndPdOrg: event.target.value });
+  }
+
+  onWelcomeEmailSentDatePick = (event) => {
+    this.setState({ welcomeEmailSent: event.target.value });
+  }
+
+  onHireStatusChange = (event) => {
+    this.setState({ hireTicketStatus: ((this.state.hireTicketStatus + 1) % 3) });
+  }
+
+  onMACTicketStatusChange = (event) => {
+    this.setState({ macTicketStatus: ((this.state.macTicketStatus + 1) % 3) });
+  }
+
+  onLaptopDeliveredStatusChange = (event) => {
+    this.setState({ laptopDeliveredStatus: ((this.state.laptopDeliveredStatus + 1) % 3) });
+  }
+
+  onOnboardingEmailStatusChange = (event) => {
+    this.setState({ onboardingEmailStatus: ((this.state.onboardingEmailStatus + 1) % 3) });
+  }
+
+  onAddToDlsAndPdOrgStatusChange = (event) => {
+    this.setState({ addToDlsAndPdOrgStatus: ((this.state.addToDlsAndPdOrgStatus + 1) % 3) });
+  }
+
+  onSubmitClick = (event) => { console.log('Submit') }
+
   render() {
     const { columns } = this.props;
     return (
@@ -117,7 +250,7 @@ class StepperTable extends React.Component {
                     <TextField
                       label="Date Entered"
                       type="date"
-                      value={this.state.DateEntered}
+                      value={this.state.hireDate}
                       InputLabelProps={{
                         shrink: true,
                       }}
@@ -138,8 +271,8 @@ class StepperTable extends React.Component {
                       <Select
                         value={this.state.gender}
                         onChange={this.onGenderSelect}
-                        input={<Input id="gender-selector" />} 
-                        required                        
+                        input={<Input id="gender-selector" />}
+                        required
                       >
                         <MenuItem value=""><em>None</em></MenuItem>
                         <MenuItem value="male">Male</MenuItem>
@@ -343,57 +476,57 @@ class StepperTable extends React.Component {
                   <Grid item xs={3} className="noScroll">
                     <List className="progress-list">
                       <ListItem>
-                        <ListItemText primary="Hire Ticket Submitted" style={{ borderColor: this.state.hireTicketStatus }} />
+                        <ListItemText primary="Hire Ticket Submitted" />
                       </ListItem>
                       <ListItem>
-                        <ListItemText primary="MAC Ticket Submitted" style={{ borderColor: this.state.macTicketStatus }} />
+                        <ListItemText primary="MAC Ticket Submitted"/>
                       </ListItem>
                       <ListItem>
-                        <ListItemText primary="Laptop Delivered" style={{ borderColor: this.state.laptopDeliveredStatus }} />
+                        <ListItemText primary="Laptop Delivered"/>
                       </ListItem>
                       <ListItem>
-                        <ListItemText primary="Onboarding Email Sent" style={{ borderColor: this.state.onboardingEmailStatus }} />
+                        <ListItemText primary="Onboarding Email Sent"/>
                       </ListItem>
                       <ListItem>
-                        <ListItemText primary="Added to DLs/PD Org" style={{ borderColor: this.state.addToDlsAndPdOrgStatus }} />
+                        <ListItemText primary="Added to DLs/PD Org"/>
                       </ListItem>
                     </List>
                   </Grid>
                   <Grid item xs={1} className="noScroll-icons">
                     <List className="progress-list">
                       <ListItem>
-                        <ListItemIcon >
-                          {this.state.hireTicketIncomplete && <Clear className="incomplete-icon" />}
-                          {this.state.hireTicketInProgress && <HourglassEmpty className="in-progress-icon" />}
-                          {this.state.hireTicketComplete && <Done className="complete-icon" />}
+                        <ListItemIcon className="step-icon" onClick={this.onHireStatusChange}>
+                          {(this.state.hireTicketStatus == 0) && <Clear className="incomplete-icon" />}
+                          {(this.state.hireTicketStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
+                          {(this.state.hireTicketStatus == 2) && <Done className="complete-icon" />}
                         </ListItemIcon>
                       </ListItem>
                       <ListItem>
-                        <ListItemIcon >
-                          {this.state.macTicketIncomplete && <Clear className="incomplete-icon" />}
-                          {this.state.macTicketInProgress && <HourglassEmpty className="in-progress-icon" />}
-                          {this.state.macTicketComplete && <Done className="complete-icon" />}
+                        <ListItemIcon className="step-icon" onClick={this.onMACTicketStatusChange}>
+                          {(this.state.macTicketStatus == 0) && <Clear className="incomplete-icon" />}
+                          {(this.state.macTicketStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
+                          {(this.state.macTicketStatus == 2) && <Done className="complete-icon" />}
                         </ListItemIcon>
                       </ListItem>
                       <ListItem>
-                        <ListItemIcon >
-                          {this.state.laptopDeliveredIncomplete && <Clear className="incomplete-icon" />}
-                          {this.state.laptopDeliveredInProgress && <HourglassEmpty className="in-progress-icon" />}
-                          {this.state.laptopDeliveredComplete && <Done className="complete-icon" />}
+                        <ListItemIcon className="step-icon" onClick={this.onLaptopDeliveredStatusChange}>
+                          {(this.state.laptopDeliveredStatus == 0) && <Clear className="incomplete-icon" />}
+                          {(this.state.laptopDeliveredStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
+                          {(this.state.laptopDeliveredStatus == 2) && <Done className="complete-icon" />}
                         </ListItemIcon>
                       </ListItem>
                       <ListItem>
-                        <ListItemIcon >
-                          {this.state.onBoardingEmailIncomplete && <Clear className="incomplete-icon" />}
-                          {this.state.onBoardingEmailInProgress && <HourglassEmpty className="in-progress-icon" />}
-                          {this.state.onBoardingEmailComplete && <Done className="complete-icon" />}
+                        <ListItemIcon className="step-icon" onClick={this.onOnboardingEmailStatusChange}>
+                          {(this.state.onboardingEmailStatus == 0) && <Clear className="incomplete-icon" />}
+                          {(this.state.onboardingEmailStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
+                          {(this.state.onboardingEmailStatus == 2) && <Done className="complete-icon" />}
                         </ListItemIcon>
                       </ListItem>
                       <ListItem>
-                        <ListItemIcon >
-                          {this.state.addToDlsAndPdOrgIncomplete && <Clear className="incomplete-icon" />}
-                          {this.state.addToDlsAndPdOrgInProgress && <HourglassEmpty className="in-progress-icon" />}
-                          {this.state.addToDlsAndPdOrgComplete && <Done className="complete-icon" />}
+                        <ListItemIcon className="step-icon" onClick={this.onAddToDlsAndPdOrgStatusChange}>
+                          {(this.state.addToDlsAndPdOrgStatus == 0) && <Clear className="incomplete-icon" />}
+                          {(this.state.addToDlsAndPdOrgStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
+                          {(this.state.addToDlsAndPdOrgStatus == 2) && <Done className="complete-icon" />}
                         </ListItemIcon>
                       </ListItem>
                     </List>
@@ -420,9 +553,9 @@ class StepperTable extends React.Component {
             ThirdStateCheck: Remove
           }}
           columns={columns}
-          onRowClick={(event, rowData) => this.setState({  
+          onRowClick={(event, rowData) => this.setState({
             lastName: rowData.lastName,
-            firstName: rowData.firstName,    
+            firstName: rowData.firstName,
             hireDate: rowData.hireDate,
             regionalLocation: rowData.regionalLocation,
             gender: rowData.gender,
@@ -451,6 +584,11 @@ class StepperTable extends React.Component {
             onboardingBuddyEmailSent: rowData.onboardingBuddyEmailSent,
             addToDlsAndPdOrg: rowData.addToDlsAndPdOrg,
             welcomeEmailSent: rowData.welcomeEmailSent,
+            hireTicketStatus: rowData.hireTicketStatus,
+            macTicketStatus: rowData.macTicketStatus,
+            laptopDeliveredStatus: rowData.macTicketStatus,
+            onboardingEmailStatus: rowData.onboardingEmailStatus,
+            addToDlsAndPdOrgStatus: rowData.addToDlsAndPdOrgStatus
           },
             () => this.onModalOpen(rowData))}
           data={[
@@ -458,12 +596,12 @@ class StepperTable extends React.Component {
               lastName: 'Winky',
               firstName: 'Tinky',
               name: 'Winky, Tinky',
-              hireDate: '11/5/2018',
+              hireDate: '2018-11-05',
               regionalLocation: 'US-STL',
               cwid: 'TLWIN',
-              gender: 'Female',
+              gender: 'female',
               hireType: 'Contract',
-              pdStartDate: '11/26/2018',
+              pdStartDate: '2018-11-26',
               vendor: 'ABC',
               role: 'Software Developer',
               plic: 'IC',
@@ -478,14 +616,19 @@ class StepperTable extends React.Component {
               managerComments: '',
               neid: 12345,
               newHireRehireTicket: 'REQ55555',
-              dateEnteredHire: '11/8/2018',
+              dateEnteredHire: '2018-11-08',
               macTicket: 'REQ11111',
-              dateEnteredMacTicket: '11/8/2018',
-              dateLaptopDelivered: '11/22/2018',
-              onboardingBuddyEmailSent: '11/22/2018',
-              addToDlsAndPdOrg: '11/8/2018',
-              welcomeEmailSent: '11/22/2018',
-              adminName: 'Susan'
+              dateEnteredMacTicket: '2018-11-08',
+              dateLaptopDelivered: '2018-11-22',
+              onboardingBuddyEmailSent: '2018-11-22',
+              addToDlsAndPdOrg: '2018-11-08',
+              welcomeEmailSent: '2018-11-22',
+              adminName: 'Susan',
+              hireTicketStatus: 0,
+              macTicketStatus: 0,
+              laptopDeliveredStatus: 0,
+              onboardingEmailStatus: 0,
+              addToDlsAndPdOrgStatus: 0
             }
           ]}
           options={{
