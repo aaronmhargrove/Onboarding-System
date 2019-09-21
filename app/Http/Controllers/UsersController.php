@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use \App\Hire;
+use \App\HireStep;
+use \App\HireType;
+use \App\HireLock;
+use \App\Step;
+use \App\User;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
 {
@@ -12,9 +19,8 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(){
+        return User::get();
     }
 
     /**
@@ -22,42 +28,33 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function hires(User $user){
+        return $user->hires();
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Show the form for creating a new resource.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function filteredHires(User $user){
+        //return $user->hires();
     }
 
     /**
-     * Display the specified resource.
+     * Show the form for creating a new resource.
      *
-     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        //
+    public function upcomingDates(User $user){
+        return DB::table('hires')
+            ->join('hire_steps', 'hire_id', '=', 'hires.id')
+            ->join('steps', 'step_id', '=', 'steps.id')
+            ->where('hire_steps.status', '<>', 'Complete')
+            ->whereRaw('((hires.admin_id = ?) OR (hires.manager_id = ?))', [$user->id, $user->id])
+            ->whereRaw('DATEDIFF(start_date, CURDATE()) < 15')
+            ->select('first_name', 'last_name', 'name',  'start_date')
+            ->get();
     }
 
     /**
@@ -67,19 +64,11 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
+    public function update(Request $request){
+        $user = User::find($request->userId);
+        $searchFilter = $request->except('userId');
+        $user->search_filter = json_encode($searchFilter);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        //
+        return ($user->save()) ? "yay!" : "neigh";
     }
 }

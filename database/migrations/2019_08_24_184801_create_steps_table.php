@@ -16,8 +16,7 @@ class CreateStepsTable extends Migration
         Schema::create('steps', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->integer('order')->nullable(); // I don't think this exists anymore;
-            $table->timestamps();
+            $table->integer('order')->nullable();
         });
     }
 

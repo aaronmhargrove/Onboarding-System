@@ -16,10 +16,6 @@ class Login extends React.Component {
         this.setState({password: event.target.value});
     }
 
-    onForgotPassClick = (event) => {
-        console.log('I forgot my password!');
-    }
-
     onLoginClick = (event) => {
         console.log('Login');
         this.props.onChange('dashboard');
@@ -39,9 +35,6 @@ class Login extends React.Component {
                         <TextField label="Password" value={this.state.password} onChange={this.onPasswordChange} required type="password"/>
                     </Grid>
                 </Grid>
-                <Button color="primary" className="forgotPassButton" onClick={this.onForgotPassClick}>
-                    Forgot Password?
-                </Button>
                 <Button variant="contained" color="primary" onClick={this.onLoginClick} className="loginButton">
                     Login
                 </Button>

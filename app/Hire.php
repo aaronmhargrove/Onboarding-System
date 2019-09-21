@@ -4,8 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Hire extends Model
-{
+class Hire extends Model{
     protected $guarded = []; // accept all
 
     public function manager(){
@@ -17,7 +16,7 @@ class Hire extends Model
     }
 
     public function hireSteps(){
-        return $this->hasMany(HireStep::class, 'step_id');
+        return $this->hasMany(HireStep::class, 'hire_id');
     }
 
     public function hireType(){

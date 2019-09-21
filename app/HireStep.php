@@ -4,8 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class HireStep extends Model
-{
+class HireStep extends Model{
+    public $timestamps = false;
+
     protected $guarded = []; // accept all
 
     public function hire(){
