@@ -1,0 +1,42 @@
+.editWidget {
+    width: 80%;
+    height: 70%;
+    top: 15%;
+    left: 10%;
+    position: absolute;
+    padding-top: 1%;
+}
+
+.noScroll {
+    position: fixed;
+    left: 63%;
+}
+
+.noScroll-icons {
+    position: fixed;
+    left: 80%;
+}
+
+.progress-list {
+    position: fixed;
+    top: 3.8vh;
+}
+
+.complete-icon {
+    color: green !important;
+    padding-bottom: 9px !important;
+}
+
+.step-icon :hover {
+    cursor: pointer;
+}
+
+.in-progress-icon {
+    color: greenyellow !important;
+    padding-bottom: 9px !important;
+}
+
+.incomplete-icon {
+    color: red !important;
+    padding-bottom: 9px !important;
+}

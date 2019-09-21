@@ -36,150 +36,130 @@ const data = [
   var columns = [
     {         
         title: 'Name',
-        field: 'name',
+        field: 'name'
     },
   ]
 
   var columnsBase = [    
     {
         title: 'Date Entered',
-        field: 'dateEntered',
-        type: 'numeric'
+        field: 'hireDate',
+        type: 'date'
     },
     {
         title: 'Regional Location',
-        field: 'regionalLocation',
-        type: 'numeric'
+        field: 'regionalLocation'
     },
     {
         title: 'CWID',
-        field: 'cwid',
-        type: 'numeric'
+        field: 'cwid'
     },
     {
         title: 'Gender',
-        field: 'gender',
-        type: 'numeric'
+        field: 'gender'
     },
     {
         title: 'Hire Type',
-        field: 'hireType',
-        type: 'numeric'
+        field: 'hireType'
     },
     {
         title: 'PD Start Date',
         field: 'pdStartDate',
-        type: 'numeric'
+        type: 'date'
     },
     {
         title: 'Vendor',
-        field: 'vendor',
-        type: 'numeric'
+        field: 'vendor'
     },
     {
         title: 'Role',
-        field: 'role',
-        type: 'numeric'
+        field: 'role'
     },
     {
         title: 'PL/IC',
-        field: 'plic',
-        type: 'numeric'
+        field: 'plic'
     },
     {
         title: 'Team Name',
-        field: 'teamName',
-        type: 'numeric'
+        field: 'teamName'
     },
     {
         title: 'Platform',
-        field: 'platform',
-        type: 'numeric'
+        field: 'platform'
     },
     {
         title: 'Manager',
-        field: 'manager',
-        type: 'numeric'
+        field: 'manager'
     },
     {
         title: 'Hire Status',
-        field: 'hireStatus',
-        type: 'numeric'
+        field: 'hireStatus'
     },
     {
         title: 'Onboarding Buddy',
-        field: 'onboardingBuddy',
-        type: 'numeric'
+        field: 'onboardingBuddy'
     },
     {
         title: 'Computer Needs',
-        field: 'computerNeeds',
-        type: 'numeric'
+        field: 'computerNeeds'
     },
     {
         title: 'SEAT Number Assigned',
-        field: 'seatNumberAssigned',
-        type: 'numeric'
+        field: 'seatNum'
     },
     {
         title: 'Campus',
-        field: 'campus',
-        type: 'numeric'
+        field: 'onboardingCampus'
     },
     {
         title: 'Manager Comments',
-        field: 'managerComments',
-        type: 'numeric'
+        field: 'managerComments'
     },
     {
-        title: 'NEID / EID',
-        field: 'neidEid',
-        type: 'numeric'
+        title: 'NEID/EID',
+        field: 'neid'
     },
     {
-        title: 'New Hire / Re Hire',
-        field: 'newHireReHire',
-        type: 'numeric'
+        title: 'New Hire/Re Hire',
+        field: 'newHireRehireTicket'
     },
     {
-        title: '(Date Entered)',
+        title: 'Hire Ticket Entered',
         field: 'dateEnteredHire',
-        type: 'numeric'
+        type: 'date'
     },
     {
         title: 'MAC Ticket',
-        field: 'macTicket',
-        type: 'numeric'
+        field: 'macTicket'
     },
     {
-        title: '(Date Entered)',
+        title: 'MAC Entered',
         field: 'dateEnteredMacTicket',
-        type: 'numeric'
+        type: 'date'
     },  
     {
-        title: 'Date Laptop Delivered',
+        title: 'Laptop Delivered',
         field: 'dateLaptopDelivered',
-        type: 'numeric'
+        type: 'date'
     },
     {
-        title: 'Onboarding Buddy Email Sent',
+        title: 'Onboarding Email Sent',
         field: 'onboardingBuddyEmailSent',
-        type: 'numeric'
+        type: 'date'
     },
     {
-        title: 'Add to DLs and PD Org',
+        title: 'Add to DLs/PD Org',
         field: 'addToDlsAndPdOrg',
-        type: 'numeric'
+        type: 'date'
     },
     {
         title: 'Welcome Email Sent',
         field: 'welcomeEmailSent',
-        type: 'numeric'
+        type: 'date'
     },
     {
         title: 'Admin Name',
-        field: 'adminName',
-        type: 'numeric'
+        field: 'adminName'
     },
 ]
 
@@ -206,7 +186,7 @@ function updateColumns(page, count, columnsPerPage) {
 class Stepper extends React.Component {
     constructor(props){
         super(props);
-        this.state = {page: 0, count: 28, columnsPerPage: 8, garbage: 0};
+        this.state = {page: 0, count: 28, columnsPerPage: 7, garbage: 0};
         updateColumns(this.state.page, this.state.count, this.state.columnsPerPage);
     }      
 
