@@ -36,29 +36,17 @@ class searchResults extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log(this.props);
-
-    // Need a solution for putting in hireType.
-    // Need a solution for putting in PDStartDate.
-    // Need a solution for newHireRehireTicket.
-    // Need a solution or confirmation for dateEnteredHire.
-    // Need a solution for dateEnteredMacTicket.
-    // Need a solution for dateLaptopDelivered.
-    // Need a solution for onboardingBuddyEmailSent.
-    // Need a solution for addToDlsAndPdOrg.
-    // Need a solutoin for welcomeEmailSent.
-    // Need solution(s) for all step statuses.
     displayData = [];
     this.props.data.forEach(hire => {
       displayData.push(
         {
           name: hire.last_name + ", " + hire.first_name,
-          hireDate: hire.start_date,
+          hireDate: hire.created_at,
           regionalLocation: hire.regional_location,
           cwid: hire.cwid ? hire.cwid : '',
           gender: hire.gender ? hire.gender : '',
-          hireType: '',
-          pdStartDate: '',
+          hireType: hire.hire_type ? hire.hire_type : '',
+          pdStartDate: hire.hire_date,
           vendor: hire.vendor,
           role: hire.role,
           plic: hire.pl_ic ? hire.pl_ic : '',
@@ -72,20 +60,20 @@ class searchResults extends React.Component {
           onboardingCampus: hire.campus ? hire.campus : '',
           managerComments: hire.manager_comments ? hire.manager_comments : '',
           neid: hire.neid ? hire.neid : '',
-          newHireRehireTicket: '',
-          dateEnteredHire: hire.start_date,
+          newHireRehireTicket: hire.hire_ticket ? hire.hire_ticket : '',
+          dateEnteredHire:  hire.hire_steps[3].step_name ? hire.hire_steps[3].step_name : '',
           macTicket: hire.mac_ticket ? hire.mac_ticket : '',
-          dateEnteredMacTicket: '',
-          dateLaptopDelivered: '',
-          onboardingBuddyEmailSent: '',
-          addToDlsAndPdOrg: '',
-          welcomeEmailSent: '',
+          dateEnteredMacTicket: hire.hire_steps[4].step_name ? hire.hire_steps[4].step_name : '',
+          dateLaptopDelivered: hire.hire_steps[5].step_name ? hire.hire_steps[5].step_name : '',
+          onboardingBuddyEmailSent: hire.hire_steps[6].step_name ? hire.hire_steps[6].step_name : '',
+          addToDlsAndPdOrg: hire.hire_steps[7].step_name ? hire.hire_steps[7].step_name : '',
+          welcomeEmailSent: hire.hire_steps[8].step_name ? hire.hire_steps[8].step_name : '',
           adminName: this.props.users[hire.admin_id - 1].name,
-          hireTicketStatus: 0,
-          macTicketStatus: 0,
-          laptopDeliveredStatus: 0,
-          onboardingEmailStatus: 0,
-          addToDlsAndPdOrgStatus: 0,
+          hireTicketStatus: hire.hire_steps[3].status,
+          macTicketStatus: hire.hire_steps[4].status,
+          laptopDeliveredStatus: hire.hire_steps[5].status,
+          onboardingEmailStatus: hire.hire_steps[6].status,
+          addToDlsAndPdOrgStatus: hire.hire_steps[7].status,
         }
       );
     });

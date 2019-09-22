@@ -15,7 +15,7 @@ var hireTypes = [];
 
 class AddHire extends React.Component {
     state = {
-        loading: true,
+        loading: false,
         lastName: '',
         firstName: '',
         hireDate: '',
@@ -41,14 +41,15 @@ class AddHire extends React.Component {
         macTicket: '',
     };
 
-    componentDidMount() {
-        axios.get('/hire-types').then((response) => {
-            response.data.forEach(element => {
-                hireTypes.push(element);
-            });
-            this.setState({loading: false});
-        });
-    }
+    // componentDidMount() {
+    //     axios.get('/hire-types').then((response) => {
+    //         console.log(response);
+    //         response.data.forEach(element => {
+    //             hireTypes.push(element);
+    //         });
+    //         this.setState({loading: false});
+    //     });
+    // }
 
     onLastNameEnter = (event) => { 
         this.setState({lastName: event.target.value});
@@ -144,6 +145,7 @@ class AddHire extends React.Component {
     }
 
     onSubmitClick = () => {
+        console.log(this.state);
         this.setState({loading: true});
         axios.post('/hires', 
             {
@@ -152,7 +154,7 @@ class AddHire extends React.Component {
                 "last_name": this.state.lastName,
                 "cwid": this.state.cwid,
                 "gender": this.state.gender,
-                "hire_type_id": parseInt(this.state.hireType),
+                "hire_type": this.state.hireType,
                 "start_date": this.state.hireDate,
                 "vendor": this.state.vendor,
                 "role": this.state.role,
@@ -231,9 +233,9 @@ class AddHire extends React.Component {
                                     required
                                     >
                                         <MenuItem value=""><em>None</em></MenuItem>
-                                        {hireTypes.map(hireType => {
-                                            return <MenuItem value={hireType.id}>{hireType.name}</MenuItem>
-                                        })}
+                                        <MenuItem value="Direct">Direct</MenuItem>
+                                        <MenuItem value="Contract">Contract</MenuItem>
+                                        <MenuItem value="SOW">SOW</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid> 

@@ -21,7 +21,6 @@ class Dashboard extends React.Component {
                 hireData.push(hire);
             });
             this.setState({loading_hires: false});
-            console.log(hireData);
         }).catch(error => {
             console.log(error);
         });
@@ -31,7 +30,6 @@ class Dashboard extends React.Component {
                 usersData.push(user);
             });
             this.setState({loading_users: false});
-            console.log(usersData);
         }).catch(error => {
             console.log(error);
         });
