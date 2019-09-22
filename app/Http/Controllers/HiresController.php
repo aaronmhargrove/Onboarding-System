@@ -84,6 +84,7 @@ class HiresController extends Controller
         foreach ($steps as $step) {
             HireStep::create([
                 "hire_id" => $hire->id,
+                "step_id" => $step->id,
                 "step_name" => $step->name
             ]);
         }
