@@ -23,7 +23,7 @@ class HireStepsController extends Controller
 
     protected function validateHireStep(){
         return request()->validate([
-            'status' => ['min:1','max:255'],
+            'status' => ['numeric'],
             'date_completed' => ['date']
         ]);
     }

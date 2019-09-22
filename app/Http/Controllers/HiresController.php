@@ -10,6 +10,7 @@ use \App\HireLock;
 use \App\Step;
 use \App\User;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class HiresController extends Controller
@@ -20,7 +21,9 @@ class HiresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        return Hire::where('is_active', 1)->with('hireSteps')->get();
+        return Hire::where('is_active', 1)->with('hireSteps')->withCount(['hireSteps' => function($query){
+            $query->where('status', '=', 2);
+        }])->get();
     }
 
     /**
@@ -28,8 +31,8 @@ class HiresController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function lock($id) {
-        $hireLock = HireLock::where('hire_id', $id)->first();
+    public function lock(Hire $hire) {
+        $hireLock = HireLock::where('hire_id', $hire->id)->first();
         return response()->json(['success' => $hireLock->lock()]);
     }
 
@@ -38,8 +41,8 @@ class HiresController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function unlock($id){
-        $hireLock = HireLock::where('hire_id', $id)->first();
+    public function unlock(Hire $hire){
+        $hireLock = HireLock::where('hire_id', $hire->id)->first();
         return response()->json(['success' => $hireLock->unlock()]);
     }
 
@@ -74,14 +77,14 @@ class HiresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(){
-        $hire = Hire::create($this->validateHire());
+        $hire = Hire::create($this->validateHireCreation());
 
         // For each step, create a hire_step associated to hire
         $steps = Step::get();
         foreach ($steps as $step) {
             HireStep::create([
                 "hire_id" => $hire->id,
-                "step_id" => $step->id
+                "step_name" => $step->name
             ]);
         }
 
@@ -98,7 +101,7 @@ class HiresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Hire $hire) {
-        $hire->update($this->validateHire());
+        $hire->update($this->validateHireUpdate());
     }
 
     /**
@@ -114,7 +117,13 @@ class HiresController extends Controller
         return;
     }
 
-    protected function validateHire(){
+    public function test(){
+        return Hire::where('is_active', 1)->with('hireSteps')->withCount(['hireSteps' => function($query){
+            $query->where('status', '=', 2);
+        }])->get();
+    }
+
+    protected function validateHireCreation(){
         return request()->validate([
             'regional_location' => ['max:255'],
             'first_name' => ['required', 'min:1', 'max:255'],
@@ -122,7 +131,7 @@ class HiresController extends Controller
             'email' => ['max:255', 'email'],
             'cwid' => ['max:100'],
             'gender' => ['max:100'],
-            'hire_type_id' => ['numeric'],
+            'hire_type' => ['min:1', 'max:255'],
             'start_date' => ['date'],
             'vendor' => ['max:255'],
             'role' => ['max:255'],
@@ -142,7 +151,39 @@ class HiresController extends Controller
             'admin_id' => ['numeric'],
             'slack_url' => ['max:255'],
             'is_active' => [],
-            'set_inactive_on' => ['date'],
+            'set_inactive_on' => ['date']
+        ]);
+    }
+
+    protected function validateHireUpdate(){
+        return request()->validate([
+            'regional_location' => ['max:255'],
+            'first_name' => ['min:1', 'max:255'],
+            'last_name' => ['min:1', 'max:255'],
+            'email' => ['max:255', 'email'],
+            'cwid' => ['max:100'],
+            'gender' => ['max:100'],
+            'hire_type' => ['min:1', 'max:255'],
+            'start_date' => ['date'],
+            'vendor' => ['max:255'],
+            'role' => ['max:255'],
+            'pl_ic' => ['max:255'],
+            'team_name' => ['max:255'],
+            'platform' => ['max:255'],
+            'manager_id' => ['numeric'],
+            'hire_status' => ['max:255'],
+            'onboarding_buddy' => ['max:255'],
+            'computer_needs' => ['max:255'],
+            'seat_number' => ['max:255'],
+            'campus' => ['max:100'],
+            'manager_comments' => [],
+            'neid' => ['numeric'],
+            'hire_ticket' => ['max:255'],
+            'mac_ticket' => ['max:255'],
+            'admin_id' => ['numeric'],
+            'slack_url' => ['max:255'],
+            'is_active' => [],
+            'set_inactive_on' => ['date']
         ]);
     }
 }

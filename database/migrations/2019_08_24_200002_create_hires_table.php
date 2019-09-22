@@ -21,7 +21,7 @@ class CreateHiresTable extends Migration
             $table->string('email')->unique()->nullable();
             $table->string('cwid')->unique()->nullable();
             $table->string('gender')->nullable();
-            $table->bigInteger('hire_type_id')->unsigned()->nullable();
+            $table->string('hire_type')->nullable();
             $table->date('start_date')->nullable();
             $table->string('vendor')->nullable();
             $table->string('role')->nullable();
@@ -44,7 +44,6 @@ class CreateHiresTable extends Migration
             $table->date('set_inactive_on')->nullable();
             $table->timestamps();
 
-            $table->foreign('hire_type_id')->references('id')->on('hire_types');
             $table->foreign('manager_id')->references('id')->on('users');
             $table->foreign('admin_id')->references('id')->on('users');
         });
