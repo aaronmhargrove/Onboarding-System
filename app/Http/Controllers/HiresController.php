@@ -21,7 +21,9 @@ class HiresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        return Hire::where('is_active', 1)->with('hireSteps')->get();
+        return Hire::where('is_active', 1)->with('hireSteps')->withCount(['hireSteps' => function($query){
+            $query->where('status', '=', 2);
+        }])->get();
     }
 
     /**
@@ -82,7 +84,7 @@ class HiresController extends Controller
         foreach ($steps as $step) {
             HireStep::create([
                 "hire_id" => $hire->id,
-                "step_id" => $step->id
+                "step_name" => $step->name
             ]);
         }
 
@@ -129,7 +131,7 @@ class HiresController extends Controller
             'email' => ['max:255', 'email'],
             'cwid' => ['max:100'],
             'gender' => ['max:100'],
-            'hire_type_id' => ['numeric'],
+            'hire_type' => ['min:1', 'max:255'],
             'start_date' => ['date'],
             'vendor' => ['max:255'],
             'role' => ['max:255'],
@@ -149,7 +151,7 @@ class HiresController extends Controller
             'admin_id' => ['numeric'],
             'slack_url' => ['max:255'],
             'is_active' => [],
-            'set_inactive_on' => ['date'],
+            'set_inactive_on' => ['date']
         ]);
     }
 
@@ -161,7 +163,7 @@ class HiresController extends Controller
             'email' => ['max:255', 'email'],
             'cwid' => ['max:100'],
             'gender' => ['max:100'],
-            'hire_type_id' => ['numeric'],
+            'hire_type' => ['min:1', 'max:255'],
             'start_date' => ['date'],
             'vendor' => ['max:255'],
             'role' => ['max:255'],
@@ -181,7 +183,7 @@ class HiresController extends Controller
             'admin_id' => ['numeric'],
             'slack_url' => ['max:255'],
             'is_active' => [],
-            'set_inactive_on' => ['date'],
+            'set_inactive_on' => ['date']
         ]);
     }
 }

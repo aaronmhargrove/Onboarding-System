@@ -49,12 +49,11 @@ class UsersController extends Controller
     public function upcomingDates(User $user){
         return DB::table('hires')
             ->join('hire_steps', 'hire_id', '=', 'hires.id')
-            ->join('steps', 'step_id', '=', 'steps.id')
             ->where('hire_steps.status', '!=', 2)
             ->whereRaw('((hires.admin_id = ?) OR (hires.manager_id = ?))', [$user->id, $user->id])
             ->whereRaw('DATEDIFF(start_date, CURDATE()) < 15')
             ->where('is_active', '=', 1)
-            ->select('first_name', 'last_name', 'name',  'start_date', DB::raw("DATEDIFF(start_date, CURDATE()) as days_left"))
+            ->select('first_name', 'last_name', 'step_name',  'start_date', DB::raw("DATEDIFF(start_date, CURDATE()) as days_left"))
             ->get();
     }
 

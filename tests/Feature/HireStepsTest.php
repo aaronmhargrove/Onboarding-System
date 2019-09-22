@@ -22,7 +22,7 @@ class HireStepsTest extends TestCase
         // Arrange 
         $step = factory(Step::class)->create();
         $hire = factory(Hire::class)->create(['manager_id'=>null, 'admin_id'=>null]);
-        $hireStep = factory(HireStep::class)->create(['hire_id'=>$hire->id, 'step_id'=>$step->id]);
+        $hireStep = factory(HireStep::class)->create(['hire_id'=>$hire->id, 'step_name'=>$step->name]);
         $body = [
             'status' => 2,
             'date' => '2019-9-19'

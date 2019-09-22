@@ -67,7 +67,7 @@ class UserTest extends TestCase
         ]);
         factory(HireStep::class)->create([
             'hire_id' => $hire->id,
-            'step_id' => $step1->id,
+            'step_name' => $step1->name,
             'status' => 0
         ]);
 
