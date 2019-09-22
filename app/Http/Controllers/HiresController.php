@@ -10,6 +10,7 @@ use \App\HireLock;
 use \App\Step;
 use \App\User;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class HiresController extends Controller
@@ -112,6 +113,12 @@ class HiresController extends Controller
         HireLock::where('hire_id', $hire->id)->delete();
         $hire->delete();
         return;
+    }
+
+    public function test(){
+        return Hire::where('is_active', 1)->with('hireSteps')->withCount(['hireSteps' => function($query){
+            $query->where('status', '=', 2);
+        }])->get();
     }
 
     protected function validateHireCreation(){

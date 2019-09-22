@@ -15,13 +15,15 @@ class HireLock extends Model{
         }
 
         $locked = true;
-        $this->update(compact('locked'));
+        $locked_at = date('Y-m-d H:i:s');
+        $this->update(compact('locked', 'locked_at'));
         return true;
     }
 
     public function unlock(){
         $locked = false;
-        $this->update(compact('locked'));
+        $locked_at = null;
+        $this->update(compact('locked', 'locked_at'));
         return true;
     }
 }

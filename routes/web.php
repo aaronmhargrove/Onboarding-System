@@ -51,7 +51,8 @@ Route::get('/users/{user}/hires/filtered', 'UsersController@filteredHires');    
 Route::get('/users/{user}/upcoming', 'UsersController@upcomingDates');                  // Get upcoming dates for a user
 Route::patch('/users/{user}', 'UsersController@update');                                // Update a user (if updating search filter, stringify json and pass in with request body under "search_filter")
 
-
-
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('/hires/testing', 'HiresController@test'); // TESTING FOR SCHEDULED EVENT CODE
