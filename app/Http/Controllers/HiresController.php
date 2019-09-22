@@ -10,6 +10,8 @@ use \App\HireLock;
 use \App\Step;
 use \App\User;
 
+use App\Notifications\NewHireAdded;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -93,6 +95,8 @@ class HiresController extends Controller
         HireLock::create([
             "hire_id" => $hire->id
         ]);
+
+        //User::first()->notify(new NewHireAdded($hire));
     }
 
     /**
