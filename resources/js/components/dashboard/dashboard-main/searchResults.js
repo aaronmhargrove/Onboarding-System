@@ -30,46 +30,107 @@ import Clear from '@material-ui/icons/Clear'
 
 import './searchResults.css';
 
+var displayData = [];
+
 class searchResults extends React.Component {
-  state = {
-    filterModalOpen: false,
-    lastName: '',
-    firstName: '',
-    name: '',
-    hireDate: '',
-    regionalLocation: '',
-    gender: '',
-    hireType: '',
-    pdStartDate: '',
-    role: '',
-    teamName: '',
-    platform: '',
-    manager: '',
-    hireStatus: '',
-    computerNeeds: '',
-    onboardingCampus: '',
-    onboardingBuddy: '',
-    adminName: '',
-    cwid: '',
-    vendor: '',
-    plic: '',
-    seatNum: '',
-    neid: '',
-    newHireRehireTicket: '',
-    macTicket: '',
-    managerComments: '',
-    dateEnteredHire: '',
-    dateEnteredMacTicket: '',
-    dateLaptopDelivered: '',
-    onboardingBuddyEmailSent: '',
-    addToDlsAndPdOrg: '',
-    welcomeEmailSent: '',
-    hireTicketStatus: '',
-    macTicketStatus: '',
-    laptopDeliveredStatus: '',
-    onboardingEmailStatus: '',
-    addToDlsAndPdOrgStatus: ''
-  };
+  constructor(props) {
+    super(props);
+
+    console.log(this.props);
+
+    // Need a solution for putting in hireType.
+    // Need a solution for putting in PDStartDate.
+    // Need a solution for newHireRehireTicket.
+    // Need a solution or confirmation for dateEnteredHire.
+    // Need a solution for dateEnteredMacTicket.
+    // Need a solution for dateLaptopDelivered.
+    // Need a solution for onboardingBuddyEmailSent.
+    // Need a solution for addToDlsAndPdOrg.
+    // Need a solutoin for welcomeEmailSent.
+    // Need solution(s) for all step statuses.
+    displayData = [];
+    this.props.data.forEach(hire => {
+      displayData.push(
+        {
+          name: hire.last_name + ", " + hire.first_name,
+          hireDate: hire.start_date,
+          regionalLocation: hire.regional_location,
+          cwid: hire.cwid ? hire.cwid : '',
+          gender: hire.gender ? hire.gender : '',
+          hireType: '',
+          pdStartDate: '',
+          vendor: hire.vendor,
+          role: hire.role,
+          plic: hire.pl_ic ? hire.pl_ic : '',
+          teamName: hire.team_name,
+          platform: hire.platform,
+          manager: this.props.users[hire.manager_id - 1].name,
+          hireStatus: hire.hire_status,
+          onboardingBuddy: hire.onboarding_buddy,
+          computerNeeds: hire.computer_needs,
+          seatNum: hire.seat_number ? hire.seat_number : '',
+          onboardingCampus: hire.campus ? hire.campus : '',
+          managerComments: hire.manager_comments ? hire.manager_comments : '',
+          neid: hire.neid ? hire.neid : '',
+          newHireRehireTicket: '',
+          dateEnteredHire: hire.start_date,
+          macTicket: hire.mac_ticket ? hire.mac_ticket : '',
+          dateEnteredMacTicket: '',
+          dateLaptopDelivered: '',
+          onboardingBuddyEmailSent: '',
+          addToDlsAndPdOrg: '',
+          welcomeEmailSent: '',
+          adminName: this.props.users[hire.admin_id - 1].name,
+          hireTicketStatus: 0,
+          macTicketStatus: 0,
+          laptopDeliveredStatus: 0,
+          onboardingEmailStatus: 0,
+          addToDlsAndPdOrgStatus: 0,
+        }
+      );
+    });
+
+    this.state = {
+      filterModalOpen: false,
+      lastName: '',
+      firstName: '',
+      name: '',
+      hireDate: '',
+      regionalLocation: '',
+      gender: '',
+      hireType: '',
+      pdStartDate: '',
+      role: '',
+      teamName: '',
+      platform: '',
+      manager: '',
+      hireStatus: '',
+      computerNeeds: '',
+      onboardingCampus: '',
+      onboardingBuddy: '',
+      adminName: '',
+      cwid: '',
+      vendor: '',
+      plic: '',
+      seatNum: '',
+      neid: '',
+      newHireRehireTicket: '',
+      macTicket: '',
+      managerComments: '',
+      dateEnteredHire: '',
+      dateEnteredMacTicket: '',
+      dateLaptopDelivered: '',
+      onboardingBuddyEmailSent: '',
+      addToDlsAndPdOrg: '',
+      welcomeEmailSent: '',
+      hireTicketStatus: '',
+      macTicketStatus: '',
+      laptopDeliveredStatus: '',
+      onboardingEmailStatus: '',
+      addToDlsAndPdOrgStatus: ''
+    };
+  }
+
   onModalClose = () => {
     this.setState({
       filterModalOpen: false
@@ -83,143 +144,143 @@ class searchResults extends React.Component {
   
   onLastNameEnter = (event) => { 
     this.setState({lastName: event.target.value});
-}
+  }
 
-onFirstNameEnter = (event) => {
+  onFirstNameEnter = (event) => {
     this.setState({firstName: event.target.value});
-}
+  }
 
-onDateHiredPick = (event) => {
+  onDateHiredPick = (event) => {
     this.setState({dateEnteredHire: event.target.value});
-}
+  }
 
-onRegionalLocationEnter = (event) => {
+  onRegionalLocationEnter = (event) => {
     this.setState({regionalLocation: event.target.value});
-}
+  } 
 
-onGenderSelect = (event) => {
+  onGenderSelect = (event) => {
     this.setState({gender: event.target.value});
-}
+  }
 
-onHireTypeSelect = (event) => {
+  onHireTypeSelect = (event) => {
     this.setState({hireType: event.target.value});
-}
+  }
 
-onPdStartDatePick = (event) => {
+  onPdStartDatePick = (event) => {
     this.setState({pdStartDate: event.target.value});
-}
+  }
 
-onRoleEnter = (event) => {
+  onRoleEnter = (event) => {
     this.setState({role: event.target.value});
-}
+  }
 
-onTeamNameEnter = (event) => {
+  onTeamNameEnter = (event) => {
     this.setState({teamName: event.target.value});
-}
+  }
 
-onPlatformEnter = (event) => {
+  onPlatformEnter = (event) => {
     this.setState({platform: event.target.value});
-}
+  }
 
-onManagerEnter = (event) => {
+  onManagerEnter = (event) => {
     this.setState({manager: event.target.value});
-}
+  }
 
-onHireStatusSelect = (event) => {
+  onHireStatusSelect = (event) => {
     this.setState({hireStatus: event.target.value});
-}
+  }
 
-onComputerNeedsSelect = (event) => {
+  onComputerNeedsSelect = (event) => {
     this.setState({computerNeeds: event.target.value});
-}
+  }
 
-onOnboardingCampusEnter = (event) => {
+  onOnboardingCampusEnter = (event) => {
     this.setState({onboardingCampus: event.target.value});
-}
+  }
 
-onOnboardingBuddyEnter = (event) => {
+  onOnboardingBuddyEnter = (event) => {
     this.setState({onboardingBuddy: event.target.value});
-}
+  }
 
-onAdminEnter = (event) => {
+  onAdminEnter = (event) => {
     this.setState({adminName: event.target.value});
-}
+  }
 
-onCWIDEnter = (event) => {
+  onCWIDEnter = (event) => {
     this.setState({cwid: event.target.value});
-}
+  }
 
-onVendorEnter = (event) => {
+  onVendorEnter = (event) => {
     this.setState({vendor: event.target.value});
-}
+  }
 
-onPLICSelect = (event) => {
+  onPLICSelect = (event) => {
     this.setState({plic: event.target.value});
-}
+  }
 
-onSeatNumberEnter = (event) => {
+  onSeatNumberEnter = (event) => {
     this.setState({seatNum: event.target.value});
-}
+  }
 
-onNEIDEnter = (event) => {
+  onNEIDEnter = (event) => {
     this.setState({neid: event.target.value});
-}
+  }
 
-onNewHireRehireTicketEnter = (event) => {
+  onNewHireRehireTicketEnter = (event) => {
     this.setState({newHireRehireTicket: event.target.value});
-}
+  }
 
-onMacTicketEnter = (event) => {
+  onMacTicketEnter = (event) => {
     this.setState({macTicket: event.target.value});
-}
+  }
 
-onManagerCommentsEnter = (event) => {
+  onManagerCommentsEnter = (event) => {
     this.setState({managerComments: event.target.value});
-}
+  }
 
-onDateEnteredHireDatePick = (event) => {
+  onDateEnteredHireDatePick = (event) => {
     this.setState({dateEnteredHire: event.target.value});
-}
+  }
 
-onDateEnteredMacTicketDatePick = (event) => {
+  onDateEnteredMacTicketDatePick = (event) => {
     this.setState({dateEnteredMacTicket: event.target.value});
-}
+  }
 
-onDateLaptopDeliveredDatePick = (event) => {
+  onDateLaptopDeliveredDatePick = (event) => {
     this.setState({dateLaptopDelivered: event.target.value});
-}
+  }
 
-onOnboardingBuddyEmailSentDatePick = (event) => {
+  onOnboardingBuddyEmailSentDatePick = (event) => {
     this.setState({onboardingBuddyEmailSent: event.target.value});
-}
+  }
 
-onAddToDlsAndPdOrgDatePick = (event) => {
+  onAddToDlsAndPdOrgDatePick = (event) => {
     this.setState({addToDlsAndPdOrg: event.target.value});
-}
+  }
 
-onWelcomeEmailSentDatePick = (event) => {
+  onWelcomeEmailSentDatePick = (event) => {
     this.setState({welcomeEmailSent: event.target.value});
-}
+  }
 
-onHireStatusChange = (event) => {
-  this.setState({ hireTicketStatus: ((this.state.hireTicketStatus + 1) % 3) });
-}
+  onHireStatusChange = (event) => {
+    this.setState({ hireTicketStatus: ((this.state.hireTicketStatus + 1) % 3) });
+  }
 
-onMACTicketStatusChange = (event) => {
-  this.setState({ macTicketStatus: ((this.state.macTicketStatus + 1) % 3) });
-}
+  onMACTicketStatusChange = (event) => {
+    this.setState({ macTicketStatus: ((this.state.macTicketStatus + 1) % 3) });
+  }
 
-onLaptopDeliveredStatusChange = (event) => {
-  this.setState({ laptopDeliveredStatus: ((this.state.laptopDeliveredStatus + 1) % 3) });
-}
+  onLaptopDeliveredStatusChange = (event) => {
+    this.setState({ laptopDeliveredStatus: ((this.state.laptopDeliveredStatus + 1) % 3) });
+  }
 
-onOnboardingEmailStatusChange = (event) => {
-  this.setState({ onboardingEmailStatus: ((this.state.onboardingEmailStatus + 1) % 3) });
-}
+  onOnboardingEmailStatusChange = (event) => {
+    this.setState({ onboardingEmailStatus: ((this.state.onboardingEmailStatus + 1) % 3) });
+  }
 
-onAddToDlsAndPdOrgStatusChange = (event) => {
-  this.setState({ addToDlsAndPdOrgStatus: ((this.state.addToDlsAndPdOrgStatus + 1) % 3) });
-}
+  onAddToDlsAndPdOrgStatusChange = (event) => {
+    this.setState({ addToDlsAndPdOrgStatus: ((this.state.addToDlsAndPdOrgStatus + 1) % 3) });
+  }
 
 onSubmitClick = (event) => {console.log('Submit')}
   render() {
@@ -615,44 +676,7 @@ onSubmitClick = (event) => {console.log('Submit')}
             addToDlsAndPdOrgStatus: rowData.addToDlsAndPdOrgStatus
           },
             () => this.onModalOpen(rowData))}
-          data={[
-            {
-              name: 'Winky, Tinky',
-              hireDate: '11/5/2018',
-              regionalLocation: 'US-STL',
-              cwid: 'TLWIN',
-              gender: 'F',
-              hireType: 'Contract',
-              pdStartDate: '11/26/2018',
-              vendor: 'ABC',
-              role: 'Software Developer',
-              plic: 'IC',
-              teamName: 'Teletubbies',
-              platform: 'Field',
-              manager: 'La, La',
-              hireStatus: 'New',
-              onboardingBuddy: 'Hunt, Naomi',
-              computerNeeds: 'Macbook',
-              seatNum: 'G2022E',
-              onboardingCampus: 'MC',
-              managerComments: '',
-              neid: 12345,
-              newHireRehireTicket: 'REQ55555',
-              dateEnteredHire: '11/8/2018',
-              macTicket: 'REQ11111',
-              dateEnteredMacTicket: '11/8/2018',
-              dateLaptopDelivered: '11/22/2018',
-              onboardingBuddyEmailSent: '11/22/2018',
-              addToDlsAndPdOrg: '11/8/2018',
-              welcomeEmailSent: '11/22/2018',
-              adminName: 'Susan',
-              hireTicketStatus: 0,
-              macTicketStatus: 0,
-              laptopDeliveredStatus: 0,
-              onboardingEmailStatus: 0,
-              addToDlsAndPdOrgStatus: 0
-            }
-          ]}
+          data={displayData}
           options={{
             search: false,
             paging: false,

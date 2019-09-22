@@ -9,6 +9,8 @@ import SearchBar from '../dashboard/dashboard-main/searchBar';
 import Stepper from './table/stepper';
 import FullViewTabs from './fullviewtabs';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import './fullview.css';
 
@@ -38,13 +40,29 @@ function updateTabNames(tabNumber, maxTabs, tabsShown)
     }
 }
 
+var hireData = [];
+
 class FullView extends React.Component {   
     constructor(props) {
         super(props);
 
-        this.state = {tab: 0, leftTabName: tabs[0], centerTabName: tabs[1], rightTabName: tabs[2], maxTabs: 7, garbage: 0, tabsShown: 3}
+        this.state = {tab: 0, leftTabName: tabs[0], centerTabName: tabs[1], rightTabName: tabs[2], maxTabs: 7, garbage: 0, tabsShown: 3, loading: true}
     
     } 
+
+    componentDidMount(){
+        hireData = [];
+        
+        axios.get('/hires').then(response => {
+            response.data.forEach(hire => {
+                hireData.push(hire);
+            });
+            this.setState({loading: false});
+            console.log(hireData);
+        }).catch(error => {
+            console.log(error);
+        });
+    }
 
     handleLeftButtonClick = event => {
         this.setState({tab: this.state.tab - 1}, () => {
@@ -67,27 +85,36 @@ class FullView extends React.Component {
     }
 
     render() {
-        return(
-            <Paper className="fullview">
-                <div className="wrapper">
-                    <SearchBar classname="searchbar" />
-                </div>
-                <div className="tabswrapper">
-                    <FullViewTabs classname="tabs"
-                        handleLeftButtonClick={this.handleLeftButtonClick}
-                        handleRightButtonClick={this.handleRightButtonClick}
-                        tabNameLeft={this.state.leftTabName}
-                        tabNameCenter={this.state.centerTabName}
-                        tabNameRight={this.state.rightTabName}
-                        tab={this.state.tab}
-                        tabsShown={this.state.tabsShown}
-                        maxTabs={this.state.maxTabs}
-                    />     
-                </div>       
-                <Stepper classname="stepper" />
-                <Button variant="contained" color="primary" className="export">Export Current Search</Button>
-            </Paper>
-        );
+        if(this.state.loading) {
+            return(
+                <Paper className="fullview">
+                    <div className="loadingSpinner"><CircularProgress size="5rem"/></div> 
+                </Paper>
+            );
+        }
+        else {
+            return(
+                <Paper className="fullview">
+                    <div className="wrapper">
+                        <SearchBar classname="searchbar" />
+                    </div>
+                    <div className="tabswrapper">
+                        <FullViewTabs classname="tabs"
+                            handleLeftButtonClick={this.handleLeftButtonClick}
+                            handleRightButtonClick={this.handleRightButtonClick}
+                            tabNameLeft={this.state.leftTabName}
+                            tabNameCenter={this.state.centerTabName}
+                            tabNameRight={this.state.rightTabName}
+                            tab={this.state.tab}
+                            tabsShown={this.state.tabsShown}
+                            maxTabs={this.state.maxTabs}
+                        />     
+                    </div>       
+                    <Stepper classname="stepper" />
+                    <Button variant="contained" color="primary" className="export">Export Current Search</Button>
+                </Paper>
+            );
+        }
     }
 }
 
