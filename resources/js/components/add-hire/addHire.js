@@ -145,7 +145,6 @@ class AddHire extends React.Component {
     }
 
     onSubmitClick = () => {
-        console.log(this.state);
         this.setState({loading: true});
         axios.post('/hires', 
             {
@@ -167,16 +166,22 @@ class AddHire extends React.Component {
                 "computer_needs": this.state.computerNeeds,
                 "seat_number": this.state.seatNum,
                 "campus": this.state.onboardingCampus,
-                "neid": parseInt(this.state.neid),
+                "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
                 "hire_ticket": this.state.newHireRehireTicket,
                 "mac_ticket": this.state.macTicket,
+            },
+            {
+                headers: {
+                    'content-type': 'application/json',
+                }
             }
         ).then((response) => {
             this.setState({loading: false});
             console.log(response)
         }).catch((response) => {
             this.setState({loading: false});
-            console.log(response);
+            console.log('Error: ' + response);
+            console.log(response.response.data);
         });
     }
 
