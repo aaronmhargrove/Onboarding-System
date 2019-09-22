@@ -41,24 +41,35 @@ function updateTabNames(tabNumber, maxTabs, tabsShown)
 }
 
 var hireData = [];
+var usersData = [];
 
 class FullView extends React.Component {   
     constructor(props) {
         super(props);
 
-        this.state = {tab: 0, leftTabName: tabs[0], centerTabName: tabs[1], rightTabName: tabs[2], maxTabs: 7, garbage: 0, tabsShown: 3, loading: true}
+        this.state = {tab: 0, leftTabName: tabs[0], centerTabName: tabs[1], rightTabName: tabs[2], maxTabs: 7, garbage: 0, tabsShown: 3, loading_hires: true, loading_users: true}
     
     } 
 
     componentDidMount(){
         hireData = [];
+        usersData = [];
         
         axios.get('/hires').then(response => {
             response.data.forEach(hire => {
                 hireData.push(hire);
             });
-            this.setState({loading: false});
+            this.setState({loading_hires: false});
             console.log(hireData);
+        }).catch(error => {
+            console.log(error);
+        });
+
+        axios.get('/users').then(response => {
+            response.data.forEach(user => {
+                usersData.push(user);
+            });
+            this.setState({loading_users: false});
         }).catch(error => {
             console.log(error);
         });
@@ -85,7 +96,7 @@ class FullView extends React.Component {
     }
 
     render() {
-        if(this.state.loading) {
+        if(this.state.loading_users || this.state.loading_hires) {
             return(
                 <Paper className="fullview">
                     <div className="loadingSpinner"><CircularProgress size="5rem"/></div> 
@@ -110,7 +121,7 @@ class FullView extends React.Component {
                             maxTabs={this.state.maxTabs}
                         />     
                     </div>       
-                    <Stepper classname="stepper" />
+                    <Stepper classname="stepper" data={hireData} users={usersData}/>
                     <Button variant="contained" color="primary" className="export">Export Current Search</Button>
                 </Paper>
             );

@@ -236,6 +236,8 @@ class Stepper extends React.Component {
                             onRowClick={event => console.log(event)}                            
                             columns={columns}
                             page={this.state.page}
+                            data={this.props.data}
+                            users={this.props.users}
                     />
     </div>
                 <StepperTableToolbar className="toolbar" 

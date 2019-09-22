@@ -31,46 +31,95 @@ import Clear from '@material-ui/icons/Clear'
 
 import './steppertable.css';
 
+var displayData = [];
+
 class StepperTable extends React.Component {
-  state = {
-    filterModalOpen: false,
-    lastName: '',
-    firstName: '',
-    name: '',
-    hireDate: '',
-    regionalLocation: '',
-    gender: '',
-    hireType: '',
-    pdStartDate: '',
-    role: '',
-    teamName: '',
-    platform: '',
-    manager: '',
-    hireStatus: '',
-    computerNeeds: '',
-    onboardingCampus: '',
-    onboardingBuddy: '',
-    adminName: '',
-    cwid: '',
-    vendor: '',
-    plic: '',
-    seatNum: '',
-    neid: '',
-    newHireRehireTicket: '',
-    macTicket: '',
-    managerComments: '',
-    dateEnteredHire: '',
-    dateEnteredMacTicket: '',
-    dateLaptopDelivered: '',
-    onboardingBuddyEmailSent: '',
-    addToDlsAndPdOrg: '',
-    welcomeEmailSent: '',
-    hireTicketStatus: '',
-    macTicketStatus: '',
-    laptopDeliveredStatus: '',
-    onboardingEmailStatus: '',
-    addToDlsAndPdOrgStatus: ''
-  };
+  constructor(props) {
+    super(props);
+
+    displayData = [];
+    this.props.data.forEach(hire => {
+      displayData.push(
+        {
+          name: hire.last_name + ", " + hire.first_name,
+          hireDate: hire.created_at,
+          regionalLocation: hire.regional_location,
+          cwid: hire.cwid ? hire.cwid : '',
+          gender: hire.gender ? hire.gender : '',
+          hireType: hire.hire_type ? hire.hire_type : '',
+          pdStartDate: hire.hire_date,
+          vendor: hire.vendor,
+          role: hire.role,
+          plic: hire.pl_ic ? hire.pl_ic : '',
+          teamName: hire.team_name,
+          platform: hire.platform,
+          manager: this.props.users[hire.manager_id - 1].name,
+          hireStatus: hire.hire_status,
+          onboardingBuddy: hire.onboarding_buddy,
+          computerNeeds: hire.computer_needs,
+          seatNum: hire.seat_number ? hire.seat_number : '',
+          onboardingCampus: hire.campus ? hire.campus : '',
+          managerComments: hire.manager_comments ? hire.manager_comments : '',
+          neid: hire.neid ? hire.neid : '',
+          newHireRehireTicket: hire.hire_ticket ? hire.hire_ticket : '',
+          dateEnteredHire:  hire.hire_steps[3].step_name ? hire.hire_steps[3].step_name : '',
+          macTicket: hire.mac_ticket ? hire.mac_ticket : '',
+          dateEnteredMacTicket: hire.hire_steps[4].step_name ? hire.hire_steps[4].step_name : '',
+          dateLaptopDelivered: hire.hire_steps[5].step_name ? hire.hire_steps[5].step_name : '',
+          onboardingBuddyEmailSent: hire.hire_steps[6].step_name ? hire.hire_steps[6].step_name : '',
+          addToDlsAndPdOrg: hire.hire_steps[7].step_name ? hire.hire_steps[7].step_name : '',
+          welcomeEmailSent: hire.hire_steps[8].step_name ? hire.hire_steps[8].step_name : '',
+          adminName: this.props.users[hire.admin_id - 1].name,
+          hireTicketStatus: hire.hire_steps[3].status,
+          macTicketStatus: hire.hire_steps[4].status,
+          laptopDeliveredStatus: hire.hire_steps[5].status,
+          onboardingEmailStatus: hire.hire_steps[6].status,
+          addToDlsAndPdOrgStatus: hire.hire_steps[7].status,
+        }
+      );
+    });
+
+    this.state = {
+      filterModalOpen: false,
+      lastName: '',
+      firstName: '',
+      name: '',
+      hireDate: '',
+      regionalLocation: '',
+      gender: '',
+      hireType: '',
+      pdStartDate: '',
+      role: '',
+      teamName: '',
+      platform: '',
+      manager: '',
+      hireStatus: '',
+      computerNeeds: '',
+      onboardingCampus: '',
+      onboardingBuddy: '',
+      adminName: '',
+      cwid: '',
+      vendor: '',
+      plic: '',
+      seatNum: '',
+      neid: '',
+      newHireRehireTicket: '',
+      macTicket: '',
+      managerComments: '',
+      dateEnteredHire: '',
+      dateEnteredMacTicket: '',
+      dateLaptopDelivered: '',
+      onboardingBuddyEmailSent: '',
+      addToDlsAndPdOrg: '',
+      welcomeEmailSent: '',
+      hireTicketStatus: '',
+      macTicketStatus: '',
+      laptopDeliveredStatus: '',
+      onboardingEmailStatus: '',
+      addToDlsAndPdOrgStatus: ''
+    };
+  }
+
   onModalClose = () => {
     this.setState({
       filterModalOpen: false
@@ -591,46 +640,7 @@ class StepperTable extends React.Component {
             addToDlsAndPdOrgStatus: rowData.addToDlsAndPdOrgStatus
           },
             () => this.onModalOpen(rowData))}
-          data={[
-            {
-              lastName: 'Winky',
-              firstName: 'Tinky',
-              name: 'Winky, Tinky',
-              hireDate: '2018-11-05',
-              regionalLocation: 'US-STL',
-              cwid: 'TLWIN',
-              gender: 'female',
-              hireType: 'Contract',
-              pdStartDate: '2018-11-26',
-              vendor: 'ABC',
-              role: 'Software Developer',
-              plic: 'IC',
-              teamName: 'Teletubbies',
-              platform: 'Field',
-              manager: 'La, La',
-              hireStatus: 'New',
-              onboardingBuddy: 'Hunt, Naomi',
-              computerNeeds: 'Macbook',
-              seatNum: 'G2022E',
-              onboardingCampus: 'MC',
-              managerComments: '',
-              neid: 12345,
-              newHireRehireTicket: 'REQ55555',
-              dateEnteredHire: '2018-11-08',
-              macTicket: 'REQ11111',
-              dateEnteredMacTicket: '2018-11-08',
-              dateLaptopDelivered: '2018-11-22',
-              onboardingBuddyEmailSent: '2018-11-22',
-              addToDlsAndPdOrg: '2018-11-08',
-              welcomeEmailSent: '2018-11-22',
-              adminName: 'Susan',
-              hireTicketStatus: 0,
-              macTicketStatus: 0,
-              laptopDeliveredStatus: 0,
-              onboardingEmailStatus: 0,
-              addToDlsAndPdOrgStatus: 0
-            }
-          ]}
+          data={displayData}
           options={{
             search: false,
             paging: false,

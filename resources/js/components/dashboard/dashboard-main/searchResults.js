@@ -37,6 +37,8 @@ class searchResults extends React.Component {
     super(props);
 
     displayData = [];
+
+    console.log(props);
     this.props.data.forEach(hire => {
       displayData.push(
         {

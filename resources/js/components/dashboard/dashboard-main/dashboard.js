@@ -17,6 +17,7 @@ class Dashboard extends React.Component {
         usersData = [];
 
         axios.get('/hires').then(response => {
+            console.log(response);
             response.data.forEach(hire => {
                 hireData.push(hire);
             });
@@ -26,6 +27,7 @@ class Dashboard extends React.Component {
         });
 
         axios.get('/users').then(response => {
+            console.log(response);
             response.data.forEach(user => {
                 usersData.push(user);
             });
