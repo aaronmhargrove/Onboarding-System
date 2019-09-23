@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -20,6 +21,7 @@ class NewHireAdded extends Notification
     public function __construct($hire)
     {
         $this->hire = $hire;
+        $this->manager = User::find($this->hire->manager_id);
     }
 
     /**
@@ -40,28 +42,15 @@ class NewHireAdded extends Notification
      * @return \Illuminate\Notifications\Messages\SlackMessage
      */
     public function toSlack($notifiable){
-        // return (new SlackMessage)
-        //     ->attachment(function ($attachment){
-        //         $attachment->title('New Hire Added!')
-        //             ->fields([
-        //                 'First' => $this->hire->first_name,
-        //                 'Last' => $this->hire->last_name,
-        //                 'Date Entered' => $this->hire->created_at,
-        //                 'Start Date' => $this->hire->start_date
-        //             ]);
-        //     });
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
+        return (new SlackMessage)
+            ->attachment(function ($attachment){
+                $attachment->title('New Hire Added ------------------------------------------')
+                    ->fields([
+                        'First' => $this->hire->first_name,
+                        'Last' => $this->hire->last_name,
+                        'Manager' => $this->manager == null ? "N/A" : $this->manager->name,
+                        'Start Date' => $this->hire->start_date
+                    ]);
+            });
     }
 }

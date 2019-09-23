@@ -96,7 +96,7 @@ class HiresController extends Controller
             "hire_id" => $hire->id
         ]);
 
-        //User::first()->notify(new NewHireAdded($hire));
+        User::first()->notify(new NewHireAdded($hire));
     }
 
     /**
@@ -130,65 +130,65 @@ class HiresController extends Controller
 
     protected function validateHireCreation(){
         return request()->validate([
-            'regional_location' => ['max:255'],
+            'regional_location' => ['nullable', 'max:255'],
             'first_name' => ['required', 'min:1', 'max:255'],
             'last_name' => ['required', 'min:1', 'max:255'],
-            'email' => ['max:255', 'email'],
-            'cwid' => ['max:100'],
-            'gender' => ['max:100'],
-            'hire_type' => ['min:1', 'max:255'],
-            'start_date' => ['date'],
-            'vendor' => ['max:255'],
-            'role' => ['max:255'],
-            'pl_ic' => ['max:255'],
-            'team_name' => ['max:255'],
-            'platform' => ['max:255'],
-            'manager_id' => ['numeric'],
-            'hire_status' => ['max:255'],
-            'onboarding_buddy' => ['max:255'],
-            'computer_needs' => ['max:255'],
-            'seat_number' => ['max:255'],
-            'campus' => ['max:100'],
-            'manager_comments' => [],
-            'neid' => ['numeric'],
-            'hire_ticket' => ['max:255'],
-            'mac_ticket' => ['max:255'],
-            'admin_id' => ['numeric'],
-            'slack_url' => ['max:255'],
-            'is_active' => [],
-            'set_inactive_on' => ['date']
+            'email' => ['nullable', 'max:255', 'email', 'nullable'],
+            'cwid' => ['nullable', 'max:100'],
+            'gender' => ['nullable', 'max:100'],
+            'hire_type' => ['nullable', 'max:255'],
+            'start_date' => ['nullable', 'date'],
+            'vendor' => ['nullable', 'max:255'],
+            'role' => ['nullable', 'max:255'],
+            'pl_ic' => ['nullable', 'max:255'],
+            'team_name' => ['nullable', 'max:255'],
+            'platform' => ['nullable', 'max:255'],
+            'manager_id' => ['nullable', 'nullable', 'numeric'],
+            'hire_status' => ['nullable', 'max:255'],
+            'onboarding_buddy' => ['nullable', 'max:255'],
+            'computer_needs' => ['nullable', 'max:255'],
+            'seat_number' => ['nullable', 'max:255'],
+            'campus' => ['nullable', 'max:100'],
+            'manager_comments' => ['nullable'],
+            'neid' => ['nullable', 'numeric',],
+            'hire_ticket' => ['nullable', 'max:255'],
+            'mac_ticket' => ['nullable', 'max:255'],
+            'admin_id' => ['nullable', 'numeric'],
+            'slack_url' => ['nullable', 'max:255'],
+            'is_active' => ['nullable'],
+            'set_inactive_on' => ['nullable', 'date']
         ]);
     }
 
     protected function validateHireUpdate(){
         return request()->validate([
-            'regional_location' => ['max:255'],
-            'first_name' => ['min:1', 'max:255'],
-            'last_name' => ['min:1', 'max:255'],
-            'email' => ['max:255', 'email'],
-            'cwid' => ['max:100'],
-            'gender' => ['max:100'],
-            'hire_type' => ['min:1', 'max:255'],
-            'start_date' => ['date'],
-            'vendor' => ['max:255'],
-            'role' => ['max:255'],
-            'pl_ic' => ['max:255'],
-            'team_name' => ['max:255'],
-            'platform' => ['max:255'],
-            'manager_id' => ['numeric'],
-            'hire_status' => ['max:255'],
-            'onboarding_buddy' => ['max:255'],
-            'computer_needs' => ['max:255'],
-            'seat_number' => ['max:255'],
-            'campus' => ['max:100'],
-            'manager_comments' => [],
-            'neid' => ['numeric'],
-            'hire_ticket' => ['max:255'],
-            'mac_ticket' => ['max:255'],
-            'admin_id' => ['numeric'],
-            'slack_url' => ['max:255'],
-            'is_active' => [],
-            'set_inactive_on' => ['date']
+            'regional_location' => ['nullable', 'max:255'],
+            'first_name' => ['nullable', 'min:1', 'max:255'],
+            'last_name' => ['nullable', 'min:1', 'max:255'],
+            'email' => ['nullable', 'max:255', 'email'],
+            'cwid' => ['nullable', 'max:100'],
+            'gender' => ['nullable', 'max:100'],
+            'hire_type' => ['nullable', 'min:1', 'max:255'],
+            'start_date' => ['nullable', 'date'],
+            'vendor' => ['nullable', 'max:255'],
+            'role' => ['nullable', 'max:255'],
+            'pl_ic' => ['nullable', 'max:255'],
+            'team_name' => ['nullable', 'max:255'],
+            'platform' => ['nullable', 'max:255'],
+            'manager_id' => ['nullable', 'numeric'],
+            'hire_status' => ['nullable', 'max:255'],
+            'onboarding_buddy' => ['nullable', 'max:255'],
+            'computer_needs' => ['nullable', 'max:255'],
+            'seat_number' => ['nullable', 'max:255'],
+            'campus' => ['nullable', 'max:100'],
+            'manager_comments' => ['nullable'],
+            'neid' => ['nullable', 'numeric'],
+            'hire_ticket' => ['nullable', 'max:255'],
+            'mac_ticket' => ['nullable', 'max:255'],
+            'admin_id' => ['nullable', 'numeric'],
+            'slack_url' => ['nullable', 'max:255'],
+            'is_active' => ['nullable'],
+            'set_inactive_on' => ['nullable', 'date']
         ]);
     }
 }

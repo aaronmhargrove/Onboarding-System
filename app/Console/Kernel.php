@@ -4,6 +4,7 @@ namespace App\Console;
 use App\Hire;
 use App\HireStep;
 use App\HireLock;
+use App\Console\Commands\TestNotification;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -16,7 +17,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        TestNotification::class,
     ];
 
     /**
