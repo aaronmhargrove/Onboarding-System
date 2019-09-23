@@ -96,7 +96,12 @@ class HiresController extends Controller
             "hire_id" => $hire->id
         ]);
 
-        User::first()->notify(new NewHireAdded($hire));
+        if($hire->manager_id == null){
+            User::first()->notify(new NewHireAdded($hire));
+        } else {
+            User::find($hire->manager_id)->notify(newHireAdded($hire));
+        }
+        
     }
 
     /**
