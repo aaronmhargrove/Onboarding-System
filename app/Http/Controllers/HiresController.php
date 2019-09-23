@@ -13,6 +13,7 @@ use \App\User;
 use App\Notifications\NewHireAdded;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 
 class HiresController extends Controller
@@ -54,11 +55,27 @@ class HiresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function search(){
-        $filters = json_decode(request()->getContent());    // This returns request as a json object
-        if($filters->hello){                                // Checks if the json contains data
-            return $filters->hello;
+        $filters = json_decode(request()->getContent());
+
+        // Laravel search is required to be directly on the static model, so check if there is searching first
+        if (!empty($filters->searchText)) {
+            $hires = Hire::search($filters->searchText);
+        } else {
+            $hires = Hire::select();
         }
-        // TODO: Figure out data structure before beginning, then complete.
+
+        // dd($hires);
+
+
+        if (!empty($filters->step)) {
+            $hires = $hires->whereHas('hireSteps', function($query, $filters) {
+                $query->where('step_id', $filters->step);
+            });
+            // TODO: create helper function to determine which step the hire is on based on status in database?
+        }
+
+        dd($hires->get());
+
         return request();
     }
 

@@ -3,8 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Hire extends Model{
+    use Searchable;
+
     protected $guarded = []; // accept all
 
     public function manager(){
@@ -21,5 +24,10 @@ class Hire extends Model{
 
     public function hireType(){
         return $this->has(HireType::class);
+    }
+
+    public function searchableAs()
+    {
+        return 'hires';
     }
 }
