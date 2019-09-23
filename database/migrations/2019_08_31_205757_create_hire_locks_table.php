@@ -16,6 +16,7 @@ class CreateHireLocksTable extends Migration
         Schema::create('hire_locks', function (Blueprint $table) {
             $table->bigInteger('hire_id')->unsigned()->unique();
             $table->boolean('locked')->default(0);
+            $table->timestamp('locked_at')->nullable();
 
             $table->foreign('hire_id')->references('id')->on('hires')->onDelete('cascade');
         });

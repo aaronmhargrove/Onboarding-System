@@ -17,6 +17,7 @@ class CreateHireStepsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('hire_id')->unsigned();
             $table->bigInteger('step_id')->unsigned();
+            $table->string('step_name');
             $table->integer('status')->default(0); // 0 = incomplete  1 = in-progress   2 = complete
             $table->date('date_completed')->nullable();
 

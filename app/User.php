@@ -16,6 +16,10 @@ class User extends Authenticatable{
         'password', 'remember_token',
     ];
 
+    public function routeNotificationForSlack($notification) {
+        return env('SLACK_WEBHOOK_URL');
+    }
+
     public function manages(){
         return $this->hasMany(Hire::class, 'manager_id')->with('hireSteps');
     }
@@ -28,3 +32,4 @@ class User extends Authenticatable{
         return $this->manages->merge($this->admins); // TODO: figure out how to do this one
     }
 }
+ 
