@@ -123,9 +123,13 @@ class HiresController extends Controller
     }
 
     public function test(){
-        return Hire::where('is_active', 1)->with('hireSteps')->withCount(['hireSteps' => function($query){
-            $query->where('status', '=', 2);
-        }])->get();
+        return Hire::where('is_active', 1)
+        ->whereRaw('DATEDIFF(start_date, CURDATE()) < 100')
+        ->select('first_name', 'last_name', 'start_date')
+        ->withCount(['hireSteps' => function($query){
+            $query->where('status', '!=', 2);
+        }])
+        ->having('hire_steps_count', '>', 0)->get();
     }
 
     protected function validateHireCreation(){

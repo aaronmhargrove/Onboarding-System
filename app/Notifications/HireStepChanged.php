@@ -17,9 +17,14 @@ class HireStepChanged extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($hire, $hireStep)
     {
-        //
+        $this->hire = $hire;
+        $this->hireStep = $hireStep;
+        $this->status = "";
+        if($this->hireStep->status == 0){ $this->status = "Incomplete"; }
+        else if($this->hireStep->status == 1){ $this->status = "In Progress"; }
+        else { $this->status = "Complete"; }
     }
 
     /**
@@ -37,41 +42,35 @@ class HireStepChanged extends Notification
      * Get the slack representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return \Illuminate\Notifications\Messages\SlackMessage
      */
-    public function toSlack($notifiable)
-    {
-        return (new SlackMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
-
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        // return (new MailMessage)
-        //             ->line('The introduction to the notification.')
-        //             ->action('Notification Action', url('/'))
-        //             ->line('Thank you for using our application!');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
+    public function toSlack($notifiable){
+        if($this->status != "Complete"){
+            return (new SlackMessage)
+                ->content('A hire step was updated')
+                ->attachment(function ($attachment){
+                    $attachment
+                        ->fields([
+                            'First Name' => $this->hire->first_name,
+                            'Last Name' => $this->hire->last_name,
+                            'Step' => $this->hireStep->step_name,
+                            'Status' => $this->status
+                        ]);
+                });
+        } else {
+            return (new SlackMessage)
+                ->success()
+                ->content('A hire step was updated')
+                ->attachment(function ($attachment){
+                    $attachment
+                        ->fields([
+                            'First Name' => $this->hire->first_name,
+                            'Last Name' => $this->hire->last_name,
+                            'Step' => $this->hireStep->step_name,
+                            'Status' => $this->status
+                        ]);
+                });
+        }
+        
     }
 }
