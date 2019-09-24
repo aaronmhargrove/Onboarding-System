@@ -56,25 +56,23 @@ class HiresController extends Controller
      */
     public function search(){
         $filters = json_decode(request()->getContent());
+        $hiresFromSearch = new Collection();
+        $hiresFromFilters = Hire::select();
 
         // Laravel search is required to be directly on the static model, so check if there is searching first
         if (!empty($filters->searchText)) {
-            $hires = Hire::search($filters->searchText);
-        } else {
-            $hires = Hire::select();
+            $hiresFromSearch = Hire::search($filters->searchText);
         }
-
-        // dd($hires);
 
 
         if (!empty($filters->step)) {
-            $hires = $hires->whereHas('hireSteps', function($query, $filters) {
+            $hiresFromFilters = $hiresFromFilters->whereHas('hireSteps', function($query, $filters) {
                 $query->where('step_id', $filters->step);
+                $query->where('status', 0);
             });
-            // TODO: create helper function to determine which step the hire is on based on status in database?
         }
 
-        dd($hires->get());
+        // dd($hiresFromFilters->with('hireSteps')->get());
 
         return request();
     }
