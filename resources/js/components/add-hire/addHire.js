@@ -11,11 +11,11 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import './addHire.css';
 
-var hireTypes = [];
+var userList = [];
 
 class AddHire extends React.Component {
     state = {
-        loading: false,
+        loading: true,
         lastName: '',
         firstName: '',
         hireDate: '',
@@ -41,15 +41,16 @@ class AddHire extends React.Component {
         macTicket: '',
     };
 
-    // componentDidMount() {
-    //     axios.get('/hire-types').then((response) => {
-    //         console.log(response);
-    //         response.data.forEach(element => {
-    //             hireTypes.push(element);
-    //         });
-    //         this.setState({loading: false});
-    //     });
-    // }
+    componentDidMount() {
+        axios.get('/users').then((response) => {
+            console.log(response);
+            response.data.forEach(user => {
+                userList.push(user);
+            });
+            this.setState({loading: false});
+            console.log('User List', userList);
+        });
+    }
 
     onLastNameEnter = (event) => { 
         this.setState({lastName: event.target.value});
@@ -148,27 +149,27 @@ class AddHire extends React.Component {
         this.setState({loading: true});
         axios.post('/hires', 
             {
-                "regional_location": this.state.regionalLocation,
-                "first_name": this.state.firstName,
-                "last_name": this.state.lastName,
-                "cwid": this.state.cwid,
-                "gender": this.state.gender,
-                "hire_type": this.state.hireType,
-                "start_date": this.state.hireDate,
-                "vendor": this.state.vendor,
-                "role": this.state.role,
-                "pl_ic": this.state.plic,
-                "team_name": this.state.teamName,
-                "platform": this.state.platform,
-                "manager_id": this.state.manager,
-                "hire_status": this.state.hireStatus,
-                "onboarding_buddy": this.state.onboardingBuddy,
-                "computer_needs": this.state.computerNeeds,
-                "seat_number": this.state.seatNum,
-                "campus": this.state.onboardingCampus,
+                "regional_location": this.state.regionalLocation != "" ? this.state.regionalLocation : null,
+                "first_name": this.state.firstName != "" ? this.state.firstName : null,
+                "last_name": this.state.lastName != "" ? this.state.lastName : null,
+                "cwid": this.state.cwid != "" ? this.state.cwid : null,
+                "gender": this.state.gender != "" ? this.state.gender : null,
+                "hire_type": this.state.hireType != "" ? this.state.hireType : null,
+                "start_date": this.state.hireDate != "" ? this.state.hireDate : null,
+                "vendor": this.state.vendor != "" ? this.state.vendor : null,
+                "role": this.state.role != "" ? this.state.role : null,
+                "pl_ic": this.state.plic != "" ? this.state.plic : null,
+                "team_name": this.state.teamName != "" ? this.state.teamName : null,
+                "platform": this.state.platform != "" ? this.state.platform : null,
+                "manager_id": this.state.manager != "" ? this.state.manager : null,
+                "hire_status": this.state.hireStatus != "" ? this.state.hireStatus : null,
+                "onboarding_buddy": this.state.onboardingBuddy != "" ? this.state.onboardingBuddy : null,
+                "computer_needs": this.state.computerNeeds != "" ? this.state.computerNeeds : null,
+                "seat_number": this.state.seatNum != "" ? this.state.seatNum : null,
+                "campus": this.state.onboardingCampus != "" ? this.state.onboardingCampus : null,
                 "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
-                "hire_ticket": this.state.newHireRehireTicket,
-                "mac_ticket": this.state.macTicket,
+                "hire_ticket": this.state.newHireRehireTicket != "" ? this.state.newHireRehireTicket : null,
+                "mac_ticket": this.state.macTicket != "" ? this.state.macTicket : null,
             },
             {
                 headers: {
@@ -267,7 +268,19 @@ class AddHire extends React.Component {
                                 <TextField label="Platform" value={this.state.platform} onChange={this.onPlatformEnter} required/>
                             </Grid>
                             <Grid item xs={6} className="gridItem">
-                                <TextField label="Manager" value={this.state.manager} onChange={this.onManagerEnter} required/>
+                                <FormControl>
+                                    <InputLabel htmlFor="manager-selector" required>Manager</InputLabel>
+                                    <Select 
+                                    value={this.state.manager} 
+                                    onChange={this.onManagerEnter} 
+                                    input={<Input id="manager-selector" />}
+                                    required
+                                    >
+                                        {userList.map(user => {
+                                            return <MenuItem value={user.id}>{user.name}</MenuItem>;
+                                        })}
+                                    </Select>
+                                </FormControl>
                             </Grid>
                             <Grid item xs={6} className="gridItem">
                                 <FormControl>
@@ -307,7 +320,19 @@ class AddHire extends React.Component {
                                 <TextField label="Onboarding Buddy" value={this.state.onboardingBuddy} onChange={this.onOnboardingBuddyEnter}/>
                             </Grid>
                             <Grid item xs={6} className="gridItem">
-                                <TextField label="Admin Name" value={this.state.adminName} onChange={this.onAdminEnter}/>
+                                <FormControl>
+                                    <InputLabel htmlFor="admin-selector" required>Admin</InputLabel>
+                                    <Select 
+                                    value={this.state.adminName} 
+                                    onChange={this.onAdminEnter} 
+                                    input={<Input id="admin-selector" />}
+                                    required
+                                    >
+                                        {userList.map(user => {
+                                            return <MenuItem value={user.id}>{user.name}</MenuItem>;
+                                        })}
+                                    </Select>
+                                </FormControl>
                             </Grid>
 
                             {/* Non-Required Set */}
