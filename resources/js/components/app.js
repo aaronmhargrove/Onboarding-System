@@ -5,11 +5,22 @@ import UpcomingDates from './dashboard/upcoming-dates/upcomingDates';
 import AddView from './add-hire/addView';
 import Login from './login/login';
 import Grow from '@material-ui/core/Grow';
+import axios from 'axios';
 import './app.css';
 
 import FullView from './all-records/fullview'
 class App extends React.Component {
     state = {selection: ''};
+
+    componentDidMount() {
+        axios.get('/users/current')
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.log(error.response.data);
+        });
+    }
 
     onNavBarChange = (selection) => {
         this.setState({
@@ -47,7 +58,6 @@ class App extends React.Component {
                     :
                     null
                 }
-                {/* <SimpleGrow /> */}
                 {this.state.selection == 'fullview' ?
                     <Grow in={this.state.selection == 'fullview'}>
                         <div className="parentContainer">
