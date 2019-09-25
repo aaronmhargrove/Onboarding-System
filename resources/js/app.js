@@ -18,7 +18,7 @@ require('./bootstrap');
 require('./components/global/Example');
 require('./components/add-hire/addHire');
 require('./components/add-hire/addView');
-require('./components/App');
+require('./components/app.js'); // require('./components/App');
 require('./components/dashboard/dashboard-main/dashboard');
 require('./components/global/datePicker');
 require('./components/dashboard/dashboard-main/expanded-view-modal/expandedView');
