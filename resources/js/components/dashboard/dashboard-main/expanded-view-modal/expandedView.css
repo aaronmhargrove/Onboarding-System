@@ -1,7 +1,6 @@
 .expandedView {
     display: flex;
-    position: absolute;
-   
+    position: absolute;   
 }
 
 .popup {

@@ -3,6 +3,8 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+import axios from 'axios';
+import { setCurrentUser } from '../../global';
 import './login.css';
 
 class Login extends React.Component {
@@ -16,13 +18,16 @@ class Login extends React.Component {
         this.setState({password: event.target.value});
     }
 
-    onForgotPassClick = (event) => {
-        console.log('I forgot my password!');
-    }
-
     onLoginClick = (event) => {
         console.log('Login');
-        this.props.onChange('dashboard');
+        axios.get('/users/current')
+        .then(response => {
+            setCurrentUser(response);
+            this.props.onChange('dashboard');
+        })
+        .catch(error => {
+            console.log(error);
+        });
     }
 
     render() {
@@ -39,9 +44,6 @@ class Login extends React.Component {
                         <TextField label="Password" value={this.state.password} onChange={this.onPasswordChange} required type="password"/>
                     </Grid>
                 </Grid>
-                <Button color="primary" className="forgotPassButton" onClick={this.onForgotPassClick}>
-                    Forgot Password?
-                </Button>
                 <Button variant="contained" color="primary" onClick={this.onLoginClick} className="loginButton">
                     Login
                 </Button>

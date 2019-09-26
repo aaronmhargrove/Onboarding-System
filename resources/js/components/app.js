@@ -10,7 +10,7 @@ import './app.css';
 import FullView from './all-records/fullview'
 class App extends React.Component {
     state = {selection: ''};
-
+    
     onNavBarChange = (selection) => {
         this.setState({
             selection: selection,
@@ -47,7 +47,6 @@ class App extends React.Component {
                     :
                     null
                 }
-                {/* <SimpleGrow /> */}
                 {this.state.selection == 'fullview' ?
                     <Grow in={this.state.selection == 'fullview'}>
                         <div className="parentContainer">

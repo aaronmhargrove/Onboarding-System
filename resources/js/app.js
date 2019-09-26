@@ -17,7 +17,6 @@ require('./bootstrap');
 
 require('./components/global/Example');
 require('./components/add-hire/addHire');
-require('./components/add-hire/addUser');
 require('./components/add-hire/addView');
 require('./components/app.js'); // require('./components/App');
 require('./components/dashboard/dashboard-main/dashboard');

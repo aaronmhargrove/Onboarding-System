@@ -34,193 +34,141 @@ const data = [
 
 //Keeper Code Begins here
   var columns = [
-    {
-        width: 120,
-        flexGrow: 1.0,
-        label: 'Name',
-        dataKey: 'dessert',
+    {         
+        title: 'Name',
+        field: 'name'
     },
   ]
 
   var columnsBase = [    
     {
-        width: 120,
-        label: 'Date Entered',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Date Entered',
+        field: 'hireDate',
+        type: 'date'
     },
     {
-        width: 120,
-        label: 'Regional Location',
-        dataKey: 'fat',
-        numeric: true,
+        title: 'Regional Location',
+        field: 'regionalLocation'
     },
     {
-        width: 120,
-        label: 'CWID',
-        dataKey: 'carbs',
-        numeric: true,
+        title: 'CWID',
+        field: 'cwid'
     },
     {
-        width: 120,
-        label: 'Gender',
-        dataKey: 'protein',
-        numeric: true,
+        title: 'Gender',
+        field: 'gender'
     },
     {
-        width: 120,
-        label: 'Hire Type',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Hire Type',
+        field: 'hireType'
     },
     {
-        width: 120,
-        label: 'PD Start Date',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'PD Start Date',
+        field: 'pdStartDate',
+        type: 'date'
     },
     {
-        width: 120,
-        label: 'Vendor',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Vendor',
+        field: 'vendor'
     },
     {
-        width: 120,
-        label: 'Role',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Role',
+        field: 'role'
     },
     {
-        width: 120,
-        label: 'PL/IC',
-        dataKey: 'fat',
-        numeric: true,
+        title: 'PL/IC',
+        field: 'plic'
     },
     {
-        width: 120,
-        label: 'Team Name',
-        dataKey: 'carbs',
-        numeric: true,
+        title: 'Team Name',
+        field: 'teamName'
     },
     {
-        width: 120,
-        label: 'Platform',
-        dataKey: 'protein',
-        numeric: true,
+        title: 'Platform',
+        field: 'platform'
     },
     {
-        width: 120,
-        label: 'Manager',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Manager',
+        field: 'manager'
     },
     {
-        width: 120,
-        label: 'Hire Status',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Hire Status',
+        field: 'hireStatus'
     },
     {
-        width: 120,
-        label: 'Onboarding Buddy',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Onboarding Buddy',
+        field: 'onboardingBuddy'
     },
     {
-        width: 120,
-        label: 'Computer Needs',
-        dataKey: 'fat',
-        numeric: true,
+        title: 'Computer Needs',
+        field: 'computerNeeds'
     },
     {
-        width: 120,
-        label: 'SEAT Number Assigned',
-        dataKey: 'carbs',
-        numeric: true,
+        title: 'SEAT Number Assigned',
+        field: 'seatNum'
     },
     {
-        width: 120,
-        label: 'Campus',
-        dataKey: 'protein',
-        numeric: true,
+        title: 'Campus',
+        field: 'onboardingCampus'
     },
     {
-        width: 120,
-        label: 'Manager Comments',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Manager Comments',
+        field: 'managerComments'
     },
     {
-        width: 120,
-        label: 'NEID / EID',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'NEID/EID',
+        field: 'neid'
     },
     {
-        width: 120,
-        label: 'New Hire / Re Hire',
-        dataKey: 'carbs',
-        numeric: true,
+        title: 'New Hire/Re Hire',
+        field: 'newHireRehireTicket'
     },
     {
-        width: 120,
-        label: '(Date Entered)',
-        dataKey: 'protein',
-        numeric: true,
+        title: 'Hire Ticket Entered',
+        field: 'dateEnteredHire',
+        type: 'date'
     },
     {
-        width: 120,
-        label: 'MAC Ticket',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'MAC Ticket',
+        field: 'macTicket'
     },
     {
-        width: 120,
-        label: '(Date Entered)',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'MAC Entered',
+        field: 'dateEnteredMacTicket',
+        type: 'date'
     },  
     {
-        width: 120,
-        label: 'Date Laptop Delivered',
-        dataKey: 'carbs',
-        numeric: true,
+        title: 'Laptop Delivered',
+        field: 'dateLaptopDelivered',
+        type: 'date'
     },
     {
-        width: 120,
-        label: 'Onboarding Buddy Email Sent',
-        dataKey: 'protein',
-        numeric: true,
+        title: 'Onboarding Email Sent',
+        field: 'onboardingBuddyEmailSent',
+        type: 'date'
     },
     {
-        width: 120,
-        label: 'Add to DLs and PD Org',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Add to DLs/PD Org',
+        field: 'addToDlsAndPdOrg',
+        type: 'date'
     },
     {
-        width: 120,
-        label: 'Welcome Email Sent',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Welcome Email Sent',
+        field: 'welcomeEmailSent',
+        type: 'date'
     },
     {
-        width: 120,
-        label: 'Admin Name',
-        dataKey: 'calories',
-        numeric: true,
+        title: 'Admin Name',
+        field: 'adminName'
     },
 ]
 
 function updateColumns(page, count, columnsPerPage) {
     columns = [];
     columns = [
-        {
-            width: 120,
-            flexGrow: 1.0,
-            label: 'Name',
-            dataKey: 'dessert',
+        {           
+            title: 'Name',
+            field: 'name',
         },
       ]
 
@@ -238,7 +186,7 @@ function updateColumns(page, count, columnsPerPage) {
 class Stepper extends React.Component {
     constructor(props){
         super(props);
-        this.state = {page: 0, count: 28, columnsPerPage: 8, garbage: 0};
+        this.state = {page: 0, count: 28, columnsPerPage: 7, garbage: 0};
         updateColumns(this.state.page, this.state.count, this.state.columnsPerPage);
     }      
 
@@ -288,6 +236,8 @@ class Stepper extends React.Component {
                             onRowClick={event => console.log(event)}                            
                             columns={columns}
                             page={this.state.page}
+                            data={this.props.data}
+                            users={this.props.users}
                     />
     </div>
                 <StepperTableToolbar className="toolbar" 
