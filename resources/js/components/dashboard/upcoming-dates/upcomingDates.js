@@ -16,6 +16,8 @@ class UpcomingDates extends React.Component {
     state = { loading: true };
 
     componentDidMount() {
+        upcomingDates = [];
+
         axios.get('/users/' + currentUser.data.id + '/upcoming')
         .then(response => {
             console.log('Upcoming Dates: ', response);

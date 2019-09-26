@@ -27,6 +27,7 @@ import FilterList from '@material-ui/icons/FilterList'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
 import Clear from '@material-ui/icons/Clear'
+import axios from 'axios';
 
 import './searchResults.css';
 
@@ -55,6 +56,7 @@ class searchResults extends React.Component {
           teamName: hire.team_name,
           platform: hire.platform,
           manager: this.props.users[hire.manager_id - 1].name,
+          manager_id: hire.manager_id,
           hireStatus: hire.hire_status,
           onboardingBuddy: hire.onboarding_buddy,
           computerNeeds: hire.computer_needs,
@@ -71,17 +73,21 @@ class searchResults extends React.Component {
           addToDlsAndPdOrg: hire.hire_steps[7].step_name ? hire.hire_steps[7].step_name : '',
           welcomeEmailSent: hire.hire_steps[8].step_name ? hire.hire_steps[8].step_name : '',
           adminName: this.props.users[hire.admin_id - 1].name,
+          admin_id: hire.admin_id,
           hireTicketStatus: hire.hire_steps[3].status,
           macTicketStatus: hire.hire_steps[4].status,
           laptopDeliveredStatus: hire.hire_steps[5].status,
           onboardingEmailStatus: hire.hire_steps[6].status,
           addToDlsAndPdOrgStatus: hire.hire_steps[7].status,
+          hireId: hire.id
         }
       );
     });
 
     this.state = {
+      modalLoading: false,
       filterModalOpen: false,
+      hireId: null,
       lastName: '',
       firstName: '',
       name: '',
@@ -99,6 +105,7 @@ class searchResults extends React.Component {
       onboardingCampus: '',
       onboardingBuddy: '',
       adminName: '',
+      admin_id: null,
       cwid: '',
       vendor: '',
       plic: '',
@@ -117,18 +124,80 @@ class searchResults extends React.Component {
       macTicketStatus: '',
       laptopDeliveredStatus: '',
       onboardingEmailStatus: '',
-      addToDlsAndPdOrgStatus: ''
+      addToDlsAndPdOrgStatus: '',
+      manager_id: null,
     };
   }
 
   onModalClose = () => {
     this.setState({
-      filterModalOpen: false
+      filterModalOpen: false,
+    });
+
+    // All of these API calls need combined so we can do a single load.
+    axios.patch('hires/' + this.state.hireId,             
+      {
+        "admin_id": this.state.admin_id != "" ? this.state.admin_id : null,
+        "regional_location": this.state.regionalLocation != "" ? this.state.regionalLocation : null,
+        "first_name": this.state.firstName != "" ? this.state.firstName : null,
+        "last_name": this.state.lastName != "" ? this.state.lastName : null,
+        "cwid": this.state.cwid != "" ? this.state.cwid : null,
+        "gender": this.state.gender != "" ? this.state.gender : null,
+        "hire_type": this.state.hireType != "" ? this.state.hireType : null,
+        "start_date": this.state.hireDate != "" ? this.state.hireDate : null,
+        "vendor": this.state.vendor != "" ? this.state.vendor : null,
+        "role": this.state.role != "" ? this.state.role : null,
+        "pl_ic": this.state.plic != "" ? this.state.plic : null,
+        "team_name": this.state.teamName != "" ? this.state.teamName : null,
+        "platform": this.state.platform != "" ? this.state.platform : null,
+        "manager_id": this.state.manager_id != "" ? this.state.manager_id : null,
+        "hire_status": this.state.hireStatus != "" ? this.state.hireStatus : null,
+        "onboarding_buddy": this.state.onboardingBuddy != "" ? this.state.onboardingBuddy : null,
+        "computer_needs": this.state.computerNeeds != "" ? this.state.computerNeeds : null,
+        "seat_number": this.state.seatNum != "" ? this.state.seatNum : null,
+        "campus": this.state.onboardingCampus != "" ? this.state.onboardingCampus : null,
+        "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
+        "hire_ticket": this.state.newHireRehireTicket != "" ? this.state.newHireRehireTicket : null,
+        "mac_ticket": this.state.macTicket != "" ? this.state.macTicket : null,
+      },
+      {
+        headers: {
+            'content-type': 'application/json',
+        }
+      }
+    )
+    .then(response => {
+      console.log('Successfully updated the hire: ', response);
+    })
+    .catch(error => {
+      console.log('Error updating the hire: ', error.response.data);
+    });
+
+    axios.patch('/hires/' + this.state.hireId + '/unlock')
+    .then(response => {
+      console.log('Succesfully patched: ', response);
+      this.setState({modalLoading: false});
+    })
+    .catch(error => {
+      console.log('Error with locking: ', error);
+      this.setState({modalLoading: false});
     });
   }
+
   onModalOpen = (rowData) => {
     this.setState({
-      filterModalOpen: true
+      filterModalOpen: true,
+      modalLoading: true
+    });
+
+    axios.patch('/hires/' + this.state.hireId + '/lock')
+    .then(response => {
+      console.log('Succesfully patched: ', response);
+      this.setState({modalLoading: false});
+    })
+    .catch(error => {
+      console.log('Error with locking: ', error);
+      this.setState({modalLoading: false});
     });
   }
   
@@ -173,7 +242,7 @@ class searchResults extends React.Component {
   }
 
   onManagerEnter = (event) => {
-    this.setState({manager: event.target.value});
+    this.setState({manager_id: event.target.value});
   }
 
   onHireStatusSelect = (event) => {
@@ -193,7 +262,7 @@ class searchResults extends React.Component {
   }
 
   onAdminEnter = (event) => {
-    this.setState({adminName: event.target.value});
+    this.setState({admin_id: event.target.value});
   }
 
   onCWIDEnter = (event) => {
@@ -385,7 +454,19 @@ onSubmitClick = (event) => {console.log('Submit')}
                     <TextField label="Platform" value={this.state.platform} onChange={this.onPlatformEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Manager" value={this.state.manager} onChange={this.onManagerEnter} required />
+                    <FormControl>
+                        <InputLabel htmlFor="manager-selector" required>Manager</InputLabel>
+                        <Select 
+                        value={this.state.manager_id} 
+                        onChange={this.onManagerEnter} 
+                        input={<Input id="manager-selector" />}
+                        required
+                        >
+                            {this.props.users.map(user => {
+                              return <MenuItem value={user.id}>{user.name}</MenuItem>;
+                            })}
+                        </Select>
+                    </FormControl>
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <FormControl>
@@ -512,7 +593,19 @@ onSubmitClick = (event) => {console.log('Submit')}
                     />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Admin Name" value={this.state.adminName} onChange={this.onAdminEnter} />
+                    <FormControl>
+                      <InputLabel htmlFor="admin-selector" required>Admin</InputLabel>
+                      <Select 
+                      value={this.state.admin_id} 
+                      onChange={this.onAdminEnter} 
+                      input={<Input id="admin-selector" />}
+                      required
+                      >
+                          {this.props.users.map(user => {
+                              return <MenuItem value={user.id}>{user.name}</MenuItem>;
+                          })}
+                      </Select>
+                    </FormControl>
                   </Grid>
                 </Grid>
               </Grid>
@@ -629,6 +722,7 @@ onSubmitClick = (event) => {console.log('Submit')}
               ]
           }
           onRowClick={(event, rowData) => this.setState({  
+            hireId: rowData.hireId,
             lastName: rowData.lastName,
             firstName: rowData.firstName,    
             hireDate: rowData.hireDate,
@@ -645,6 +739,7 @@ onSubmitClick = (event) => {console.log('Submit')}
             onboardingCampus: rowData.onboardingCampus,
             onboardingBuddy: rowData.onboardingBuddy,
             adminName: rowData.adminName,
+            admin_id: rowData.admin_id,
             cwid: rowData.cwid,
             vendor: rowData.vendor,
             plic: rowData.plic,
@@ -663,7 +758,8 @@ onSubmitClick = (event) => {console.log('Submit')}
             macTicketStatus: rowData.macTicketStatus,
             laptopDeliveredStatus: rowData.macTicketStatus,
             onboardingEmailStatus: rowData.onboardingEmailStatus,
-            addToDlsAndPdOrgStatus: rowData.addToDlsAndPdOrgStatus
+            addToDlsAndPdOrgStatus: rowData.addToDlsAndPdOrgStatus,
+            manager_id: rowData.manager_id
           },
             () => this.onModalOpen(rowData))}
           data={displayData}

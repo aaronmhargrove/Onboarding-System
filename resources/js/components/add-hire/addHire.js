@@ -149,6 +149,7 @@ class AddHire extends React.Component {
         this.setState({loading: true});
         axios.post('/hires', 
             {
+                "admin_id": this.state.adminName != "" ? this.state.adminName : null,
                 "regional_location": this.state.regionalLocation != "" ? this.state.regionalLocation : null,
                 "first_name": this.state.firstName != "" ? this.state.firstName : null,
                 "last_name": this.state.lastName != "" ? this.state.lastName : null,
