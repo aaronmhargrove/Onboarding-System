@@ -182,6 +182,8 @@ class searchResults extends React.Component {
       console.log('Error with locking: ', error);
       this.setState({modalLoading: false});
     });
+
+    this.props.setReload();
   }
 
   onModalOpen = (rowData) => {
