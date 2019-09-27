@@ -62,7 +62,7 @@ class UpcomingDates extends React.Component {
 
     render() {
         return (
-            <Paper className="upcomingDatesWidget">
+            <div className="upcomingDatesWidget">
                 {this.state.loading ? <div className="loadingSpinner"><CircularProgress size="5rem" /></div> :
                     <div>
                         <Paper className="upcomingDatesHeader">
@@ -90,20 +90,20 @@ class UpcomingDates extends React.Component {
                                         {
                                             title: 'Name',
                                             field: 'name',
-                                            headerStyle: { minWidth: '6vw' },
-                                            cellStyle: { minWidth: '6vw' }
+                                            headerStyle: { minWidth: '8vw' },
+                                            cellStyle: { minWidth: '8vw' }
                                         },
                                         {
                                             title: 'Step',
                                             field: 'step',
-                                            headerStyle: { minWidth: '6vw' },
-                                            cellStyle: { minWidth: '6vw' }
+                                            headerStyle: { minWidth: '8vw' },
+                                            cellStyle: { minWidth: '8vw' }
                                         },
                                         {
                                             title: 'Due Date',
                                             field: 'dueDate',
-                                            headerStyle: { minWidth: '6vw' },
-                                            cellStyle: { minWidth: '6vw' }
+                                            headerStyle: { minWidth: '8vw' },
+                                            cellStyle: { minWidth: '8vw' }
                                         }
                                     ]
                                 }
@@ -125,7 +125,7 @@ class UpcomingDates extends React.Component {
                         </div>
                     </div>
                 }
-            </Paper>
+            </div>
         );
     }
 }
