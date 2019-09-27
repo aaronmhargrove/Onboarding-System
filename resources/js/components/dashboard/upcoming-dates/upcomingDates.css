@@ -28,7 +28,7 @@
 .upcomingDatesTableContainer {
     display: flex;
     position: absolute;
-    width: 100%;
+    width: 95%;
     justify-content: center;
 }
 
