@@ -49,9 +49,75 @@ class FullView extends React.Component {
 
         this.state = {tab: 0, leftTabName: tabs[0], centerTabName: tabs[1], rightTabName: tabs[2], maxTabs: 7, garbage: 0, tabsShown: 3, loading_hires: true, loading_users: true}
     
+        this.triggerReload = this.triggerReload.bind(this);
     } 
 
     componentDidMount(){
+        hireData = [];
+        usersData = [];
+        
+        axios.get('/hires').then(response => {
+            console.log(response);
+            response.data.forEach(hire => {
+                hireData.push(hire);
+            });
+            this.setState({loading_hires: false});
+            console.log(hireData);
+        }).catch(response => {
+            if (response.response.status == 422){ // Validation error
+                var fieldIssues = response.response.data.errors;
+                var issueKeys = Object.keys(fieldIssues);
+                console.log(fieldIssues)
+                issueKeys.forEach(key => {
+                    var issueArray = fieldIssues[key];
+                    issueArray.forEach(element => {
+                        this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                            variant: 'error',
+                            autoHideDuration: 5000
+                        });
+                    });
+                });
+              }
+            else{ // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
+        });
+
+        axios.get('/users').then(response => {
+            response.data.forEach(user => {
+                usersData.push(user);
+            });
+            this.setState({loading_users: false});
+        }).catch(response => {
+            if (response.response.status == 422){ // Validation error
+                var fieldIssues = response.response.data.errors;
+                var issueKeys = Object.keys(fieldIssues);
+                console.log(fieldIssues)
+                issueKeys.forEach(key => {
+                    var issueArray = fieldIssues[key];
+                    issueArray.forEach(element => {
+                        this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                            variant: 'error',
+                            autoHideDuration: 5000
+                        });
+                    });
+                });
+              }
+            else{ // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
+        });
+    }
+
+    triggerReload() {
+        this.setState({loading_hires: true, loading_users: true});
+
         hireData = [];
         usersData = [];
         
@@ -160,7 +226,7 @@ class FullView extends React.Component {
                             maxTabs={this.state.maxTabs}
                         />     
                     </div>       
-                    <Stepper classname="stepper" data={hireData} users={usersData}/>
+                    <Stepper classname="stepper" data={hireData} users={usersData} triggerReload={this.triggerReload}/>
                     <Button variant="contained" color="primary" className="export">Export Current Search</Button>
                 </Paper>
             );

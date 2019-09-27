@@ -27,6 +27,7 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
 import Clear from '@material-ui/icons/Clear'
 import axios from 'axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { withSnackbar } from 'notistack';
 
 import './searchResults.css';
@@ -87,6 +88,7 @@ class searchResults extends React.Component {
     });
 
     this.state = {
+      locked: false,
       modalLoading: false,
       filterModalOpen: false,
       hireId: null,
@@ -178,105 +180,112 @@ class searchResults extends React.Component {
     }
 
     // All of these API calls need combined so we can do a single load.
-    if(!fieldError){
-      axios.patch('hires/' + this.state.hireId,             
-      {
-        "admin_id": this.state.admin_id != "" ? this.state.admin_id : null,
-        "regional_location": this.state.regionalLocation != "" ? this.state.regionalLocation : null,
-        "first_name": this.state.firstName != "" ? this.state.firstName : null,
-        "last_name": this.state.lastName != "" ? this.state.lastName : null,
-        "cwid": this.state.cwid != "" ? this.state.cwid : null,
-        "gender": this.state.gender != "" ? this.state.gender : null,
-        "hire_type": this.state.hireType != "" ? this.state.hireType : null,
-        "start_date": this.state.hireDate != "" ? this.state.hireDate : null,
-        "vendor": this.state.vendor != "" ? this.state.vendor : null,
-        "role": this.state.role != "" ? this.state.role : null,
-        "pl_ic": this.state.plic != "" ? this.state.plic : null,
-        "team_name": this.state.teamName != "" ? this.state.teamName : null,
-        "platform": this.state.platform != "" ? this.state.platform : null,
-        "manager_id": this.state.manager_id != "" ? this.state.manager_id : null,
-        "hire_status": this.state.hireStatus != "" ? this.state.hireStatus : null,
-        "onboarding_buddy": this.state.onboardingBuddy != "" ? this.state.onboardingBuddy : null,
-        "computer_needs": this.state.computerNeeds != "" ? this.state.computerNeeds : null,
-        "seat_number": this.state.seatNum != "" ? this.state.seatNum : null,
-        "campus": this.state.onboardingCampus != "" ? this.state.onboardingCampus : null,
-        "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
-        "hire_ticket": this.state.newHireRehireTicket != "" ? this.state.newHireRehireTicket : null,
-        "mac_ticket": this.state.macTicket != "" ? this.state.macTicket : null,
-      },
-      {
-        headers: {
-            'content-type': 'application/json',
-        }
-      })
-      .then(response => {
-        console.log('Successfully updated the hire: ', response);
-        this.props.enqueueSnackbar("Hire updated!", { // Success Message
-          variant: 'success',
-          autoHideDuration: 2000
-        });
-      })
-      .catch(response => {
-        if (response.response.status == 422){ // Validation error
-          var fieldIssues = response.response.data.errors;
-          var issueKeys = Object.keys(fieldIssues);
-          console.log(fieldIssues)
-          issueKeys.forEach(key => {
-              var issueArray = fieldIssues[key];
-              issueArray.forEach(element => {
-                  this.props.enqueueSnackbar(element, { // Display what was wrong with fields
-                      variant: 'error',
-                      autoHideDuration: 5000
-                  });
-              });
+    if(!this.state.locked && !this.state.modalLoading) {
+      if(!fieldError){
+        axios.patch('hires/' + this.state.hireId,             
+        {
+          "admin_id": this.state.admin_id != "" ? this.state.admin_id : null,
+          "regional_location": this.state.regionalLocation != "" ? this.state.regionalLocation : null,
+          "first_name": this.state.firstName != "" ? this.state.firstName : null,
+          "last_name": this.state.lastName != "" ? this.state.lastName : null,
+          "cwid": this.state.cwid != "" ? this.state.cwid : null,
+          "gender": this.state.gender != "" ? this.state.gender : null,
+          "hire_type": this.state.hireType != "" ? this.state.hireType : null,
+          "start_date": this.state.hireDate != "" ? this.state.hireDate : null,
+          "vendor": this.state.vendor != "" ? this.state.vendor : null,
+          "role": this.state.role != "" ? this.state.role : null,
+          "pl_ic": this.state.plic != "" ? this.state.plic : null,
+          "team_name": this.state.teamName != "" ? this.state.teamName : null,
+          "platform": this.state.platform != "" ? this.state.platform : null,
+          "manager_id": this.state.manager_id != "" ? this.state.manager_id : null,
+          "hire_status": this.state.hireStatus != "" ? this.state.hireStatus : null,
+          "onboarding_buddy": this.state.onboardingBuddy != "" ? this.state.onboardingBuddy : null,
+          "computer_needs": this.state.computerNeeds != "" ? this.state.computerNeeds : null,
+          "seat_number": this.state.seatNum != "" ? this.state.seatNum : null,
+          "campus": this.state.onboardingCampus != "" ? this.state.onboardingCampus : null,
+          "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
+          "hire_ticket": this.state.newHireRehireTicket != "" ? this.state.newHireRehireTicket : null,
+          "mac_ticket": this.state.macTicket != "" ? this.state.macTicket : null,
+        },
+        {
+          headers: {
+              'content-type': 'application/json',
+          }
+        })
+        .then(response => {
+          console.log('Successfully updated the hire: ', response);
+          this.props.enqueueSnackbar("Hire updated!", { // Success Message
+            variant: 'success',
+            autoHideDuration: 2000
           });
-        }
-        else{ // Generic laravel error
-            this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
-                variant: 'error',
-                autoHideDuration: 10000
+        })
+        .catch(response => {
+          if (response.response.status == 422){ // Validation error
+            var fieldIssues = response.response.data.errors;
+            var issueKeys = Object.keys(fieldIssues);
+            console.log(fieldIssues)
+            issueKeys.forEach(key => {
+                var issueArray = fieldIssues[key];
+                issueArray.forEach(element => {
+                    this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                        variant: 'error',
+                        autoHideDuration: 5000
+                    });
+                });
             });
-        }
-      });
-
-      axios.patch('/hires/' + this.state.hireId + '/unlock')
-      .then(response => {
-        console.log('Succesfully patched: ', response);
-        this.setState({modalLoading: false});
-        this.props.enqueueSnackbar("Hire unlocked successfully!", { // Success Message
-          variant: 'success',
-          autoHideDuration: 2000
-        });
-      })
-      .catch(response => {
-        if (response.response.status == 422){ // Validation error
-          var fieldIssues = response.response.data.errors;
-          var issueKeys = Object.keys(fieldIssues);
-          console.log(fieldIssues)
-          issueKeys.forEach(key => {
-              var issueArray = fieldIssues[key];
-              issueArray.forEach(element => {
-                  this.props.enqueueSnackbar(element, { // Display what was wrong with fields
-                      variant: 'error',
-                      autoHideDuration: 5000
-                  });
+          }
+          else{ // Generic laravel error
+              this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                  variant: 'error',
+                  autoHideDuration: 10000
               });
+          }
+        });
+  
+        axios.patch('/hires/' + this.state.hireId + '/unlock')
+        .then(response => {
+          console.log('Succesfully patched: ', response);
+          this.setState({modalLoading: false});
+          this.props.enqueueSnackbar("Hire unlocked successfully!", { // Success Message
+            variant: 'success',
+            autoHideDuration: 2000
           });
-        }
-        else{ // Generic laravel error
-            this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
-                variant: 'error',
-                autoHideDuration: 10000
+        })
+        .catch(response => {
+          if (response.response.status == 422){ // Validation error
+            var fieldIssues = response.response.data.errors;
+            var issueKeys = Object.keys(fieldIssues);
+            console.log(fieldIssues)
+            issueKeys.forEach(key => {
+                var issueArray = fieldIssues[key];
+                issueArray.forEach(element => {
+                    this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                        variant: 'error',
+                        autoHideDuration: 5000
+                    });
+                });
             });
-        }
-        this.setState({modalLoading: false});
-      });
-
+          }
+          else{ // Generic laravel error
+              this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                  variant: 'error',
+                  autoHideDuration: 10000
+              });
+          }
+          this.setState({modalLoading: false});
+        });
+  
+        this.setState({
+          filterModalOpen: false,
+        });
+  
+        this.props.setReload();
+      }
+    }
+    else {
       this.setState({
         filterModalOpen: false,
       });
-
-      this.props.setReload();
     }
 
   }
@@ -290,11 +299,20 @@ class searchResults extends React.Component {
     axios.patch('/hires/' + this.state.hireId + '/lock')
     .then(response => {
       console.log('Succesfully patched: ', response);
-      this.props.enqueueSnackbar("Hire successfully locked!", { // Success Message
-        variant: 'success',
-        autoHideDuration: 2000
-      });
-      this.setState({modalLoading: false});
+      if(response.data.success) {
+        this.setState({modalLoading: false, locked: false});
+        this.props.enqueueSnackbar("Hire successfully locked!", { // Success Message
+          variant: 'success',
+          autoHideDuration: 2000
+        });
+      }
+      else {
+        this.setState({modalLoading: false, locked: true});
+        this.props.enqueueSnackbar("Hire is already locked - cannot be edited right now.", { // Success Message
+          variant: 'warning',
+          autoHideDuration: 2000
+        });
+      }
     })
     .catch(response => {
       this.setState({modalLoading: false});
@@ -471,23 +489,24 @@ onSubmitClick = (event) => {console.log('Submit')}
           onClose={this.onModalClose}
         >
           <Paper className="editWidget">
-            <Grid container space={40} className="gridContainer">
+            {this.state.modalLoading ? <div className="loadingSpinner"><CircularProgress size="5rem"/></div> : 
+              <Grid container space={40} className="gridContainer">
               <Grid item xs={8} className="gridItem">
                 <Grid container space={20} >
                   <Grid item xs={12} className="gridItem">
                     <div className="headerText">Hire Data</div>
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Last Name" value={this.state.lastName} onChange={this.onLastNameEnter} required />
+                    <TextField label="Last Name" disabled={this.state.locked} value={this.state.lastName} onChange={this.onLastNameEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="First Name" value={this.state.firstName} onChange={this.onFirstNameEnter} required />
+                    <TextField label="First Name" disabled={this.state.locked} value={this.state.firstName} onChange={this.onFirstNameEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Regional Location" value={this.state.regionalLocation} onChange={this.onRegionalLocationEnter} required />
+                    <TextField label="Regional Location" disabled={this.state.locked} value={this.state.regionalLocation} onChange={this.onRegionalLocationEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="CWID" value={this.state.cwid} onChange={this.onCWIDEnter} />
+                    <TextField label="CWID" disabled={this.state.locked} value={this.state.cwid} onChange={this.onCWIDEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <FormControl>
@@ -497,6 +516,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                         onChange={this.onGenderSelect}
                         input={<Input id="gender-selector" />}
                         required
+                        disabled={this.state.locked}
                       >
                         <MenuItem value=""><em>None</em></MenuItem>
                         <MenuItem value="male">Male</MenuItem>
@@ -508,6 +528,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                     <FormControl>
                       <InputLabel htmlFor="hireType-selector" required>Hire Type</InputLabel>
                       <Select
+                        disabled={this.state.locked}
                         value={this.state.hireType}
                         onChange={this.onHireTypeSelect}
                         input={<Input id="hireType-selector" />}
@@ -522,6 +543,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
+                      disabled={this.state.locked}
                       label="PD Start Date"
                       type="date"
                       value={this.state.pdStartDate}
@@ -534,15 +556,16 @@ onSubmitClick = (event) => {console.log('Submit')}
                     />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Vendor" value={this.state.vendor} onChange={this.onVendorEnter} />
+                    <TextField disabled={this.state.locked} label="Vendor" value={this.state.vendor} onChange={this.onVendorEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Role" value={this.state.role} onChange={this.onRoleEnter} required />
+                    <TextField disabled={this.state.locked} label="Role" value={this.state.role} onChange={this.onRoleEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <FormControl>
                       <InputLabel htmlFor="plic-selector">PL/IC</InputLabel>
                       <Select
+                        disabled={this.state.locked}
                         value={this.state.plic}
                         onChange={this.onPLICSelect}
                         input={<Input id="plic-selector" />}
@@ -555,15 +578,16 @@ onSubmitClick = (event) => {console.log('Submit')}
                     </FormControl>
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Team Name" value={this.state.teamName} onChange={this.onTeamNameEnter} required />
+                    <TextField disabled={this.state.locked} label="Team Name" value={this.state.teamName} onChange={this.onTeamNameEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Platform" value={this.state.platform} onChange={this.onPlatformEnter} required />
+                    <TextField disabled={this.state.locked} label="Platform" value={this.state.platform} onChange={this.onPlatformEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <FormControl>
                         <InputLabel htmlFor="manager-selector" required>Manager</InputLabel>
                         <Select 
+                        disabled={this.state.locked}
                         value={this.state.manager_id} 
                         onChange={this.onManagerEnter} 
                         input={<Input id="manager-selector" />}
@@ -579,6 +603,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                     <FormControl>
                       <InputLabel htmlFor="hireStatus-selector" required>Hire Status</InputLabel>
                       <Select
+                        disabled={this.state.locked}
                         value={this.state.hireStatus}
                         onChange={this.onHireStatusSelect}
                         input={<Input id="hireStatus-selector" />}
@@ -592,12 +617,13 @@ onSubmitClick = (event) => {console.log('Submit')}
                     </FormControl>
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Onboarding Buddy" value={this.state.onboardingBuddy} onChange={this.onOnboardingBuddyEnter} />
+                    <TextField disabled={this.state.locked} label="Onboarding Buddy" value={this.state.onboardingBuddy} onChange={this.onOnboardingBuddyEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <FormControl>
                       <InputLabel htmlFor="computerNeeds-selector" required>Computer Needs</InputLabel>
                       <Select
+                        disabled={this.state.locked}
                         value={this.state.computerNeeds}
                         onChange={this.onComputerNeedsSelect}
                         input={<Input id="computerNeeds-selector" />}
@@ -610,22 +636,23 @@ onSubmitClick = (event) => {console.log('Submit')}
                     </FormControl>
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="SEAT Number" value={this.state.seatNum} onChange={this.onSeatNumEnter} />
+                    <TextField disabled={this.state.locked} label="SEAT Number" value={this.state.seatNum} onChange={this.onSeatNumEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Onboarding Campus" value={this.state.onboardingCampus} onChange={this.onOnboardingCampusEnter} />
+                    <TextField disabled={this.state.locked} label="Onboarding Campus" value={this.state.onboardingCampus} onChange={this.onOnboardingCampusEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Manager Comments" value={this.state.managerComments} onChange={this.onManagerCommentsEnter} />
+                    <TextField disabled={this.state.locked} label="Manager Comments" value={this.state.managerComments} onChange={this.onManagerCommentsEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="NEID/EID" value={this.state.neid} onChange={this.onNEIDEnter} />
+                    <TextField disabled={this.state.locked} label="NEID/EID" value={this.state.neid} onChange={this.onNEIDEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="New Hire/Rehire Ticket" value={this.state.newHireRehireTicket} onChange={this.onNewHireRehireTicketEnter} />
+                    <TextField disabled={this.state.locked} label="New Hire/Rehire Ticket" value={this.state.newHireRehireTicket} onChange={this.onNewHireRehireTicketEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
+                      disabled={this.state.locked}
                       label="Hire Ticket Entered"
                       type="date"
                       value={this.state.dateEnteredHire}
@@ -637,10 +664,11 @@ onSubmitClick = (event) => {console.log('Submit')}
                     />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="MAC Ticket" value={this.state.macTicket} onChange={this.onMacTicketEnter} />
+                    <TextField disabled={this.state.locked} label="MAC Ticket" value={this.state.macTicket} onChange={this.onMacTicketEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
+                      disabled={this.state.locked}
                       label="MAC Ticket Entered"
                       type="date"
                       value={this.state.dateEnteredMacTicket}
@@ -653,6 +681,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
+                      disabled={this.state.locked}
                       label="Laptop Delivered"
                       type="date"
                       value={this.state.dateLaptopDelivered}
@@ -665,6 +694,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
+                      disabled={this.state.locked}
                       label="Onboarding Buddy Email Sent"
                       type="date"
                       value={this.state.onboardingBuddyEmailSent}
@@ -677,6 +707,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
+                      disabled={this.state.locked}
                       label="Add to DLs/PD Org"
                       type="date"
                       value={this.state.addToDlsAndPdOrg}
@@ -689,6 +720,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
+                      disabled={this.state.locked}
                       label="Welcome Email Sent"
                       type="date"
                       value={this.state.welcomeEmailSent}
@@ -703,6 +735,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                     <FormControl>
                       <InputLabel htmlFor="admin-selector" required>Admin</InputLabel>
                       <Select 
+                      disabled={this.state.locked}
                       value={this.state.admin_id} 
                       onChange={this.onAdminEnter} 
                       input={<Input id="admin-selector" />}
@@ -782,6 +815,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                 </Grid>
               </Grid>
             </Grid>
+            }
           </Paper>
         </Modal>
         <MaterialTable className="table"

@@ -40,3 +40,11 @@
     color: red !important;
     padding-bottom: 9px !important;
 }
+
+.loadingSpinnerModal {
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+}
