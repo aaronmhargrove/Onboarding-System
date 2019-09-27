@@ -28,6 +28,7 @@ import FilterList from '@material-ui/icons/FilterList'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
 import Clear from '@material-ui/icons/Clear'
+import { withSnackbar } from 'notistack';
 
 import './steppertable.css';
 
@@ -38,22 +39,27 @@ class StepperTable extends React.Component {
     super(props);
 
     displayData = [];
+
+    console.log(props);
     this.props.data.forEach(hire => {
       displayData.push(
         {
+          firstName: hire.first_name,
+          lastName: hire.last_name,
           name: hire.last_name + ", " + hire.first_name,
           hireDate: hire.created_at,
           regionalLocation: hire.regional_location,
           cwid: hire.cwid ? hire.cwid : '',
           gender: hire.gender ? hire.gender : '',
           hireType: hire.hire_type ? hire.hire_type : '',
-          pdStartDate: hire.hire_date,
+          pdStartDate: hire.start_date,
           vendor: hire.vendor,
           role: hire.role,
           plic: hire.pl_ic ? hire.pl_ic : '',
           teamName: hire.team_name,
           platform: hire.platform,
           manager: this.props.users[hire.manager_id - 1] ? this.props.users[hire.manager_id - 1].name : '',
+          manager_id: hire.manager_id,
           hireStatus: hire.hire_status,
           onboardingBuddy: hire.onboarding_buddy,
           computerNeeds: hire.computer_needs,
@@ -70,17 +76,21 @@ class StepperTable extends React.Component {
           addToDlsAndPdOrg: hire.hire_steps[7].step_name ? hire.hire_steps[7].step_name : '',
           welcomeEmailSent: hire.hire_steps[8].step_name ? hire.hire_steps[8].step_name : '',
           adminName: this.props.users[hire.admin_id - 1] ? this.props.users[hire.admin_id - 1].name : '',
+          admin_id: hire.admin_id,
           hireTicketStatus: hire.hire_steps[3].status,
           macTicketStatus: hire.hire_steps[4].status,
           laptopDeliveredStatus: hire.hire_steps[5].status,
           onboardingEmailStatus: hire.hire_steps[6].status,
           addToDlsAndPdOrgStatus: hire.hire_steps[7].status,
+          hireId: hire.id
         }
       );
     });
 
     this.state = {
+      modalLoading: false,
       filterModalOpen: false,
+      hireId: null,
       lastName: '',
       firstName: '',
       name: '',
@@ -98,6 +108,7 @@ class StepperTable extends React.Component {
       onboardingCampus: '',
       onboardingBuddy: '',
       adminName: '',
+      admin_id: null,
       cwid: '',
       vendor: '',
       plic: '',
@@ -116,140 +127,320 @@ class StepperTable extends React.Component {
       macTicketStatus: '',
       laptopDeliveredStatus: '',
       onboardingEmailStatus: '',
-      addToDlsAndPdOrgStatus: ''
+      addToDlsAndPdOrgStatus: '',
+      manager_id: null,
     };
   }
 
   onModalClose = () => {
-    this.setState({
-      filterModalOpen: false
-    });
+    var fieldError = false;
+    // Validation of required fields
+    if(!this.state.firstName){
+        fieldError = true;
+        this.props.enqueueSnackbar("'First Name' is required", {
+            variant: 'warning',
+            autoHideDuration: 3000
+        });
+    }
+    if(!this.state.lastName){
+        fieldError = true;
+        this.props.enqueueSnackbar("'Last Name' is required", {
+            variant: 'warning',
+            autoHideDuration: 3000
+        });
+    }
+    if(!this.state.hireType){
+        fieldError = true;
+        this.props.enqueueSnackbar("'Hire Type' is required", {
+            variant: 'warning',
+            autoHideDuration: 3000
+        });
+    }
+    if(!this.state.pdStartDate){
+        fieldError = true;
+        this.props.enqueueSnackbar("'Start Date' is required", {
+            variant: 'warning',
+            autoHideDuration: 3000
+        });
+    }
+    if(!this.state.manager){
+        fieldError = true;
+        this.props.enqueueSnackbar("'Manager' is required", {
+            variant: 'warning',
+            autoHideDuration: 3000
+        });
+    }
+    if(!this.state.platform){
+      fieldError = true;
+      this.props.enqueueSnackbar("'Platform' is required", {
+          variant: 'warning',
+          autoHideDuration: 3000
+      });
+    }
+
+    // All of these API calls need combined so we can do a single load.
+    if(!fieldError){
+      axios.patch('hires/' + this.state.hireId,             
+      {
+        "admin_id": this.state.admin_id != "" ? this.state.admin_id : null,
+        "regional_location": this.state.regionalLocation != "" ? this.state.regionalLocation : null,
+        "first_name": this.state.firstName != "" ? this.state.firstName : null,
+        "last_name": this.state.lastName != "" ? this.state.lastName : null,
+        "cwid": this.state.cwid != "" ? this.state.cwid : null,
+        "gender": this.state.gender != "" ? this.state.gender : null,
+        "hire_type": this.state.hireType != "" ? this.state.hireType : null,
+        "start_date": this.state.hireDate != "" ? this.state.hireDate : null,
+        "vendor": this.state.vendor != "" ? this.state.vendor : null,
+        "role": this.state.role != "" ? this.state.role : null,
+        "pl_ic": this.state.plic != "" ? this.state.plic : null,
+        "team_name": this.state.teamName != "" ? this.state.teamName : null,
+        "platform": this.state.platform != "" ? this.state.platform : null,
+        "manager_id": this.state.manager_id != "" ? this.state.manager_id : null,
+        "hire_status": this.state.hireStatus != "" ? this.state.hireStatus : null,
+        "onboarding_buddy": this.state.onboardingBuddy != "" ? this.state.onboardingBuddy : null,
+        "computer_needs": this.state.computerNeeds != "" ? this.state.computerNeeds : null,
+        "seat_number": this.state.seatNum != "" ? this.state.seatNum : null,
+        "campus": this.state.onboardingCampus != "" ? this.state.onboardingCampus : null,
+        "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
+        "hire_ticket": this.state.newHireRehireTicket != "" ? this.state.newHireRehireTicket : null,
+        "mac_ticket": this.state.macTicket != "" ? this.state.macTicket : null,
+      },
+      {
+        headers: {
+            'content-type': 'application/json',
+        }
+      })
+      .then(response => {
+        console.log('Successfully updated the hire: ', response);
+        this.props.enqueueSnackbar("Hire updated!", { // Success Message
+          variant: 'success',
+          autoHideDuration: 2000
+        });
+      })
+      .catch(response => {
+        if (response.response.status == 422){ // Validation error
+          var fieldIssues = response.response.data.errors;
+          var issueKeys = Object.keys(fieldIssues);
+          console.log(fieldIssues)
+          issueKeys.forEach(key => {
+              var issueArray = fieldIssues[key];
+              issueArray.forEach(element => {
+                  this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                      variant: 'error',
+                      autoHideDuration: 5000
+                  });
+              });
+          });
+        }
+        else{ // Generic laravel error
+            this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                variant: 'error',
+                autoHideDuration: 10000
+            });
+        }
+      });
+
+      axios.patch('/hires/' + this.state.hireId + '/unlock')
+      .then(response => {
+        console.log('Succesfully patched: ', response);
+        this.setState({modalLoading: false});
+        this.props.enqueueSnackbar("Hire unlocked successfully!", { // Success Message
+          variant: 'success',
+          autoHideDuration: 2000
+        });
+      })
+      .catch(response => {
+        if (response.response.status == 422){ // Validation error
+          var fieldIssues = response.response.data.errors;
+          var issueKeys = Object.keys(fieldIssues);
+          console.log(fieldIssues)
+          issueKeys.forEach(key => {
+              var issueArray = fieldIssues[key];
+              issueArray.forEach(element => {
+                  this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                      variant: 'error',
+                      autoHideDuration: 5000
+                  });
+              });
+          });
+        }
+        else{ // Generic laravel error
+            this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                variant: 'error',
+                autoHideDuration: 10000
+            });
+        }
+        this.setState({modalLoading: false});
+      });
+
+      this.setState({
+        filterModalOpen: false,
+      });
+
+    }
+
   }
+
   onModalOpen = (rowData) => {
-    console.log(rowData.regionalLocation)
     this.setState({
       filterModalOpen: true,
+      modalLoading: true
+    });
+
+    console.log(this.state);
+
+    axios.patch('/hires/' + this.state.hireId + '/lock')
+    .then(response => {
+      console.log('Succesfully patched: ', response);
+      this.props.enqueueSnackbar("Hire successfully locked!", { // Success Message
+        variant: 'success',
+        autoHideDuration: 2000
+      });
+      this.setState({modalLoading: false});
+    })
+    .catch(response => {
+      this.setState({modalLoading: false});
+      if (response.response.status == 422){ // Validation error
+        var fieldIssues = response.response.data.errors;
+        var issueKeys = Object.keys(fieldIssues);
+        console.log(fieldIssues)
+        issueKeys.forEach(key => {
+            var issueArray = fieldIssues[key];
+            issueArray.forEach(element => {
+                this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                    variant: 'error',
+                    autoHideDuration: 5000
+                });
+            });
+        });
+      }
+      else{ // Generic laravel error
+          this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+              variant: 'error',
+              autoHideDuration: 10000
+          });
+      }
     });
   }
 
-  onLastNameEnter = (event) => {
-    this.setState({ lastName: event.target.value });
+  onLastNameEnter = (event) => { 
+    this.setState({lastName: event.target.value});
   }
 
   onFirstNameEnter = (event) => {
-    this.setState({ firstName: event.target.value });
+    this.setState({firstName: event.target.value});
   }
 
   onDateHiredPick = (event) => {
-    this.setState({ dateEnteredHire: event.target.value });
+    this.setState({dateEnteredHire: event.target.value});
   }
 
   onRegionalLocationEnter = (event) => {
-    this.setState({ regionalLocation: event.target.value });
-  }
+    this.setState({regionalLocation: event.target.value});
+  } 
 
   onGenderSelect = (event) => {
-    this.setState({ gender: event.target.value });
+    this.setState({gender: event.target.value});
   }
 
   onHireTypeSelect = (event) => {
-    this.setState({ hireType: event.target.value });
+    this.setState({hireType: event.target.value});
   }
 
   onPdStartDatePick = (event) => {
-    this.setState({ pdStartDate: event.target.value });
+    this.setState({pdStartDate: event.target.value});
   }
 
   onRoleEnter = (event) => {
-    this.setState({ role: event.target.value });
+    this.setState({role: event.target.value});
   }
 
   onTeamNameEnter = (event) => {
-    this.setState({ teamName: event.target.value });
+    this.setState({teamName: event.target.value});
   }
 
   onPlatformEnter = (event) => {
-    this.setState({ platform: event.target.value });
+    this.setState({platform: event.target.value});
   }
 
   onManagerEnter = (event) => {
-    this.setState({ manager: event.target.value });
+    this.setState({manager_id: event.target.value});
   }
 
   onHireStatusSelect = (event) => {
-    this.setState({ hireStatus: event.target.value });
+    this.setState({hireStatus: event.target.value});
   }
 
   onComputerNeedsSelect = (event) => {
-    this.setState({ computerNeeds: event.target.value });
+    this.setState({computerNeeds: event.target.value});
   }
 
   onOnboardingCampusEnter = (event) => {
-    this.setState({ onboardingCampus: event.target.value });
+    this.setState({onboardingCampus: event.target.value});
   }
 
   onOnboardingBuddyEnter = (event) => {
-    this.setState({ onboardingBuddy: event.target.value });
+    this.setState({onboardingBuddy: event.target.value});
   }
 
   onAdminEnter = (event) => {
-    this.setState({ adminName: event.target.value });
+    this.setState({admin_id: event.target.value});
   }
 
   onCWIDEnter = (event) => {
-    this.setState({ cwid: event.target.value });
+    this.setState({cwid: event.target.value});
   }
 
   onVendorEnter = (event) => {
-    this.setState({ vendor: event.target.value });
+    this.setState({vendor: event.target.value});
   }
 
   onPLICSelect = (event) => {
-    this.setState({ plic: event.target.value });
+    this.setState({plic: event.target.value});
   }
 
   onSeatNumberEnter = (event) => {
-    this.setState({ seatNum: event.target.value });
+    this.setState({seatNum: event.target.value});
   }
 
   onNEIDEnter = (event) => {
-    this.setState({ neid: event.target.value });
+    this.setState({neid: event.target.value});
   }
 
   onNewHireRehireTicketEnter = (event) => {
-    this.setState({ newHireRehireTicket: event.target.value });
+    this.setState({newHireRehireTicket: event.target.value});
   }
 
   onMacTicketEnter = (event) => {
-    this.setState({ macTicket: event.target.value });
+    this.setState({macTicket: event.target.value});
   }
 
   onManagerCommentsEnter = (event) => {
-    this.setState({ managerComments: event.target.value });
+    this.setState({managerComments: event.target.value});
   }
 
   onDateEnteredHireDatePick = (event) => {
-    this.setState({ dateEnteredHire: event.target.value });
+    this.setState({dateEnteredHire: event.target.value});
   }
 
   onDateEnteredMacTicketDatePick = (event) => {
-    this.setState({ dateEnteredMacTicket: event.target.value });
+    this.setState({dateEnteredMacTicket: event.target.value});
   }
 
   onDateLaptopDeliveredDatePick = (event) => {
-    this.setState({ dateLaptopDelivered: event.target.value });
+    this.setState({dateLaptopDelivered: event.target.value});
   }
 
   onOnboardingBuddyEmailSentDatePick = (event) => {
-    this.setState({ onboardingBuddyEmailSent: event.target.value });
+    this.setState({onboardingBuddyEmailSent: event.target.value});
   }
 
   onAddToDlsAndPdOrgDatePick = (event) => {
-    this.setState({ addToDlsAndPdOrg: event.target.value });
+    this.setState({addToDlsAndPdOrg: event.target.value});
   }
 
   onWelcomeEmailSentDatePick = (event) => {
-    this.setState({ welcomeEmailSent: event.target.value });
+    this.setState({welcomeEmailSent: event.target.value});
   }
 
   onHireStatusChange = (event) => {
@@ -294,19 +485,6 @@ class StepperTable extends React.Component {
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField label="First Name" value={this.state.firstName} onChange={this.onFirstNameEnter} required />
-                  </Grid>
-                  <Grid item xs={6} className="gridItem">
-                    <TextField
-                      label="Date Entered"
-                      type="date"
-                      value={this.state.hireDate}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      onChange={this.onDateEntered}
-                      required={true}
-                      required
-                    />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField label="Regional Location" value={this.state.regionalLocation} onChange={this.onRegionalLocationEnter} required />
@@ -603,8 +781,9 @@ class StepperTable extends React.Component {
           }}
           columns={columns}
           onRowClick={(event, rowData) => this.setState({
+            hireId: rowData.hireId,
             lastName: rowData.lastName,
-            firstName: rowData.firstName,
+            firstName: rowData.firstName,    
             hireDate: rowData.hireDate,
             regionalLocation: rowData.regionalLocation,
             gender: rowData.gender,
@@ -619,6 +798,7 @@ class StepperTable extends React.Component {
             onboardingCampus: rowData.onboardingCampus,
             onboardingBuddy: rowData.onboardingBuddy,
             adminName: rowData.adminName,
+            admin_id: rowData.admin_id,
             cwid: rowData.cwid,
             vendor: rowData.vendor,
             plic: rowData.plic,
@@ -637,7 +817,8 @@ class StepperTable extends React.Component {
             macTicketStatus: rowData.macTicketStatus,
             laptopDeliveredStatus: rowData.macTicketStatus,
             onboardingEmailStatus: rowData.onboardingEmailStatus,
-            addToDlsAndPdOrgStatus: rowData.addToDlsAndPdOrgStatus
+            addToDlsAndPdOrgStatus: rowData.addToDlsAndPdOrgStatus,
+            manager_id: rowData.manager_id
           },
             () => this.onModalOpen(rowData))}
           data={displayData}
@@ -655,4 +836,4 @@ class StepperTable extends React.Component {
   }
 }
 
-export default StepperTable;
+export default withSnackbar(StepperTable);
