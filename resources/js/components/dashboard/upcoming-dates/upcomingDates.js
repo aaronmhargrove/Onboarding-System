@@ -28,8 +28,27 @@ class UpcomingDates extends React.Component {
                 upcomingDates.push(response.data[i]);
             }
             this.setState({loading: false});
-        }).catch(error => {
-            console.log(error);
+        }).catch(response => {
+            if (response.response.status == 422){ // Validation error
+                var fieldIssues = response.response.data.errors;
+                var issueKeys = Object.keys(fieldIssues);
+                console.log(fieldIssues)
+                issueKeys.forEach(key => {
+                    var issueArray = fieldIssues[key];
+                    issueArray.forEach(element => {
+                        this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                            variant: 'error',
+                            autoHideDuration: 5000
+                        });
+                    });
+                });
+              }
+            else{ // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
         });
     }
 

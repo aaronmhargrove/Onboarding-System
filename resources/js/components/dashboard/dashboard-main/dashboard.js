@@ -4,6 +4,7 @@ import SearchBar from './searchBar';
 import SearchResults from './searchResults';
 import axios from 'axios';
 import './dashboard.css';
+import { withSnackbar } from 'notistack';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 var hireData = [];
@@ -27,8 +28,27 @@ class Dashboard extends React.Component {
                 hireData.push(hire);
             });
             this.setState({loading_hires: false});
-        }).catch(error => {
-            console.log(error);
+        }).catch(response => {
+            if (response.response.status == 422){ // Validation error
+                var fieldIssues = response.response.data.errors;
+                var issueKeys = Object.keys(fieldIssues);
+                console.log(fieldIssues)
+                issueKeys.forEach(key => {
+                    var issueArray = fieldIssues[key];
+                    issueArray.forEach(element => {
+                        this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                            variant: 'error',
+                            autoHideDuration: 5000
+                        });
+                    });
+                });
+            }
+            else{ // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
         });
 
         axios.get('/users').then(response => {
@@ -37,8 +57,27 @@ class Dashboard extends React.Component {
                 usersData.push(user);
             });
             this.setState({loading_users: false});
-        }).catch(error => {
-            console.log(error);
+        }).catch(response => {
+            if (response.response.status == 422){ // Validation error
+                var fieldIssues = response.response.data.errors;
+                var issueKeys = Object.keys(fieldIssues);
+                console.log(fieldIssues)
+                issueKeys.forEach(key => {
+                    var issueArray = fieldIssues[key];
+                    issueArray.forEach(element => {
+                        this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                            variant: 'error',
+                            autoHideDuration: 5000
+                        });
+                    });
+                });
+            }
+            else{ // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
         });
     }
 
@@ -54,8 +93,27 @@ class Dashboard extends React.Component {
                 hireData.push(hire);
             });
             this.setState({loading_hires: false});
-        }).catch(error => {
-            console.log(error);
+        }).catch(response => {
+            if (response.response.status == 422){ // Validation error
+                var fieldIssues = response.response.data.errors;
+                var issueKeys = Object.keys(fieldIssues);
+                console.log(fieldIssues)
+                issueKeys.forEach(key => {
+                    var issueArray = fieldIssues[key];
+                    issueArray.forEach(element => {
+                        this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                            variant: 'error',
+                            autoHideDuration: 5000
+                        });
+                    });
+                });
+              }
+            else{ // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
         });
 
         axios.get('/users').then(response => {
@@ -64,8 +122,27 @@ class Dashboard extends React.Component {
                 usersData.push(user);
             });
             this.setState({loading_users: false});
-        }).catch(error => {
-            console.log(error);
+        }).catch(response => {
+            if (response.response.status == 422){ // Validation error
+                var fieldIssues = response.response.data.errors;
+                var issueKeys = Object.keys(fieldIssues);
+                console.log(fieldIssues)
+                issueKeys.forEach(key => {
+                    var issueArray = fieldIssues[key];
+                    issueArray.forEach(element => {
+                        this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                            variant: 'error',
+                            autoHideDuration: 5000
+                        });
+                    });
+                });
+              }
+            else{ // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
         });
     }
 

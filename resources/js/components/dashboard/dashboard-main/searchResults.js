@@ -10,7 +10,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import ListItemIcon from '@material-ui/core/ListItemIcon'
-import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -28,6 +27,7 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
 import Clear from '@material-ui/icons/Clear'
 import axios from 'axios';
+import { withSnackbar } from 'notistack';
 
 import './searchResults.css';
 
@@ -43,13 +43,15 @@ class searchResults extends React.Component {
     this.props.data.forEach(hire => {
       displayData.push(
         {
+          firstName: hire.first_name,
+          lastName: hire.last_name,
           name: hire.last_name + ", " + hire.first_name,
           hireDate: hire.created_at,
           regionalLocation: hire.regional_location,
           cwid: hire.cwid ? hire.cwid : '',
           gender: hire.gender ? hire.gender : '',
           hireType: hire.hire_type ? hire.hire_type : '',
-          pdStartDate: hire.hire_date,
+          pdStartDate: hire.start_date,
           vendor: hire.vendor,
           role: hire.role,
           plic: hire.pl_ic ? hire.pl_ic : '',
@@ -130,12 +132,54 @@ class searchResults extends React.Component {
   }
 
   onModalClose = () => {
-    this.setState({
-      filterModalOpen: false,
-    });
+    var fieldError = false;
+    // Validation of required fields
+    if(!this.state.firstName){
+        fieldError = true;
+        this.props.enqueueSnackbar("'First Name' is required", {
+            variant: 'warning',
+            autoHideDuration: 3000
+        });
+    }
+    if(!this.state.lastName){
+        fieldError = true;
+        this.props.enqueueSnackbar("'Last Name' is required", {
+            variant: 'warning',
+            autoHideDuration: 3000
+        });
+    }
+    if(!this.state.hireType){
+        fieldError = true;
+        this.props.enqueueSnackbar("'Hire Type' is required", {
+            variant: 'warning',
+            autoHideDuration: 3000
+        });
+    }
+    if(!this.state.pdStartDate){
+        fieldError = true;
+        this.props.enqueueSnackbar("'Start Date' is required", {
+            variant: 'warning',
+            autoHideDuration: 3000
+        });
+    }
+    if(!this.state.manager){
+        fieldError = true;
+        this.props.enqueueSnackbar("'Manager' is required", {
+            variant: 'warning',
+            autoHideDuration: 3000
+        });
+    }
+    if(!this.state.platform){
+      fieldError = true;
+      this.props.enqueueSnackbar("'Platform' is required", {
+          variant: 'warning',
+          autoHideDuration: 3000
+      });
+    }
 
     // All of these API calls need combined so we can do a single load.
-    axios.patch('hires/' + this.state.hireId,             
+    if(!fieldError){
+      axios.patch('hires/' + this.state.hireId,             
       {
         "admin_id": this.state.admin_id != "" ? this.state.admin_id : null,
         "regional_location": this.state.regionalLocation != "" ? this.state.regionalLocation : null,
@@ -164,26 +208,77 @@ class searchResults extends React.Component {
         headers: {
             'content-type': 'application/json',
         }
-      }
-    )
-    .then(response => {
-      console.log('Successfully updated the hire: ', response);
-    })
-    .catch(error => {
-      console.log('Error updating the hire: ', error.response.data);
-    });
+      })
+      .then(response => {
+        console.log('Successfully updated the hire: ', response);
+        this.props.enqueueSnackbar("Hire updated!", { // Success Message
+          variant: 'success',
+          autoHideDuration: 2000
+        });
+      })
+      .catch(response => {
+        if (response.response.status == 422){ // Validation error
+          var fieldIssues = response.response.data.errors;
+          var issueKeys = Object.keys(fieldIssues);
+          console.log(fieldIssues)
+          issueKeys.forEach(key => {
+              var issueArray = fieldIssues[key];
+              issueArray.forEach(element => {
+                  this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                      variant: 'error',
+                      autoHideDuration: 5000
+                  });
+              });
+          });
+        }
+        else{ // Generic laravel error
+            this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                variant: 'error',
+                autoHideDuration: 10000
+            });
+        }
+      });
 
-    axios.patch('/hires/' + this.state.hireId + '/unlock')
-    .then(response => {
-      console.log('Succesfully patched: ', response);
-      this.setState({modalLoading: false});
-    })
-    .catch(error => {
-      console.log('Error with locking: ', error);
-      this.setState({modalLoading: false});
-    });
+      axios.patch('/hires/' + this.state.hireId + '/unlock')
+      .then(response => {
+        console.log('Succesfully patched: ', response);
+        this.setState({modalLoading: false});
+        this.props.enqueueSnackbar("Hire unlocked successfully!", { // Success Message
+          variant: 'success',
+          autoHideDuration: 2000
+        });
+      })
+      .catch(response => {
+        if (response.response.status == 422){ // Validation error
+          var fieldIssues = response.response.data.errors;
+          var issueKeys = Object.keys(fieldIssues);
+          console.log(fieldIssues)
+          issueKeys.forEach(key => {
+              var issueArray = fieldIssues[key];
+              issueArray.forEach(element => {
+                  this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                      variant: 'error',
+                      autoHideDuration: 5000
+                  });
+              });
+          });
+        }
+        else{ // Generic laravel error
+            this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                variant: 'error',
+                autoHideDuration: 10000
+            });
+        }
+        this.setState({modalLoading: false});
+      });
 
-    this.props.setReload();
+      this.setState({
+        filterModalOpen: false,
+      });
+
+      this.props.setReload();
+    }
+
   }
 
   onModalOpen = (rowData) => {
@@ -195,11 +290,34 @@ class searchResults extends React.Component {
     axios.patch('/hires/' + this.state.hireId + '/lock')
     .then(response => {
       console.log('Succesfully patched: ', response);
+      this.props.enqueueSnackbar("Hire successfully locked!", { // Success Message
+        variant: 'success',
+        autoHideDuration: 2000
+      });
       this.setState({modalLoading: false});
     })
-    .catch(error => {
-      console.log('Error with locking: ', error);
+    .catch(response => {
       this.setState({modalLoading: false});
+      if (response.response.status == 422){ // Validation error
+        var fieldIssues = response.response.data.errors;
+        var issueKeys = Object.keys(fieldIssues);
+        console.log(fieldIssues)
+        issueKeys.forEach(key => {
+            var issueArray = fieldIssues[key];
+            issueArray.forEach(element => {
+                this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                    variant: 'error',
+                    autoHideDuration: 5000
+                });
+            });
+        });
+      }
+      else{ // Generic laravel error
+          this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+              variant: 'error',
+              autoHideDuration: 10000
+          });
+      }
     });
   }
   
@@ -364,19 +482,6 @@ onSubmitClick = (event) => {console.log('Submit')}
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField label="First Name" value={this.state.firstName} onChange={this.onFirstNameEnter} required />
-                  </Grid>
-                  <Grid item xs={6} className="gridItem">
-                    <TextField
-                      label="Date Entered"
-                      type="date"
-                      value={this.state.DateEntered}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      onChange={this.onDateEntered}
-                      required={true}
-                      required
-                    />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField label="Regional Location" value={this.state.regionalLocation} onChange={this.onRegionalLocationEnter} required />
@@ -779,4 +884,4 @@ onSubmitClick = (event) => {console.log('Submit')}
   }
 }
 
-export default searchResults;
+export default withSnackbar(searchResults);
