@@ -9,6 +9,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
+import { withSnackbar } from 'notistack';
 import './addHire.css';
 
 var userList = [];
@@ -146,8 +147,53 @@ class AddHire extends React.Component {
     }
 
     onSubmitClick = () => {
-        this.setState({loading: true});
-        axios.post('/hires', 
+        var fieldError = false;
+        // Validation of required fields
+        if(!this.state.firstName){
+            fieldError = true;
+            this.props.enqueueSnackbar("'First Name' is required", {
+                variant: 'warning',
+                autoHideDuration: 3000
+            });
+        }
+        if(!this.state.lastName){
+            fieldError = true;
+            this.props.enqueueSnackbar("'Last Name' is required", {
+                variant: 'warning',
+                autoHideDuration: 3000
+            });
+        }
+        if(!this.state.hireType){
+            fieldError = true;
+            this.props.enqueueSnackbar("'Hire Type' is required", {
+                variant: 'warning',
+                autoHideDuration: 3000
+            });
+        }
+        if(!this.state.pdStartDate){
+            fieldError = true;
+            this.props.enqueueSnackbar("'Start Date' is required", {
+                variant: 'warning',
+                autoHideDuration: 3000
+            });
+        }
+        if(!this.state.manager){
+            fieldError = true;
+            this.props.enqueueSnackbar("'Manager' is required", {
+                variant: 'warning',
+                autoHideDuration: 3000
+            });
+        }
+        if(!this.state.platform){
+            fieldError = true;
+            this.props.enqueueSnackbar("'Platform' is required", {
+                variant: 'warning',
+                autoHideDuration: 3000
+            });
+        }
+        if(!fieldError){
+            this.setState({loading: true});
+            axios.post('/hires', 
             {
                 "admin_id": this.state.adminName != "" ? this.state.adminName : null,
                 "regional_location": this.state.regionalLocation != "" ? this.state.regionalLocation : null,
@@ -156,7 +202,7 @@ class AddHire extends React.Component {
                 "cwid": this.state.cwid != "" ? this.state.cwid : null,
                 "gender": this.state.gender != "" ? this.state.gender : null,
                 "hire_type": this.state.hireType != "" ? this.state.hireType : null,
-                "start_date": this.state.hireDate != "" ? this.state.hireDate : null,
+                "start_date": this.state.pdStartDate != "" ? this.state.pdStartDate : null,
                 "vendor": this.state.vendor != "" ? this.state.vendor : null,
                 "role": this.state.role != "" ? this.state.role : null,
                 "pl_ic": this.state.plic != "" ? this.state.plic : null,
@@ -177,14 +223,37 @@ class AddHire extends React.Component {
                     'content-type': 'application/json',
                 }
             }
-        ).then((response) => {
-            this.setState({loading: false});
-            console.log(response)
-        }).catch((response) => {
-            this.setState({loading: false});
-            console.log('Error: ' + response);
-            console.log(response.response.data);
-        });
+            ).then((response) => {
+                this.setState({loading: false});
+                this.props.enqueueSnackbar("New hire created!", { // Success Message
+                    variant: 'success',
+                    autoHideDuration: 2000
+                });
+                console.log(response)
+            }).catch((response) => {
+                this.setState({loading: false});
+                if (response.response.status == 422){ // Validation error
+                    var fieldIssues = response.response.data.errors;
+                    var issueKeys = Object.keys(fieldIssues);
+                    console.log(fieldIssues)
+                    issueKeys.forEach(key => {
+                        var issueArray = fieldIssues[key];
+                        issueArray.forEach(element => {
+                            this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                                variant: 'error',
+                                autoHideDuration: 5000
+                            });
+                        });
+                    });
+                }
+                else{ // Generic laravel error
+                    this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                        variant: 'error',
+                        autoHideDuration: 10000
+                    });
+                }
+            });
+        }
     }
 
     render() {
@@ -200,29 +269,15 @@ class AddHire extends React.Component {
                                 <TextField label="First Name" value={this.state.firstName} onChange={this.onFirstNameEnter} required/>
                             </Grid>
                             <Grid item xs={6} className="gridItem">
-                                <TextField
-                                    label="Today's Date"
-                                    type="date"
-                                    value={this.state.hireDate}
-                                    InputLabelProps={{
-                                    shrink: true,
-                                    }}
-                                    onChange={this.onDateHiredPick}
-                                    required={true}
-                                    required
-                                />
-                            </Grid>
-                            <Grid item xs={6} className="gridItem">
-                                <TextField label="Regional Location" value={this.state.regionalLocation} onChange={this.onRegionalLocationEnter} required/>
+                                <TextField label="Regional Location" value={this.state.regionalLocation} onChange={this.onRegionalLocationEnter}/>
                             </Grid>
                             <Grid item xs={6} className="gridItem">
                                 <FormControl>
-                                    <InputLabel htmlFor="gender-selector" required>Gender</InputLabel>
+                                    <InputLabel htmlFor="gender-selector">Gender</InputLabel>
                                     <Select 
                                     value={this.state.gender} 
                                     onChange={this.onGenderSelect} 
                                     input={<Input id="gender-selector" />}
-                                    required
                                     >
                                         <MenuItem value=""><em>None</em></MenuItem>
                                         <MenuItem value="male">Male</MenuItem>
@@ -260,10 +315,10 @@ class AddHire extends React.Component {
                                 />
                             </Grid>
                             <Grid item xs={6} className="gridItem">
-                                <TextField label="Role" value={this.state.role} onChange={this.onRoleEnter} required/>
+                                <TextField label="Role" value={this.state.role} onChange={this.onRoleEnter}/>
                             </Grid>
                             <Grid item xs={6} className="gridItem">
-                                <TextField label="Team Name" value={this.state.teamName} onChange={this.onTeamNameEnter} required/>
+                                <TextField label="Team Name" value={this.state.teamName} onChange={this.onTeamNameEnter}/>
                             </Grid>
                             <Grid item xs={6} className="gridItem">
                                 <TextField label="Platform" value={this.state.platform} onChange={this.onPlatformEnter} required/>
@@ -285,12 +340,11 @@ class AddHire extends React.Component {
                             </Grid>
                             <Grid item xs={6} className="gridItem">
                                 <FormControl>
-                                    <InputLabel htmlFor="hireStatus-selector" required>Hire Status</InputLabel>
+                                    <InputLabel htmlFor="hireStatus-selector">Hire Status</InputLabel>
                                     <Select 
                                     value={this.state.hireStatus} 
                                     onChange={this.onHireStatusSelect} 
                                     input={<Input id="hireStatus-selector" />}
-                                    required
                                     >
                                         <MenuItem value=""><em>None</em></MenuItem>
                                         <MenuItem value="new">New</MenuItem>
@@ -301,7 +355,7 @@ class AddHire extends React.Component {
                             </Grid>
                             <Grid item xs={6} className="gridItem">
                                 <FormControl>
-                                    <InputLabel htmlFor="computerNeeds-selector" required>Computer Needs</InputLabel>
+                                    <InputLabel htmlFor="computerNeeds-selector">Computer Needs</InputLabel>
                                     <Select 
                                     value={this.state.computerNeeds} 
                                     onChange={this.onComputerNeedsSelect} 
@@ -322,12 +376,11 @@ class AddHire extends React.Component {
                             </Grid>
                             <Grid item xs={6} className="gridItem">
                                 <FormControl>
-                                    <InputLabel htmlFor="admin-selector" required>Admin</InputLabel>
+                                    <InputLabel htmlFor="admin-selector">Admin</InputLabel>
                                     <Select 
                                     value={this.state.adminName} 
                                     onChange={this.onAdminEnter} 
                                     input={<Input id="admin-selector" />}
-                                    required
                                     >
                                         {userList.map(user => {
                                             return <MenuItem value={user.id}>{user.name}</MenuItem>;
@@ -382,4 +435,4 @@ class AddHire extends React.Component {
     }
 }
 
-export default AddHire;
+export default withSnackbar(AddHire);
