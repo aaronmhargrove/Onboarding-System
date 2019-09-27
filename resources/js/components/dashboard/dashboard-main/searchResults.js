@@ -874,7 +874,7 @@ onSubmitClick = (event) => {console.log('Submit')}
             search: false,
             paging: false,
             pageSize: 1,
-            maxBodyHeight: '76vh',
+            maxBodyHeight: '70vh',
             toolbar: false
           }}
           title="Demo Title"
