@@ -90,20 +90,20 @@ class UpcomingDates extends React.Component {
                                         {
                                             title: 'Name',
                                             field: 'name',
-                                            headerStyle: { minWidth: '8vw' },
-                                            cellStyle: { minWidth: '8vw' }
+                                            headerStyle: { minWidth: '7vw' },
+                                            cellStyle: { minWidth: '7vw' }
                                         },
                                         {
                                             title: 'Step',
                                             field: 'step',
-                                            headerStyle: { minWidth: '8vw' },
-                                            cellStyle: { minWidth: '8vw' }
+                                            headerStyle: { minWidth: '7vw' },
+                                            cellStyle: { minWidth: '7vw' }
                                         },
                                         {
                                             title: 'Days Remaining',
                                             field: 'daysRemaining',
-                                            headerStyle: { minWidth: '8vw' },
-                                            cellStyle: { minWidth: '8vw' }
+                                            headerStyle: { minWidth: '7vw' },
+                                            cellStyle: { minWidth: '7vw' }
                                         }
                                     ]
                                 }
@@ -112,7 +112,7 @@ class UpcomingDates extends React.Component {
                                     search: false,
                                     paging: false,
                                     pageSize: 1,
-                                    maxBodyHeight: '58vh',
+                                    maxBodyHeight: '76vh',
                                     toolbar: false
                                 }}
                                 title="Demo Title"
