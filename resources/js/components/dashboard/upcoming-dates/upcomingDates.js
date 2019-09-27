@@ -27,15 +27,15 @@ class UpcomingDates extends React.Component {
 
         axios.get('/users/' + currentUser.data.id + '/upcoming')
             .then(response => {
-                // console.log('Upcoming Dates: ', response);
-                // response.data.forEach(entry => {
-                //     upcomingDates.push(entry);
-                // });
-                for (var i = 0; i < 5; i++) {
-                    upcomingDates.push(response.data[i]);
-                }
+                console.log('Upcoming Dates: ', response);
+                response.data.forEach(entry => {
+                    upcomingDates.push({
+                        name: entry.last_name + ", " + entry.first_name,
+                        step: entry.step_name,
+                        daysRemaining: entry.days_left
+                    });
+                });
                 this.setState({ loading: false });
-                console.log("38")
             }).catch(response => {
                 if (response.response.status == 422) { // Validation error
                     var fieldIssues = response.response.data.errors;
@@ -100,19 +100,14 @@ class UpcomingDates extends React.Component {
                                             cellStyle: { minWidth: '8vw' }
                                         },
                                         {
-                                            title: 'Due Date',
-                                            field: 'dueDate',
+                                            title: 'Days Remaining',
+                                            field: 'daysRemaining',
                                             headerStyle: { minWidth: '8vw' },
                                             cellStyle: { minWidth: '8vw' }
                                         }
                                     ]
                                 }
-                                data={[{
-                                    name: 'Dwight Schrute',
-                                    step: 'Assign Admin',
-                                    dueDate: '2019-09-28'
-                                }]
-                                }
+                                data={upcomingDates}
                                 options={{
                                     search: false,
                                     paging: false,

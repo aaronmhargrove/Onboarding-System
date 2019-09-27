@@ -150,13 +150,15 @@ class Dashboard extends React.Component {
     render() {
         return(
             <Paper className="dashboardWidget">
-                {(this.state.loading_users || this.state.loading_hires) ? <div className="loadingSpinner"><CircularProgress size="5rem"/></div> : 
+                {/* {(this.state.loading_users || this.state.loading_hires) ? <div className="loadingSpinner"><CircularProgress size="5rem"/></div> :  */}
                     <div>
                         <SearchBar />
-                        <SearchResults className="dashboardTable" data={hireData} users={usersData} setReload={this.setReload}/>                        
+                        {this.state.loading_users || this.state.loading_hires ? <div className="dashboardTable"><div className="loadingSpinner"><CircularProgress size="5rem"/></div></div> :
+                            <SearchResults className="dashboardTable" data={hireData} users={usersData} setReload={this.setReload}/>
+                        }                        
                         <UpcomingDates />    
                     </div>    
-                }        
+                {/* }         */}
             </Paper>
         );
     }
