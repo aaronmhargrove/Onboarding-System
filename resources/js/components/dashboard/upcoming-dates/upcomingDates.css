@@ -10,9 +10,9 @@
 .upcomingDatesHeader {
     display: flex;
     position: absolute;
-    top: -4%;
+    top: -17%;
     width: 90%;
-    height: 10%;
+    height: 9.1vh;
     left: 5%;
     text-align: center;
     justify-content: center;
@@ -28,9 +28,8 @@
 .upcomingDatesTableContainer {
     display: flex;
     position: absolute;
-    top: 13%;
-    width: 95%;
-    left: 2.5%;
+    width: 100%;
+    justify-content: center;
 }
 
 .headerText {
