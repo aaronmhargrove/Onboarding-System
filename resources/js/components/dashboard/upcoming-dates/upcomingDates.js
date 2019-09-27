@@ -21,9 +21,9 @@ class UpcomingDates extends React.Component {
         axios.get('/users/' + currentUser.data.id + '/upcoming')
         .then(response => {
             console.log('Upcoming Dates: ', response);
-            // response.data.forEach(entry => {
-            //     upcomingDates.push(entry);
-            // });
+             response.data.forEach(entry => {
+                 upcomingDates.push(entry);
+             });
             for(var i = 0; i < 5; i++){
                 upcomingDates.push(response.data[i]);
             }
@@ -61,26 +61,58 @@ class UpcomingDates extends React.Component {
                             <div className="headerText">Upcoming Dates</div>
                         </Paper>
                         <div className="upcomingDatesTableContainer">
-                            <Table className="upcomingDatesTable">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Name</TableCell>
-                                        <TableCell>Step</TableCell>
-                                        <TableCell>Due Date</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {upcomingDates.map(entry => {
-                                        return (
-                                            <TableRow>
-                                                <TableCell>{entry.first_name + ' ' + entry.last_name}</TableCell>
-                                                <TableCell>{entry.step_name}</TableCell>
-                                                <TableCell>{entry.start_date}</TableCell>
-                                            </TableRow>
-                                        );
-                                    })}
-                                </TableBody>
-                            </Table>
+                        <MaterialTable className="table"
+          icons={{
+            Check: Check,
+            Clear: Clear,
+            DetailPanel: ChevronRight,
+            Export: SaveAlt,
+            Filter: FilterList,
+            FirstPage: FirstPage,
+            LastPage: LastPage,
+            NextPage: ChevronRight,
+            PreviousPage: ChevronLeft,
+            ResetSearch: Clear,
+            Search: Search,
+            SortArrow: ArrowDownward,
+            ThirdStateCheck: Remove
+          }}
+          columns={
+              [
+                {         
+                    title: 'Name',
+                    field: 'name',
+                    headerStyle: {minWidth: '8vw'}, 
+                    cellStyle: {minWidth: '8vw'}
+                },
+                {
+                    title: 'Step',
+                    field: 'step',
+                    headerStyle: {minWidth: '8vw'}, 
+                    cellStyle: {minWidth: '8vw'}
+                },
+                {
+                    title: 'Due Date',
+                    field: 'dueDate',
+                    headerStyle: {minWidth: '8vw'}, 
+                    cellStyle: {minWidth: '8vw'}
+                }
+              ]
+          }
+          data={{
+              name: 'Dwight Schrute',
+              step: 'Assign Admin',
+              dueDate: '2019-09-28'
+          }}
+          options={{
+            search: false,
+            paging: false,
+            pageSize: 1,
+            maxBodyHeight: '58vh',
+            toolbar: false
+          }}
+          title="Demo Title"
+        />
                         </div>
                     </div>
                 }

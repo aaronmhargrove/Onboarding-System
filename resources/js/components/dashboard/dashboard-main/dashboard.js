@@ -2,6 +2,7 @@ import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import SearchBar from './searchBar';
 import SearchResults from './searchResults';
+import UpcomingDates from '../upcoming-dates/upcomingDates';
 import axios from 'axios';
 import './dashboard.css';
 import { withSnackbar } from 'notistack';
@@ -152,7 +153,8 @@ class Dashboard extends React.Component {
                 {(this.state.loading_users || this.state.loading_hires) ? <div className="loadingSpinner"><CircularProgress size="5rem"/></div> : 
                     <div>
                         <SearchBar />
-                        <SearchResults className="dashboardTable" data={hireData} users={usersData} setReload={this.setReload}/>    
+                        <SearchResults className="dashboardTable" data={hireData} users={usersData} setReload={this.setReload}/>                        
+                        <UpcomingDates />    
                     </div>    
                 }        
             </Paper>
