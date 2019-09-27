@@ -43,7 +43,7 @@ class Dashboard extends React.Component {
                 {(this.state.loading_users || this.state.loading_hires) ? <div className="loadingSpinner"><CircularProgress size="5rem"/></div> : 
                     <div>
                         <SearchBar />
-                        <SearchResults className="dashboardTable" data={hireData} users={usersData}/>    
+                        <SearchResults className="dashboardTable" data={hireData} users={usersData} />    
                     </div>    
                 }        
             </Paper>
