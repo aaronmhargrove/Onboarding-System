@@ -225,6 +225,10 @@ class AddHire extends React.Component {
             }
             ).then((response) => {
                 this.setState({loading: false});
+                this.props.enqueueSnackbar("New hire created!", { // Success Message
+                    variant: 'success',
+                    autoHideDuration: 2000
+                });
                 console.log(response)
             }).catch((response) => {
                 this.setState({loading: false});
