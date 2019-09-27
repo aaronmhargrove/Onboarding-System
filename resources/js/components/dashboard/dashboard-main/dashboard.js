@@ -57,7 +57,7 @@ class Dashboard extends React.Component {
             response.data.forEach(user => {
                 usersData.push(user);
             });
-            this.setState({loading_users: false});
+            this.setState({loading_users: true});
         }).catch(response => {
             if (response.response.status == 422){ // Validation error
                 var fieldIssues = response.response.data.errors;
