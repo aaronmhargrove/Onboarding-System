@@ -2,6 +2,7 @@ import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import SearchBar from './searchBar';
 import SearchResults from './searchResults';
+import UpcomingDates from '../upcoming-dates/upcomingDates';
 import axios from 'axios';
 import './dashboard.css';
 import { withSnackbar } from 'notistack';
@@ -56,7 +57,7 @@ class Dashboard extends React.Component {
             response.data.forEach(user => {
                 usersData.push(user);
             });
-            this.setState({loading_users: false});
+            this.setState({loading_users: true});
         }).catch(response => {
             if (response.response.status == 422){ // Validation error
                 var fieldIssues = response.response.data.errors;
@@ -149,12 +150,15 @@ class Dashboard extends React.Component {
     render() {
         return(
             <Paper className="dashboardWidget">
-                {(this.state.loading_users || this.state.loading_hires) ? <div className="loadingSpinner"><CircularProgress size="5rem"/></div> : 
+                {/* {(this.state.loading_users || this.state.loading_hires) ? <div className="loadingSpinner"><CircularProgress size="5rem"/></div> :  */}
                     <div>
                         <SearchBar />
-                        <SearchResults className="dashboardTable" data={hireData} users={usersData} setReload={this.setReload}/>    
+                        {this.state.loading_users || this.state.loading_hires ? <div className="dashboardTable"><div className="loadingSpinner"><CircularProgress size="5rem"/></div></div> :
+                            <SearchResults className="dashboardTable" data={hireData} users={usersData} setReload={this.setReload}/>
+                        }                        
+                        <UpcomingDates />    
                     </div>    
-                }        
+                {/* }         */}
             </Paper>
         );
     }

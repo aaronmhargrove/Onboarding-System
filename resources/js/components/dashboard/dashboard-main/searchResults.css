@@ -1,6 +1,6 @@
 .tableContainer {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     position: absolute;
     top: 10%;
     width: 95%;

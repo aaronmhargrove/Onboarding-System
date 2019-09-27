@@ -27,7 +27,6 @@ class App extends React.Component {
                     <Grow in={this.state.selection == 'dashboard'}>
                         <div className="parentContainer">
                             <Dashboard />
-                            <UpcomingDates />
                         </div>
                     </Grow>
                     :
