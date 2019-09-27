@@ -57,7 +57,7 @@ class Dashboard extends React.Component {
             response.data.forEach(user => {
                 usersData.push(user);
             });
-            this.setState({loading_users: true});
+            this.setState({loading_users: false});
         }).catch(response => {
             if (response.response.status == 422){ // Validation error
                 var fieldIssues = response.response.data.errors;
@@ -153,7 +153,7 @@ class Dashboard extends React.Component {
                 {/* {(this.state.loading_users || this.state.loading_hires) ? <div className="loadingSpinner"><CircularProgress size="5rem"/></div> :  */}
                     <div>
                         <SearchBar />
-                        {this.state.loading_users || this.state.loading_hires ? <div className="dashboardTable"><div className="loadingSpinner"><CircularProgress size="5rem"/></div></div> :
+                        {this.state.loading_users || this.state.loading_hires ? <div className="loadingSpinnerDashboard"><CircularProgress size="5rem"/></div> :
                             <SearchResults className="dashboardTable" data={hireData} users={usersData} setReload={this.setReload}/>
                         }                        
                         <UpcomingDates />    

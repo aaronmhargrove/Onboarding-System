@@ -13,6 +13,10 @@
     padding-top: 8%;
 }
 
-.loadingSpinner {
+.loadingSpinnerDashboard {
     margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 30vw;
+    transform: translate(-50%, -50%);
 }
