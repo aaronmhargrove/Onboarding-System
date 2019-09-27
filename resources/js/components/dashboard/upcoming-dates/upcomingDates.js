@@ -90,20 +90,20 @@ class UpcomingDates extends React.Component {
                                         {
                                             title: 'Name',
                                             field: 'name',
-                                            headerStyle: { minWidth: '3vw' },
-                                            cellStyle: { minWidth: '3vw' }
+                                            headerStyle: { minWidth: '33%' },
+                                            cellStyle: { minWidth: '33%' }
                                         },
                                         {
                                             title: 'Step',
                                             field: 'step',
-                                            headerStyle: { minWidth: '3vw' },
-                                            cellStyle: { minWidth: '3vw' }
+                                            headerStyle: { minWidth: '33%' },
+                                            cellStyle: { minWidth: '33%' }
                                         },
                                         {
                                             title: 'Days Remaining',
                                             field: 'daysRemaining',
-                                            headerStyle: { minWidth: '3vw' },
-                                            cellStyle: { minWidth: '3vw' }
+                                            headerStyle: { minWidth: '33%' },
+                                            cellStyle: { minWidth: '33%' }
                                         }
                                     ]
                                 }
