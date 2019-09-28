@@ -11,6 +11,7 @@ import FullViewTabs from './fullviewtabs';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { CSVLink, CSVDownload } from "react-csv";
 
 import './fullview.css';
 
@@ -227,7 +228,11 @@ class FullView extends React.Component {
                         />     
                     </div>       
                     <Stepper classname="stepper" data={hireData} users={usersData} triggerReload={this.triggerReload}/>
-                    <Button variant="contained" color="primary" className="export">Export Current Search</Button>
+                    <Button variant="contained" color="primary" className="export">
+                        <CSVLink className="csvLink" data={hireData} filename="BayerOnbaording.csv">
+                            Export Current Search
+                        </CSVLink>
+                    </Button>
                 </Paper>
             );
         }

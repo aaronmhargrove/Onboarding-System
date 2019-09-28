@@ -77,18 +77,22 @@ class searchResults extends React.Component {
           welcomeEmailSent: hire.hire_steps[8].step_name ? hire.hire_steps[8].step_name : '',
           adminName: this.props.users[hire.admin_id - 1] ? this.props.users[hire.admin_id - 1].name : '',
           admin_id: hire.admin_id,
+          adminAssignedStatus: hire.hire_steps[0].status,
+          cwidAssignedStatus: hire.hire_steps[1].status,
+          neidAssignedStatus: hire.hire_steps[2].status,
           hireTicketStatus: hire.hire_steps[3].status,
           macTicketStatus: hire.hire_steps[4].status,
           laptopDeliveredStatus: hire.hire_steps[5].status,
           onboardingEmailStatus: hire.hire_steps[6].status,
           addToDlsAndPdOrgStatus: hire.hire_steps[7].status,
+          welcomeEmailSentStatus: hire.hire_steps[8].status,
           hireId: hire.id
         }
       );
     });
 
     this.state = {
-      locked: false,
+      unlocked: false,
       modalLoading: false,
       filterModalOpen: false,
       hireId: null,
@@ -124,11 +128,15 @@ class searchResults extends React.Component {
       onboardingBuddyEmailSent: '',
       addToDlsAndPdOrg: '',
       welcomeEmailSent: '',
+      adminAssignedStatus: '',
+      cwidAssignedStatus: '',
+      neidAssignedStatus: '',
       hireTicketStatus: '',
       macTicketStatus: '',
       laptopDeliveredStatus: '',
       onboardingEmailStatus: '',
       addToDlsAndPdOrgStatus: '',
+      welcomeEmailSentStatus: '',
       manager_id: null,
     };
   }
@@ -180,7 +188,7 @@ class searchResults extends React.Component {
     }
 
     // All of these API calls need combined so we can do a single load.
-    if(!this.state.locked && !this.state.modalLoading) {
+    if(!this.state.unlocked && !this.state.modalLoading) {
       if(!fieldError){
         axios.patch('hires/' + this.state.hireId,             
         {
@@ -300,14 +308,14 @@ class searchResults extends React.Component {
     .then(response => {
       console.log('Succesfully patched: ', response);
       if(response.data.success) {
-        this.setState({modalLoading: false, locked: false});
+        this.setState({modalLoading: false, unlocked: false});
         this.props.enqueueSnackbar("Hire successfully locked!", { // Success Message
           variant: 'success',
           autoHideDuration: 2000
         });
       }
       else {
-        this.setState({modalLoading: false, locked: true});
+        this.setState({modalLoading: false, unlocked: true});
         this.props.enqueueSnackbar("Hire is already locked - cannot be edited right now.", { // Success Message
           variant: 'warning',
           autoHideDuration: 2000
@@ -459,6 +467,18 @@ class searchResults extends React.Component {
     this.setState({welcomeEmailSent: event.target.value});
   }
 
+  onAdminAssignedStatusChange = (event) => {
+    this.setState({ adminAssignedStatus: ((this.state.adminAssignedStatus + 1) % 3) });
+  }
+
+  onCWIDAssignedStatusChange = (event) => {
+    this.setState({ cwidAssignedStatus: ((this.state.cwidAssignedStatus + 1) % 3) });
+  }
+
+  onNEIDAssignedStatusChange = (event) => {
+    this.setState({ neidAssignedStatus: ((this.state.neidAssignedStatus + 1) % 3) });
+  }
+
   onHireStatusChange = (event) => {
     this.setState({ hireTicketStatus: ((this.state.hireTicketStatus + 1) % 3) });
   }
@@ -479,6 +499,10 @@ class searchResults extends React.Component {
     this.setState({ addToDlsAndPdOrgStatus: ((this.state.addToDlsAndPdOrgStatus + 1) % 3) });
   }
 
+  onWelcomeEmailStatusChange = (event) => {
+    this.setState({ welcomeEmailSentStatus: ((this.state.welcomeEmailSentStatus +1) % 3) });
+  }
+
 onSubmitClick = (event) => {console.log('Submit')}
   render() {
     const { columns } = this.props;
@@ -497,16 +521,16 @@ onSubmitClick = (event) => {console.log('Submit')}
                     <div className="headerText">Hire Data</div>
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Last Name" disabled={this.state.locked} value={this.state.lastName} onChange={this.onLastNameEnter} required />
+                    <TextField label="Last Name" disabled={this.state.unlocked} value={this.state.lastName} onChange={this.onLastNameEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="First Name" disabled={this.state.locked} value={this.state.firstName} onChange={this.onFirstNameEnter} required />
+                    <TextField label="First Name" disabled={this.state.unlocked} value={this.state.firstName} onChange={this.onFirstNameEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Regional Location" disabled={this.state.locked} value={this.state.regionalLocation} onChange={this.onRegionalLocationEnter} required />
+                    <TextField label="Regional Location" disabled={this.state.unlocked} value={this.state.regionalLocation} onChange={this.onRegionalLocationEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="CWID" disabled={this.state.locked} value={this.state.cwid} onChange={this.onCWIDEnter} />
+                    <TextField label="CWID" disabled={this.state.unlocked} value={this.state.cwid} onChange={this.onCWIDEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <FormControl>
@@ -516,7 +540,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                         onChange={this.onGenderSelect}
                         input={<Input id="gender-selector" />}
                         required
-                        disabled={this.state.locked}
+                        disabled={this.state.unlocked}
                       >
                         <MenuItem value=""><em>None</em></MenuItem>
                         <MenuItem value="male">Male</MenuItem>
@@ -528,7 +552,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                     <FormControl>
                       <InputLabel htmlFor="hireType-selector" required>Hire Type</InputLabel>
                       <Select
-                        disabled={this.state.locked}
+                        disabled={this.state.unlocked}
                         value={this.state.hireType}
                         onChange={this.onHireTypeSelect}
                         input={<Input id="hireType-selector" />}
@@ -543,7 +567,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
-                      disabled={this.state.locked}
+                      disabled={this.state.unlocked}
                       label="PD Start Date"
                       type="date"
                       value={this.state.pdStartDate}
@@ -556,16 +580,16 @@ onSubmitClick = (event) => {console.log('Submit')}
                     />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField disabled={this.state.locked} label="Vendor" value={this.state.vendor} onChange={this.onVendorEnter} />
+                    <TextField disabled={this.state.unlocked} label="Vendor" value={this.state.vendor} onChange={this.onVendorEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField disabled={this.state.locked} label="Role" value={this.state.role} onChange={this.onRoleEnter} required />
+                    <TextField disabled={this.state.unlocked} label="Role" value={this.state.role} onChange={this.onRoleEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <FormControl>
                       <InputLabel htmlFor="plic-selector">PL/IC</InputLabel>
                       <Select
-                        disabled={this.state.locked}
+                        disabled={this.state.unlocked}
                         value={this.state.plic}
                         onChange={this.onPLICSelect}
                         input={<Input id="plic-selector" />}
@@ -578,16 +602,16 @@ onSubmitClick = (event) => {console.log('Submit')}
                     </FormControl>
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField disabled={this.state.locked} label="Team Name" value={this.state.teamName} onChange={this.onTeamNameEnter} required />
+                    <TextField disabled={this.state.unlocked} label="Team Name" value={this.state.teamName} onChange={this.onTeamNameEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField disabled={this.state.locked} label="Platform" value={this.state.platform} onChange={this.onPlatformEnter} required />
+                    <TextField disabled={this.state.unlocked} label="Platform" value={this.state.platform} onChange={this.onPlatformEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <FormControl>
                         <InputLabel htmlFor="manager-selector" required>Manager</InputLabel>
                         <Select 
-                        disabled={this.state.locked}
+                        disabled={this.state.unlocked}
                         value={this.state.manager_id} 
                         onChange={this.onManagerEnter} 
                         input={<Input id="manager-selector" />}
@@ -603,7 +627,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                     <FormControl>
                       <InputLabel htmlFor="hireStatus-selector" required>Hire Status</InputLabel>
                       <Select
-                        disabled={this.state.locked}
+                        disabled={this.state.unlocked}
                         value={this.state.hireStatus}
                         onChange={this.onHireStatusSelect}
                         input={<Input id="hireStatus-selector" />}
@@ -617,13 +641,13 @@ onSubmitClick = (event) => {console.log('Submit')}
                     </FormControl>
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField disabled={this.state.locked} label="Onboarding Buddy" value={this.state.onboardingBuddy} onChange={this.onOnboardingBuddyEnter} />
+                    <TextField disabled={this.state.unlocked} label="Onboarding Buddy" value={this.state.onboardingBuddy} onChange={this.onOnboardingBuddyEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <FormControl>
                       <InputLabel htmlFor="computerNeeds-selector" required>Computer Needs</InputLabel>
                       <Select
-                        disabled={this.state.locked}
+                        disabled={this.state.unlocked}
                         value={this.state.computerNeeds}
                         onChange={this.onComputerNeedsSelect}
                         input={<Input id="computerNeeds-selector" />}
@@ -636,23 +660,23 @@ onSubmitClick = (event) => {console.log('Submit')}
                     </FormControl>
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField disabled={this.state.locked} label="SEAT Number" value={this.state.seatNum} onChange={this.onSeatNumEnter} />
+                    <TextField disabled={this.state.unlocked} label="SEAT Number" value={this.state.seatNum} onChange={this.onSeatNumEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField disabled={this.state.locked} label="Onboarding Campus" value={this.state.onboardingCampus} onChange={this.onOnboardingCampusEnter} />
+                    <TextField disabled={this.state.unlocked} label="Onboarding Campus" value={this.state.onboardingCampus} onChange={this.onOnboardingCampusEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField disabled={this.state.locked} label="Manager Comments" value={this.state.managerComments} onChange={this.onManagerCommentsEnter} />
+                    <TextField disabled={this.state.unlocked} label="Manager Comments" value={this.state.managerComments} onChange={this.onManagerCommentsEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField disabled={this.state.locked} label="NEID/EID" value={this.state.neid} onChange={this.onNEIDEnter} />
+                    <TextField disabled={this.state.unlocked} label="NEID/EID" value={this.state.neid} onChange={this.onNEIDEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField disabled={this.state.locked} label="New Hire/Rehire Ticket" value={this.state.newHireRehireTicket} onChange={this.onNewHireRehireTicketEnter} />
+                    <TextField disabled={this.state.unlocked} label="New Hire/Rehire Ticket" value={this.state.newHireRehireTicket} onChange={this.onNewHireRehireTicketEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
-                      disabled={this.state.locked}
+                      disabled={this.state.unlocked}
                       label="Hire Ticket Entered"
                       type="date"
                       value={this.state.dateEnteredHire}
@@ -664,11 +688,11 @@ onSubmitClick = (event) => {console.log('Submit')}
                     />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField disabled={this.state.locked} label="MAC Ticket" value={this.state.macTicket} onChange={this.onMacTicketEnter} />
+                    <TextField disabled={this.state.unlocked} label="MAC Ticket" value={this.state.macTicket} onChange={this.onMacTicketEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
-                      disabled={this.state.locked}
+                      disabled={this.state.unlocked}
                       label="MAC Ticket Entered"
                       type="date"
                       value={this.state.dateEnteredMacTicket}
@@ -681,7 +705,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
-                      disabled={this.state.locked}
+                      disabled={this.state.unlocked}
                       label="Laptop Delivered"
                       type="date"
                       value={this.state.dateLaptopDelivered}
@@ -694,7 +718,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
-                      disabled={this.state.locked}
+                      disabled={this.state.unlocked}
                       label="Onboarding Buddy Email Sent"
                       type="date"
                       value={this.state.onboardingBuddyEmailSent}
@@ -707,7 +731,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
-                      disabled={this.state.locked}
+                      disabled={this.state.unlocked}
                       label="Add to DLs/PD Org"
                       type="date"
                       value={this.state.addToDlsAndPdOrg}
@@ -720,7 +744,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
-                      disabled={this.state.locked}
+                      disabled={this.state.unlocked}
                       label="Welcome Email Sent"
                       type="date"
                       value={this.state.welcomeEmailSent}
@@ -735,7 +759,7 @@ onSubmitClick = (event) => {console.log('Submit')}
                     <FormControl>
                       <InputLabel htmlFor="admin-selector" required>Admin</InputLabel>
                       <Select 
-                      disabled={this.state.locked}
+                      disabled={this.state.unlocked}
                       value={this.state.admin_id} 
                       onChange={this.onAdminEnter} 
                       input={<Input id="admin-selector" />}
@@ -757,58 +781,152 @@ onSubmitClick = (event) => {console.log('Submit')}
                   <Grid item xs={3} className="noScroll">
                     <List className="progress-list">
                       <ListItem>
-                        <ListItemText primary="Hire Ticket Submitted" />
+                        {(this.state.unlocked == false) && <ListItemText primary="Admin Assigned" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="Admin Assigned" />}
                       </ListItem>
                       <ListItem>
-                        <ListItemText primary="MAC Ticket Submitted" />
+                        {(this.state.unlocked == false) && <ListItemText primary="CWID Assigned" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="CWID Assigned" />}
                       </ListItem>
                       <ListItem>
-                        <ListItemText primary="Laptop Delivered" />
+                        {(this.state.unlocked == false) && <ListItemText primary="NEID Assigned" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="NEID Assigned" />}
                       </ListItem>
                       <ListItem>
-                        <ListItemText primary="Onboarding Email Sent" />
+                        {(this.state.unlocked == false) && <ListItemText primary="Hire Ticket Submitted" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="Hire Ticket Submitted" />}
                       </ListItem>
                       <ListItem>
-                        <ListItemText primary="Added to DLs/PD Org" />
+                        {(this.state.unlocked == false) && <ListItemText primary="MAC Ticket Submitted" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="MAC Ticket Submitted" />}
+                      </ListItem>
+                      <ListItem>
+                        {(this.state.unlocked == false) && <ListItemText primary="Laptop Delivered" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="Laptop Delivered" />}
+                      </ListItem>
+                      <ListItem>
+                        {(this.state.unlocked == false) && <ListItemText primary="Onboarding Email Sent" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="Onboarding Email Sent" />}
+                      </ListItem>
+                      <ListItem>
+                        {(this.state.unlocked == false) && <ListItemText primary="Added to DLs/PD Org" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="Added to DLs/PD Org" />}
+                      </ListItem>
+                      <ListItem>
+                        {(this.state.unlocked == false) && <ListItemText primary="Welcome Email Sent" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="Welcome Email Sent" />}
                       </ListItem>
                     </List>
                   </Grid>
                   <Grid item xs={1} className="noScroll-icons">
                   <List className="progress-list">
                       <ListItem>
-                        <ListItemIcon className="step-icon" onClick={this.onHireStatusChange}>
+                        {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onAdminAssignedStatusChange}>
+                          {(this.state.adminAssignedStatus == 0) && <Clear className="incomplete-icon" />}
+                          {(this.state.adminAssignedStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
+                          {(this.state.adminAssignedStatus == 2) && <Done className="complete-icon" />}
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.adminAssignedStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.adminAssignedStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.adminAssignedStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
+                      </ListItem>
+                      <ListItem>
+                      {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onCWIDAssignedStatusChange}>
+                          {(this.state.cwidAssignedStatus == 0) && <Clear className="incomplete-icon" />}
+                          {(this.state.cwidAssignedStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
+                          {(this.state.cwidAssignedStatus == 2) && <Done className="complete-icon" />}
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.cwidAssignedStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.cwidAssignedStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.cwidAssignedStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
+                      </ListItem>
+                      <ListItem>
+                      {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onNEIDAssignedStatusChange}>
+                          {(this.state.neidAssignedStatus == 0) && <Clear className="incomplete-icon" />}
+                          {(this.state.neidAssignedStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
+                          {(this.state.neidAssignedStatus == 2) && <Done className="complete-icon" />}
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.neidAssignedStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.neidAssignedStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.neidAssignedStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
+                      </ListItem>
+                      <ListItem>
+                      {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onHireStatusChange}>
                           {(this.state.hireTicketStatus == 0) && <Clear className="incomplete-icon" />}
                           {(this.state.hireTicketStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
                           {(this.state.hireTicketStatus == 2) && <Done className="complete-icon" />}
-                        </ListItemIcon>
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.hireTicketStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.hireTicketStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.hireTicketStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
                       </ListItem>
                       <ListItem>
-                        <ListItemIcon className="step-icon" onClick={this.onMACTicketStatusChange}>
+                      {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onMACTicketStatusChange}>
                           {(this.state.macTicketStatus == 0) && <Clear className="incomplete-icon" />}
                           {(this.state.macTicketStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
                           {(this.state.macTicketStatus == 2) && <Done className="complete-icon" />}
-                        </ListItemIcon>
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.macTicketStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.macTicketStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.macTicketStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
                       </ListItem>
                       <ListItem>
-                        <ListItemIcon className="step-icon" onClick={this.onLaptopDeliveredStatusChange}>
+                      {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onLaptopDeliveredStatusChange}>
                           {(this.state.laptopDeliveredStatus == 0) && <Clear className="incomplete-icon" />}
                           {(this.state.laptopDeliveredStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
                           {(this.state.laptopDeliveredStatus == 2) && <Done className="complete-icon" />}
-                        </ListItemIcon>
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.laptopDeliveredStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.laptopDeliveredStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.laptopDeliveredStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
                       </ListItem>
                       <ListItem>
-                        <ListItemIcon className="step-icon" onClick={this.onOnboardingEmailStatusChange}>
+                      {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onOnboardingEmailStatusChange}>
                           {(this.state.onboardingEmailStatus == 0) && <Clear className="incomplete-icon" />}
                           {(this.state.onboardingEmailStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
                           {(this.state.onboardingEmailStatus == 2) && <Done className="complete-icon" />}
-                        </ListItemIcon>
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.onboardingEmailStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.onboardingEmailStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.onboardingEmailStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
                       </ListItem>
                       <ListItem>
-                        <ListItemIcon className="step-icon" onClick={this.onAddToDlsAndPdOrgStatusChange}>
+                      {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onAddToDlsAndPdOrgStatusChange}>
                           {(this.state.addToDlsAndPdOrgStatus == 0) && <Clear className="incomplete-icon" />}
                           {(this.state.addToDlsAndPdOrgStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
                           {(this.state.addToDlsAndPdOrgStatus == 2) && <Done className="complete-icon" />}
-                        </ListItemIcon>
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.addToDlsAndPdOrgStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.addToDlsAndPdOrgStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.addToDlsAndPdOrgStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
+                      </ListItem>
+                      <ListItem>
+                      {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onWelcomeEmailStatusChange}>
+                          {(this.state.welcomeEmailSentStatus == 0) && <Clear className="incomplete-icon" />}
+                          {(this.state.welcomeEmailSentStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
+                          {(this.state.welcomeEmailSentStatus == 2) && <Done className="complete-icon" />}
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.welcomeEmailSentStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.welcomeEmailSentStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.welcomeEmailSentStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
                       </ListItem>
                     </List>
                   </Grid>
@@ -895,11 +1013,15 @@ onSubmitClick = (event) => {console.log('Submit')}
             onboardingBuddyEmailSent: rowData.onboardingBuddyEmailSent,
             addToDlsAndPdOrg: rowData.addToDlsAndPdOrg,
             welcomeEmailSent: rowData.welcomeEmailSent,
+            adminAssignedStatus: rowData.adminAssignedStatus,
+            cwidAssignedStatus: rowData.cwidAssignedStatus,
+            neidAssignedStatus: rowData.neidAssignedStatus,
             hireTicketStatus: rowData.hireTicketStatus,
             macTicketStatus: rowData.macTicketStatus,
             laptopDeliveredStatus: rowData.macTicketStatus,
             onboardingEmailStatus: rowData.onboardingEmailStatus,
             addToDlsAndPdOrgStatus: rowData.addToDlsAndPdOrgStatus,
+            welcomeEmailSentStatus: rowData.welcomeEmailSentStatus,
             manager_id: rowData.manager_id
           },
             () => this.onModalOpen(rowData))}

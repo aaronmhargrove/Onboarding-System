@@ -16,3 +16,55 @@
     transform: translate(-50%, -50%);
 }
 
+.noScroll {
+    position: fixed;
+    left: 63%;
+}
+
+.noScroll-icons {
+    position: fixed;
+    left: 80%;
+}
+
+.progress-list {
+    position: fixed;
+    top: 3.8vh;
+}
+
+.step-icon :hover {
+    cursor: pointer;
+}
+
+.complete-icon {
+    color: green !important;
+    padding-bottom: 9px !important;
+}
+
+.in-progress-icon {
+    color: greenyellow !important;
+    padding-bottom: 9px !important;
+}
+
+.incomplete-icon {
+    color: red !important;
+    padding-bottom: 9px !important;
+}
+
+.complete-icon-locked {
+    color: darkgray !important;
+    padding-bottom: 9px !important;
+}
+
+.in-progress-icon-locked {
+    color: darkgray !important;
+    padding-bottom: 9px !important;
+}
+
+.incomplete-icon-locked {
+    color: darkgray !important;
+    padding-bottom: 9px !important;
+}
+
+.disabled {
+    color: darkgray !important;
+}
