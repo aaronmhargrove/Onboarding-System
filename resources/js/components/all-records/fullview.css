@@ -30,12 +30,19 @@
     margin-right: -30vh;
 }
 
-.tabswrapper {
+.selectWrapper {
     position: relative;
     height: 9vh;
-    margin-top: -3vh;
+    margin-top: -3.1vh;
     width: 28vw;
     margin-right: 2vw;
+    display: flex;
+    justify-content: center;
+}
+
+.stepSelect {
+    min-width: 26vw;
+    padding-top: 2vh;
 }
 
 .wrapper {
