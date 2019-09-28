@@ -133,7 +133,9 @@ class SearchBar extends React.Component {
     }
 
     enterPressed = (event) => {
-        this.onSearchClick();
+        if(event.key == "Enter"){
+            this.onSearchClick();
+        }
     }
 
     render() {

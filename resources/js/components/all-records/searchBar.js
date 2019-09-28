@@ -56,7 +56,6 @@ class SearchBar extends React.Component {
     }
 
     onSearchInput = (event) => {
-        console.log(event.target.value);
         this.setState({searchValue: event.target.value});
     }
 
@@ -74,7 +73,6 @@ class SearchBar extends React.Component {
     }
 
     onSearchClick = (event) => {
-        console.log('Search clicked.');
         this.props.search(this.state.searchValue);
     }
 
