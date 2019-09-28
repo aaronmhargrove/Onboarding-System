@@ -132,11 +132,21 @@ class SearchBar extends React.Component {
         });
     }
 
+    enterPressed = (event) => {
+        this.onSearchClick();
+    }
+
     render() {
         return(
             <Paper elevation={1} className="searchBarWidget">
                 <div className="searchBar">
-                    <InputBase className="searchInput" placeholder="Search Records" value={this.state.searchValue} onChange={this.onSearchInput}/>
+                    <InputBase 
+                        className="searchInput" 
+                        placeholder="Search Records" 
+                        value={this.state.searchValue} 
+                        onChange={this.onSearchInput}
+                        onKeyPress={this.enterPressed.bind(this)}
+                    />
                     <IconButton className="searchWidgetButton" onClick={this.onSearchClick}>
                         <SearchIcon />
                     </IconButton>
