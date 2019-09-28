@@ -141,7 +141,6 @@ class searchResults extends React.Component {
       adminAssignedStatusChanged: false,
       cwidAssignedStatusChanged: false,
       neidAssignedStatusChanged: false,
-      neidAssignedStatusChanged: false,
       hireTicketStatusChanged: false,
       macTicketStatusChanged: false,
       laptopDeliveredStatusChanged: false,
@@ -200,6 +199,67 @@ class searchResults extends React.Component {
     // All of these API calls need combined so we can do a single load.
     if(!this.state.unlocked && !this.state.modalLoading) {
       if(!fieldError){
+        var changedHireSteps = [];
+
+        if(this.state.adminAssignedStatusChanged || this.state.cwidAssignedStatusChanged || this.state.neidAssignedStatusChanged ||
+          this.state.hireTicketStatusChanged || this.state.macTicketStatusChanged || this.state.laptopDeliveredStatusChanged ||
+          this.state.onboardingEmailStatusChanged || this.state.addToDlsAndPdOrgStatusChanged || this.state.welcomeEmailSentStatusChanged) {
+            if(this.state.adminAssignedStatusChanged) {
+              changedHireSteps.push({
+                id: 1,
+                status: this.state.adminAssignedStatus
+              });
+            }
+            if(this.state.cwidAssignedStatusChanged) {
+              changedHireSteps.push({
+                id: 2,
+                status: this.state.cwidAssignedStatus
+              });
+            }
+            if(this.state.neidAssignedStatusChanged) {
+              changedHireSteps.push({
+                id: 3,
+                status: this.state.neidAssignedStatus
+              });
+            }
+            if(this.state.hireTicketStatusChanged) {
+              changedHireSteps.push({
+                id: 4,
+                status: this.state.hireTicketStatus
+              });
+            }
+            if(this.state.macTicketStatusChanged) {
+              changedHireSteps.push({
+                id: 5,
+                status: this.state.macTicketStatus
+              });
+            }
+            if(this.state.laptopDeliveredStatusChanged) {
+              changedHireSteps.push({
+                id: 6,
+                status: this.state.laptopDeliveredStatus
+              });
+            }
+            if(this.state.onboardingEmailStatusChanged) {
+              changedHireSteps.push({
+                id: 7,
+                status: this.state.onboardingEmailStatus
+              });
+            }
+            if(this.state.addToDlsAndPdOrgStatusChanged) {
+              changedHireSteps.push({
+                id: 8,
+                status: this.state.addToDlsAndPdOrgStatus
+              });
+            }
+            if(this.state.welcomeEmailSentStatusChanged) {
+              changedHireSteps.push({
+                id: 9,
+                status: this.state.welcomeEmailSentStatus
+              });
+            }
+        }
+
         axios.patch('hires/' + this.state.hireId,             
         {
           "admin_id": this.state.admin_id != "" ? this.state.admin_id : null,
@@ -224,6 +284,7 @@ class searchResults extends React.Component {
           "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
           "hire_ticket": this.state.newHireRehireTicket != "" ? this.state.newHireRehireTicket : null,
           "mac_ticket": this.state.macTicket != "" ? this.state.macTicket : null,
+          "hire_steps": changedHireSteps,
         },
         {
           headers: {
