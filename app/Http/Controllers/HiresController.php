@@ -111,7 +111,13 @@ class HiresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Hire $hire) {
-        $hire->update($this->validateHireUpdate());
+        $stepsArray = $this->validateHireStepsUpdate();
+        $hireData = $this->validateHireUpdate();
+        $hire->update($hireData);
+        
+        // foreach($stepsArray as $step){
+        //     $step = 
+        // }
     }
 
     /**
@@ -128,13 +134,10 @@ class HiresController extends Controller
     }
 
     public function test(){
-        return Hire::where('is_active', 1)
-        ->whereRaw('DATEDIFF(start_date, CURDATE()) < 100')
-        ->select('first_name', 'last_name', 'start_date')
-        ->withCount(['hireSteps' => function($query){
-            $query->where('status', '!=', 2);
-        }])
-        ->having('hire_steps_count', '>', 0)->get();
+        $hire = Hire::find(1);
+        $hire->first_name = 'Dwights';
+        $hire->save();
+        return $hire->getChanges();
     }
 
     protected function validateHireCreation(){
@@ -198,6 +201,12 @@ class HiresController extends Controller
             'slack_url' => ['nullable', 'max:255'],
             'is_active' => ['nullable'],
             'set_inactive_on' => ['nullable', 'date']
+        ]);
+    }
+
+    protected function validateHireStepsUpdate(){
+        return request()->validate([
+            'hire_steps' => ['nullable']
         ]);
     }
 }
