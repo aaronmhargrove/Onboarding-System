@@ -12,42 +12,47 @@ import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import './searchBar.css';
+import { withSnackbar } from 'notistack';
 
 class SearchBar extends React.Component {
-    state = {
-        searchValue: '', 
-        filterModalOpen: false,
-        dateEnteredFlag: true,
-        regionalLocationFlag: true,
-        cwidFlag: true,
-        genderFlag: true,
-        hireTypeFlag: true,
-        pdStartDateFlag: true,
-        vendorFlag: true,
-        roleFlag: true,
-        plicFlag: true,
-        teamNameFlag: true,
-        platformFlag: true,
-        managerFlag: true,
-        hireStatusFlag: true,
-        onboardingBuddyFlag: true,
-        computerNeedsFlag: true,
-        seatNumberAssignedFlag: true,
-        campusFlag: true,
-        managerCommentsFlag: true,
-        neidFlag: true,
-        hireRehireFlag: true,
-        dateHireRehireFlag: true,
-        macTicketFlag: true,
-        dateMacTicketFlag: true,
-        dateLaptopDeliveredFlag: true,
-        onboardingEmailFlag: true,
-        addToDlsFlag: true,
-        welcomeEmailFlag: true,
-        adminNameFlag: true,
-        startRangeDate: '',
-        endRangeDate: '',
-    };
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            searchValue: '', 
+            filterModalOpen: false,
+            dateEnteredFlag: true,
+            regionalLocationFlag: true,
+            cwidFlag: true,
+            genderFlag: true,
+            hireTypeFlag: true,
+            pdStartDateFlag: true,
+            vendorFlag: true,
+            roleFlag: true,
+            plicFlag: true,
+            teamNameFlag: true,
+            platformFlag: true,
+            managerFlag: true,
+            hireStatusFlag: true,
+            onboardingBuddyFlag: true,
+            computerNeedsFlag: true,
+            seatNumberAssignedFlag: true,
+            campusFlag: true,
+            managerCommentsFlag: true,
+            neidFlag: true,
+            hireRehireFlag: true,
+            dateHireRehireFlag: true,
+            macTicketFlag: true,
+            dateMacTicketFlag: true,
+            dateLaptopDeliveredFlag: true,
+            onboardingEmailFlag: true,
+            addToDlsFlag: true,
+            welcomeEmailFlag: true,
+            adminNameFlag: true,
+            startRangeDate: '',
+            endRangeDate: '',
+        };
+    }
 
     onSearchInput = (event) => {
         this.setState({searchValue: event.target.value});
@@ -68,6 +73,7 @@ class SearchBar extends React.Component {
 
     onSearchClick = (event) => {
         console.log('Search clicked.');
+        this.props.search(this.state.searchValue);
     }
 
     onHighlightClick = (event) => {
@@ -661,4 +667,4 @@ class SearchBar extends React.Component {
     };
 }
 
-export default SearchBar;
+export default withSnackbar(SearchBar);

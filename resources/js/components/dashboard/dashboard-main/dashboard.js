@@ -6,6 +6,7 @@ import UpcomingDates from '../upcoming-dates/upcomingDates';
 import axios from 'axios';
 import './dashboard.css';
 import { withSnackbar } from 'notistack';
+import { currentUser } from '../../../global';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 var hireData = [];
@@ -18,7 +19,9 @@ class Dashboard extends React.Component {
         this.state = { loading_hires: true, loading_users: true };
 
         this.setReload = this.setReload.bind(this);
+        this.searchQuery = this.searchQuery.bind(this);
     }
+
     componentDidMount() {
         hireData = [];
         usersData = [];
@@ -147,12 +150,39 @@ class Dashboard extends React.Component {
         });
     }
 
+    searchQuery(searchString) {
+        console.log('search query');
+        hireData = [];
+        usersData = [];
+
+        this.setState({loading_hires: true, loading_users: true});
+
+        axios.get('hires/search', {
+            "searchText": searchString,
+            "step": null,
+            "userId": null,
+            "startDate": null,
+            "endDate": null,
+            "inactive": null,
+            "cols": null
+        },
+        {
+            headers: {
+                'content-type': 'application/json',
+            }
+        }).then(response => {
+            console.log(response);
+        }).catch(response => {
+            console.log(response.response.data);
+        });
+    }
+
     render() {
         return(
             <Paper className="dashboardWidget">
                 {/* {(this.state.loading_users || this.state.loading_hires) ? <div className="loadingSpinner"><CircularProgress size="5rem"/></div> :  */}
                     <div>
-                        <SearchBar />
+                        <SearchBar search={this.searchQuery}/>
                         {this.state.loading_users || this.state.loading_hires ? <div className="loadingSpinnerDashboard"><CircularProgress size="5rem"/></div> :
                             <SearchResults className="dashboardTable" data={hireData} users={usersData} setReload={this.setReload}/>
                         }                        
