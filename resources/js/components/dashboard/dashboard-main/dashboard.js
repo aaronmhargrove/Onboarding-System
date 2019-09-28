@@ -158,7 +158,7 @@ class Dashboard extends React.Component {
 
         this.setState({loading_hires: true, loading_users: true});
 
-        axios.get('hires/search', {
+        axios.post('hires/search', {
             "searchText": searchString,
             "step": null,
             "startDate": null,
@@ -172,22 +172,77 @@ class Dashboard extends React.Component {
             }
         }).then(response => {
             console.log(response);
-            this.setState({loading_hires: false, loading_users: false});
+            response.data.forEach(hire => {
+                hireData.push(hire);
+            });
+            this.setState({loading_hires: false});
         }).catch(response => {
-            console.log(response.response.data);
-            this.setState({loading_hires: false, loading_users: false});
+            if (response.response.status == 422){ // Validation error
+                var fieldIssues = response.response.data.errors;
+                var issueKeys = Object.keys(fieldIssues);
+                console.log(fieldIssues)
+                issueKeys.forEach(key => {
+                    var issueArray = fieldIssues[key];
+                    issueArray.forEach(element => {
+                        this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                            variant: 'error',
+                            autoHideDuration: 5000
+                        });
+                    });
+                });
+              }
+            else{ // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
+            this.setState({loading_hires: false});
+        });
+
+        axios.get('/users').then(response => {
+            console.log(response);
+            response.data.forEach(user => {
+                usersData.push(user);
+            });
+            this.setState({loading_users: false});
+        }).catch(response => {
+            if (response.response.status == 422){ // Validation error
+                var fieldIssues = response.response.data.errors;
+                var issueKeys = Object.keys(fieldIssues);
+                console.log(fieldIssues)
+                issueKeys.forEach(key => {
+                    var issueArray = fieldIssues[key];
+                    issueArray.forEach(element => {
+                        this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                            variant: 'error',
+                            autoHideDuration: 5000
+                        });
+                    });
+                });
+              }
+            else{ // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
+            this.setState({loading_users: false});
         });
     }
 
-    filterQuery(filters, startDate, endDate) {
+    filterQuery(filters, startDate, endDate, hideInactive) {
+        hireData = [];
+        usersData = [];
+
         this.setState({loading_hires: true, loading_users: true});
 
-        axios.get('hires/search', {
+        axios.post('hires/search', {
             "searchText": null,
             "step": null,
             "startDate": startDate,
             "endDate": endDate,
-            "inactive": null,
+            "inactive": !hideInactive,
             "cols": filters
         },
         {
@@ -196,11 +251,65 @@ class Dashboard extends React.Component {
             }
         }).then(response => {
             console.log('FILTER QUERY: ', response);
-            this.setState({loading_hires: false, loading_users: false});
+            response.data.forEach(hire => {
+                hireData.push(hire);
+            });
+            this.setState({loading_hires: false});
         }).catch(response => {
             console.log('FILTER QUERY ERROR: ', response.response.data);
-            this.setState({loading_hires: false, loading_users: false});
+            if (response.response.status == 422){ // Validation error
+                var fieldIssues = response.response.data.errors;
+                var issueKeys = Object.keys(fieldIssues);
+                console.log(fieldIssues)
+                issueKeys.forEach(key => {
+                    var issueArray = fieldIssues[key];
+                    issueArray.forEach(element => {
+                        this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                            variant: 'error',
+                            autoHideDuration: 5000
+                        });
+                    });
+                });
+              }
+            else{ // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
+            this.setState({loading_hires: false});
         });
+
+        axios.get('/users').then(response => {
+            console.log(response);
+            response.data.forEach(user => {
+                usersData.push(user);
+            });
+            this.setState({loading_users: false});
+        }).catch(response => {
+            if (response.response.status == 422){ // Validation error
+                var fieldIssues = response.response.data.errors;
+                var issueKeys = Object.keys(fieldIssues);
+                console.log(fieldIssues)
+                issueKeys.forEach(key => {
+                    var issueArray = fieldIssues[key];
+                    issueArray.forEach(element => {
+                        this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                            variant: 'error',
+                            autoHideDuration: 5000
+                        });
+                    });
+                });
+              }
+            else{ // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
+            this.setState({loading_users: false});
+        });
+        
     }
 
     render() {
