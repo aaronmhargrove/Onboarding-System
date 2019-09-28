@@ -14,6 +14,6 @@ class HireStep extends Model{
     }
 
     public function step(){
-        return $this->belongsTo(Step::class)->orderBy('order');
+        return $this->has(Step::class);
     }
 }
