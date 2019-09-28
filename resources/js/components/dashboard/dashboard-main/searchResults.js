@@ -147,6 +147,7 @@ class searchResults extends React.Component {
       onboardingEmailStatusChanged: false,
       addToDlsAndPdOrgStatusChanged: false,
       welcomeEmailSentStatusChanged: false,
+      startDateChanged: false,
     };
   }
 
@@ -260,66 +261,129 @@ class searchResults extends React.Component {
             }
         }
 
-        axios.patch('hires/' + this.state.hireId,             
-        {
-          "admin_id": this.state.admin_id != "" ? this.state.admin_id : null,
-          "regional_location": this.state.regionalLocation != "" ? this.state.regionalLocation : null,
-          "first_name": this.state.firstName != "" ? this.state.firstName : null,
-          "last_name": this.state.lastName != "" ? this.state.lastName : null,
-          "cwid": this.state.cwid != "" ? this.state.cwid : null,
-          "gender": this.state.gender != "" ? this.state.gender : null,
-          "hire_type": this.state.hireType != "" ? this.state.hireType : null,
-          "start_date": this.state.hireDate != "" ? this.state.hireDate : null,
-          "vendor": this.state.vendor != "" ? this.state.vendor : null,
-          "role": this.state.role != "" ? this.state.role : null,
-          "pl_ic": this.state.plic != "" ? this.state.plic : null,
-          "team_name": this.state.teamName != "" ? this.state.teamName : null,
-          "platform": this.state.platform != "" ? this.state.platform : null,
-          "manager_id": this.state.manager_id != "" ? this.state.manager_id : null,
-          "hire_status": this.state.hireStatus != "" ? this.state.hireStatus : null,
-          "onboarding_buddy": this.state.onboardingBuddy != "" ? this.state.onboardingBuddy : null,
-          "computer_needs": this.state.computerNeeds != "" ? this.state.computerNeeds : null,
-          "seat_number": this.state.seatNum != "" ? this.state.seatNum : null,
-          "campus": this.state.onboardingCampus != "" ? this.state.onboardingCampus : null,
-          "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
-          "hire_ticket": this.state.newHireRehireTicket != "" ? this.state.newHireRehireTicket : null,
-          "mac_ticket": this.state.macTicket != "" ? this.state.macTicket : null,
-          "hire_steps": changedHireSteps,
-        },
-        {
-          headers: {
-              'content-type': 'application/json',
-          }
-        })
-        .then(response => {
-          console.log('Successfully updated the hire: ', response);
-          this.props.enqueueSnackbar("Hire updated!", { // Success Message
-            variant: 'success',
-            autoHideDuration: 2000
-          });
-        })
-        .catch(response => {
-          if (response.response.status == 422){ // Validation error
-            var fieldIssues = response.response.data.errors;
-            var issueKeys = Object.keys(fieldIssues);
-            console.log(fieldIssues)
-            issueKeys.forEach(key => {
-                var issueArray = fieldIssues[key];
-                issueArray.forEach(element => {
-                    this.props.enqueueSnackbar(element, { // Display what was wrong with fields
-                        variant: 'error',
-                        autoHideDuration: 5000
-                    });
-                });
+        if(this.state.startDateChanged) {
+          axios.patch('hires/' + this.state.hireId,             
+          {
+            "admin_id": this.state.admin_id != "" ? this.state.admin_id : null,
+            "regional_location": this.state.regionalLocation != "" ? this.state.regionalLocation : null,
+            "first_name": this.state.firstName != "" ? this.state.firstName : null,
+            "last_name": this.state.lastName != "" ? this.state.lastName : null,
+            "cwid": this.state.cwid != "" ? this.state.cwid : null,
+            "gender": this.state.gender != "" ? this.state.gender : null,
+            "hire_type": this.state.hireType != "" ? this.state.hireType : null,
+            "start_date": this.state.startDateChanged ? this.state.pdStartDate : null,
+            "vendor": this.state.vendor != "" ? this.state.vendor : null,
+            "role": this.state.role != "" ? this.state.role : null,
+            "pl_ic": this.state.plic != "" ? this.state.plic : null,
+            "team_name": this.state.teamName != "" ? this.state.teamName : null,
+            "platform": this.state.platform != "" ? this.state.platform : null,
+            "manager_id": this.state.manager_id != "" ? this.state.manager_id : null,
+            "hire_status": this.state.hireStatus != "" ? this.state.hireStatus : null,
+            "onboarding_buddy": this.state.onboardingBuddy != "" ? this.state.onboardingBuddy : null,
+            "computer_needs": this.state.computerNeeds != "" ? this.state.computerNeeds : null,
+            "seat_number": this.state.seatNum != "" ? this.state.seatNum : null,
+            "campus": this.state.onboardingCampus != "" ? this.state.onboardingCampus : null,
+            "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
+            "hire_ticket": this.state.newHireRehireTicket != "" ? this.state.newHireRehireTicket : null,
+            "mac_ticket": this.state.macTicket != "" ? this.state.macTicket : null,
+            "hire_steps": changedHireSteps,
+          },
+          {
+            headers: {
+                'content-type': 'application/json',
+            }
+          })
+          .then(response => {
+            console.log('Successfully updated the hire: ', response);
+            this.props.enqueueSnackbar("Hire updated!", { // Success Message
+              variant: 'success',
+              autoHideDuration: 2000
             });
-          }
-          else{ // Generic laravel error
-              this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
-                  variant: 'error',
-                  autoHideDuration: 10000
+          })
+          .catch(response => {
+            if (response.response.status == 422){ // Validation error
+              var fieldIssues = response.response.data.errors;
+              var issueKeys = Object.keys(fieldIssues);
+              console.log(fieldIssues)
+              issueKeys.forEach(key => {
+                  var issueArray = fieldIssues[key];
+                  issueArray.forEach(element => {
+                      this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                          variant: 'error',
+                          autoHideDuration: 5000
+                      });
+                  });
               });
-          }
-        });
+            }
+            else{ // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
+          });
+        }
+        else {
+          axios.patch('hires/' + this.state.hireId,             
+          {
+            "admin_id": this.state.admin_id != "" ? this.state.admin_id : null,
+            "regional_location": this.state.regionalLocation != "" ? this.state.regionalLocation : null,
+            "first_name": this.state.firstName != "" ? this.state.firstName : null,
+            "last_name": this.state.lastName != "" ? this.state.lastName : null,
+            "cwid": this.state.cwid != "" ? this.state.cwid : null,
+            "gender": this.state.gender != "" ? this.state.gender : null,
+            "hire_type": this.state.hireType != "" ? this.state.hireType : null,
+            "vendor": this.state.vendor != "" ? this.state.vendor : null,
+            "role": this.state.role != "" ? this.state.role : null,
+            "pl_ic": this.state.plic != "" ? this.state.plic : null,
+            "team_name": this.state.teamName != "" ? this.state.teamName : null,
+            "platform": this.state.platform != "" ? this.state.platform : null,
+            "manager_id": this.state.manager_id != "" ? this.state.manager_id : null,
+            "hire_status": this.state.hireStatus != "" ? this.state.hireStatus : null,
+            "onboarding_buddy": this.state.onboardingBuddy != "" ? this.state.onboardingBuddy : null,
+            "computer_needs": this.state.computerNeeds != "" ? this.state.computerNeeds : null,
+            "seat_number": this.state.seatNum != "" ? this.state.seatNum : null,
+            "campus": this.state.onboardingCampus != "" ? this.state.onboardingCampus : null,
+            "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
+            "hire_ticket": this.state.newHireRehireTicket != "" ? this.state.newHireRehireTicket : null,
+            "mac_ticket": this.state.macTicket != "" ? this.state.macTicket : null,
+            "hire_steps": changedHireSteps,
+          },
+          {
+            headers: {
+                'content-type': 'application/json',
+            }
+          })
+          .then(response => {
+            console.log('Successfully updated the hire: ', response);
+            this.props.enqueueSnackbar("Hire updated!", { // Success Message
+              variant: 'success',
+              autoHideDuration: 2000
+            });
+          })
+          .catch(response => {
+            if (response.response.status == 422){ // Validation error
+              var fieldIssues = response.response.data.errors;
+              var issueKeys = Object.keys(fieldIssues);
+              console.log(fieldIssues)
+              issueKeys.forEach(key => {
+                  var issueArray = fieldIssues[key];
+                  issueArray.forEach(element => {
+                      this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                          variant: 'error',
+                          autoHideDuration: 5000
+                      });
+                  });
+              });
+            }
+            else{ // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
+          });
+        }
   
         axios.patch('/hires/' + this.state.hireId + '/unlock')
         .then(response => {
@@ -443,7 +507,7 @@ class searchResults extends React.Component {
   }
 
   onPdStartDatePick = (event) => {
-    this.setState({pdStartDate: event.target.value});
+    this.setState({pdStartDate: event.target.value, startDateChanged: true});
   }
 
   onRoleEnter = (event) => {
@@ -1093,7 +1157,8 @@ onSubmitClick = (event) => {console.log('Submit')}
             onboardingEmailStatus: rowData.onboardingEmailStatus,
             addToDlsAndPdOrgStatus: rowData.addToDlsAndPdOrgStatus,
             welcomeEmailSentStatus: rowData.welcomeEmailSentStatus,
-            manager_id: rowData.manager_id
+            manager_id: rowData.manager_id,
+            startDateChanged: false,
           },
             () => this.onModalOpen(rowData))}
           data={displayData}
