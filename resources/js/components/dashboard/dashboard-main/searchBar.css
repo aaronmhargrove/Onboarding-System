@@ -1,10 +1,10 @@
 .searchBarWidget {
     display: flex;
     position: relative;
-    width: 60vw;
+    width: 48vw;
     height: 9vh;
     top: -4%;
-    left: 5%;
+    left: 7.5vw;
 }
 
 .searchBar {

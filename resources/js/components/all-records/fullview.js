@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { CSVLink, CSVDownload } from "react-csv";
-
+import { withSnackbar } from 'notistack';
 import './fullview.css';
 
 const tabNames = [
@@ -43,56 +43,64 @@ var hireData = [];
 var usersData = [];
 var printData = [];
 var headers = [
-        {label: "First Name", key: "firstName"},
-        {label: "Last Name", key: "lastName"},
-        {label: "Regional Location", key: "regionalLocation"},
-        {label: "CWID", key: "cwid"},
-        {label: "Gender", key: "gender"},
-        {label: "Hire Type", key: "hireType"},
-        {label: "PD Start Date", key: "pdStartDate"},
-        {label: "Vendor", key: "vendor"},
-        {label: "Role", key: "role"},
-        {label: "PLIC", key: "plic"},
-        {label: "Team Name", key: "teamName"},
-        {label: "Platform", key: "platform"},
-        {label: "Manager", key: "manager"},
-        {label: "Manager ID", key: "manager_id"},
-        {label: "Hire Status", key: "hireStatus"},
-        {label: "Onboarding Buddy", key: "onboardingBuddy"},
-        {label: "Computer Needs", key: "computerNeeds"},
-        {label: "SEAT Number", key: "seatNum"},
-        {label: "Onboarding Campus", key: "onboardingCampus"},
-        {label: "Manager Comments", key: "managerComments"},
-        {label: "NEID", key: "neid"},
-        {label: "New Hire/Re-Hire Ticket", key: "newHireRehireTicket"},
-        {label: "Date Hire Ticket Entered", key: "dateEnteredHire"},
-        {label: "MAC Ticket", key: "macTicket"},
-        {label: "Date MAC Ticket Entered", key: "dateEnteredMacTicket"},
-        {label: "Date Laptop Delivered", key: "dateLaptopDelivered"},
-        {label: "Date Onboarding Buddy Email Sent", key: "onboardingBuddyEmailSent"},
-        {label: "Date Added to DLs and PD Org", key: "addToDlsAndPdOrg"},
-        {label: "Date Welcome Email Sent", key: "welcomeEmailSent"},
-        {label: "Admin Name", key: "adminName"},
-        {label: "Admin ID", key: "admin_id"},
-        {label: "Admin Assigned", key: "adminAssignedStatus"},
-        {label: "CWID Assigned", key: "cwidAssignedStatus"},
-        {label: "NEID Assigned", key: "neidAssignedStatus"},
-        {label: "Hire Ticket Submitted", key: "hireTicketStatus"},
-        {label: "MAC Ticket Submitted", key: "macTicketStatus"},
-        {label: "Laptop Delivered", key: "laptopDeliveredStatus"},
-        {label: "Onboarding Email Sent", key: "onboardingEmailStatus"},
-        {label: "Added to DLs/PD Org", key: "addToDlsAndPdOrgStatus"},
-        {label: "Welcome Email Sent", key: "welcomeEmailSentStatus"},
-        {label: "Hire ID", key: "hireId"}
-    ]
+    { label: "First Name", key: "firstName" },
+    { label: "Last Name", key: "lastName" },
+    { label: "Regional Location", key: "regionalLocation" },
+    { label: "CWID", key: "cwid" },
+    { label: "Gender", key: "gender" },
+    { label: "Hire Type", key: "hireType" },
+    { label: "PD Start Date", key: "pdStartDate" },
+    { label: "Vendor", key: "vendor" },
+    { label: "Role", key: "role" },
+    { label: "PLIC", key: "plic" },
+    { label: "Team Name", key: "teamName" },
+    { label: "Platform", key: "platform" },
+    { label: "Manager", key: "manager" },
+    { label: "Manager ID", key: "manager_id" },
+    { label: "Hire Status", key: "hireStatus" },
+    { label: "Onboarding Buddy", key: "onboardingBuddy" },
+    { label: "Computer Needs", key: "computerNeeds" },
+    { label: "SEAT Number", key: "seatNum" },
+    { label: "Onboarding Campus", key: "onboardingCampus" },
+    { label: "Manager Comments", key: "managerComments" },
+    { label: "NEID", key: "neid" },
+    { label: "New Hire/Re-Hire Ticket", key: "newHireRehireTicket" },
+    { label: "Date Hire Ticket Entered", key: "dateEnteredHire" },
+    { label: "MAC Ticket", key: "macTicket" },
+    { label: "Date MAC Ticket Entered", key: "dateEnteredMacTicket" },
+    { label: "Date Laptop Delivered", key: "dateLaptopDelivered" },
+    { label: "Date Onboarding Buddy Email Sent", key: "onboardingBuddyEmailSent" },
+    { label: "Date Added to DLs and PD Org", key: "addToDlsAndPdOrg" },
+    { label: "Date Welcome Email Sent", key: "welcomeEmailSent" },
+    { label: "Admin Name", key: "adminName" },
+    { label: "Admin ID", key: "admin_id" },
+    { label: "Admin Assigned", key: "adminAssignedStatus" },
+    { label: "CWID Assigned", key: "cwidAssignedStatus" },
+    { label: "NEID Assigned", key: "neidAssignedStatus" },
+    { label: "Hire Ticket Submitted", key: "hireTicketStatus" },
+    { label: "MAC Ticket Submitted", key: "macTicketStatus" },
+    { label: "Laptop Delivered", key: "laptopDeliveredStatus" },
+    { label: "Onboarding Email Sent", key: "onboardingEmailStatus" },
+    { label: "Added to DLs/PD Org", key: "addToDlsAndPdOrgStatus" },
+    { label: "Welcome Email Sent", key: "welcomeEmailSentStatus" },
+    { label: "Hire ID", key: "hireId" }
+]
 
 class FullView extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { tab: 0, leftTabName: tabs[0], centerTabName: tabs[1], rightTabName: tabs[2], maxTabs: 7, garbage: 0, tabsShown: 3, loading_hires: true, loading_users: true }
-
+        this.state = {
+            tab: 0, leftTabName: tabs[0], centerTabName: tabs[1], rightTabName: tabs[2], maxTabs: 7, garbage: 0, tabsShown: 3, loading_hires: true, loading_users: true, searchString: "",
+            filters: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true],
+            startDate: "",
+            endDate: "",
+            hideInactive: true,
+        }
+        
         this.triggerReload = this.triggerReload.bind(this);
+        this.searchQuery = this.searchQuery.bind(this);
+        this.filterQuery = this.filterQuery.bind(this);
     }
 
     componentDidMount() {
@@ -205,6 +213,107 @@ class FullView extends React.Component {
         });
     }
 
+    query() {
+        hireData = [];
+        usersData = [];
+
+        this.setState({ loading_hires: true, loading_users: true });
+
+        axios.post('hires/search', {
+            "searchText": this.state.searchString,
+            "step": null,
+            "startDate": this.state.startDate,
+            "endDate": this.state.endDate,
+            "inactive": !this.state.hideInactive,
+            "cols": this.state.filters
+        },
+            {
+                headers: {
+                    'content-type': 'application/json',
+                }
+            }).then(response => {
+                console.log('FILTER QUERY: ', response);
+                response.data.forEach(hire => {
+                    hireData.push(hire);
+                });
+                this.setState({ loading_hires: false });
+            }).catch(response => {
+                console.log('FILTER QUERY ERROR: ', response.response.data);
+                if (response.response.status == 422) { // Validation error
+                    var fieldIssues = response.response.data.errors;
+                    var issueKeys = Object.keys(fieldIssues);
+                    console.log(fieldIssues)
+                    issueKeys.forEach(key => {
+                        var issueArray = fieldIssues[key];
+                        issueArray.forEach(element => {
+                            this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                                variant: 'error',
+                                autoHideDuration: 5000
+                            });
+                        });
+                    });
+                }
+                else { // Generic laravel error
+                    this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                        variant: 'error',
+                        autoHideDuration: 10000
+                    });
+                }
+                this.setState({ loading_hires: false });
+            });
+
+        axios.get('/users').then(response => {
+            console.log(response);
+            response.data.forEach(user => {
+                usersData.push(user);
+            });
+            this.setState({ loading_users: false });
+        }).catch(response => {
+            if (response.response.status == 422) { // Validation error
+                var fieldIssues = response.response.data.errors;
+                var issueKeys = Object.keys(fieldIssues);
+                console.log(fieldIssues)
+                issueKeys.forEach(key => {
+                    var issueArray = fieldIssues[key];
+                    issueArray.forEach(element => {
+                        this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                            variant: 'error',
+                            autoHideDuration: 5000
+                        });
+                    });
+                });
+            }
+            else { // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
+            this.setState({ loading_users: false });
+        });
+    }
+
+    searchQuery(searchString) {
+        this.setState({
+            searchString: searchString
+        }, () => {
+            console.log('Querying from search.');
+            this.query();
+        });
+    }
+
+    filterQuery(filters, startDate, endDate, hideInactive) {
+        this.setState({
+            filters: filters,
+            startDate: startDate,
+            endDate: endDate,
+            hideInactive: hideInactive
+        }, () => {
+            console.log('Querying from filter.');
+            this.query();
+        });
+    }
+
     triggerReload() {
         this.setState({ loading_hires: true, loading_users: true });
 
@@ -270,8 +379,8 @@ class FullView extends React.Component {
         });
     }
 
-    mapValues(hire, index) {        
-        if(hire.hire_steps[0].status == 0) {
+    mapValues(hire, index) {
+        if (hire.hire_steps[0].status == 0) {
             return 'Incomplete';
         } else if (hire.hire_steps[0].status == 1) {
             return 'In Progress';
@@ -314,7 +423,7 @@ class FullView extends React.Component {
             return (
                 <Paper className="fullview">
                     <div className="wrapper">
-                        <SearchBar classname="searchbar" />
+                        <SearchBar classname="searchbar" search={this.searchQuery} filter={this.filterQuery}/>
                     </div>
                     <div className="tabswrapper">
                         <FullViewTabs classname="tabs"
@@ -328,7 +437,7 @@ class FullView extends React.Component {
                             maxTabs={this.state.maxTabs}
                         />
                     </div>
-                    <Stepper classname="stepper" data={hireData} users={usersData} triggerReload={this.triggerReload} />
+                    <Stepper classname="stepper" data={hireData} users={usersData} triggerReload={this.triggerReload} filters={this.state.filters}/>
                     <Button variant="contained" color="primary" className="export">
                         <CSVLink className="csvLink" data={printData} filename="BayerOnbaording.csv" headers={headers}>
                             Export Current Search
@@ -340,4 +449,4 @@ class FullView extends React.Component {
     }
 }
 
-export default FullView;
+export default withSnackbar(FullView);
