@@ -116,9 +116,9 @@ class UpcomingDates extends React.Component {
                                     toolbar: false,
                                     rowStyle: rowData => {
                                         if(rowData.daysRemaining < 1) {
-                                          return {backgroundColor: 'pink', backgroundImage: 'repeating-linear-gradient(330deg, transparent, transparent 10px, rgba(255,255,255,.5) 10px, rgba(255,255,255,.5) 30px'};
+                                          return {backgroundColor: '#ffe1e6', backgroundImage: 'repeating-linear-gradient(330deg, transparent, transparent 10px, rgba(255,255,255,1) 10px, rgba(255,255,255,1) 30px'};
                                         } else if (rowData.daysRemaining < 4) {
-                                            return {backgroundColor: 'lightyellow', backgroundImage: 'repeating-linear-gradient(330deg, transparent, transparent 10px, rgba(255,255,255,.5) 10px, rgba(255,255,255,.5) 30px'}; 
+                                            return {backgroundColor: '#ffffc7', backgroundImage: 'repeating-linear-gradient(330deg, transparent, transparent 10px, rgba(255,255,255,.5) 10px, rgba(255,255,255,.5) 30px'}; 
                                         }
                                     }
                                 }}
