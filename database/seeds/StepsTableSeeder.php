@@ -25,15 +25,15 @@ class StepsTableSeeder extends Seeder
             'order' => 3
         ));
         Step::create(array(
-            'name' => 'Assign New/Rehire Ticket',
+            'name' => 'Submit Hire Ticket',
             'order' => 4
         ));
         Step::create(array(
-            'name' => 'Assign Mac Ticket',
+            'name' => 'Submit MAC Ticket',
             'order' => 5
         ));
         Step::create(array(
-            'name' => 'Laptop Delivered?',
+            'name' => 'Deliver Laptop',
             'order' => 6
         ));
         Step::create(array(
@@ -41,7 +41,7 @@ class StepsTableSeeder extends Seeder
             'order' => 7
         ));
         Step::create(array(
-            'name' => "Add to DL's and PD Org",
+            'name' => "Add to DLs/PD Org",
             'order' => 8
         ));
         Step::create(array(
