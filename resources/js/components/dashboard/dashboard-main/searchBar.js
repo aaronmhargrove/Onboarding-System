@@ -51,10 +51,12 @@ class SearchBar extends React.Component {
             adminNameFlag: true,
             startRangeDate: '',
             endRangeDate: '',
+            hideInactive: true,
         };
     }
 
     onSearchInput = (event) => {
+        console.log(event.target.value);
         this.setState({searchValue: event.target.value});
     }
 
@@ -115,7 +117,7 @@ class SearchBar extends React.Component {
             this.state.adminNameFlag,
         ];
 
-        this.props.filter(filters, this.state.startRangeDate, this.state.endRangeDate);
+        this.props.filter(filters, this.state.startRangeDate, this.state.endRangeDate, this.state.hideInactive);
     }
 
     onStartDatePick = (event) => {
@@ -685,6 +687,29 @@ class SearchBar extends React.Component {
                                         shrink: true,
                                         }}
                                         onChange={this.onEndDatePick}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} className="headerGrid">
+                                    <Divider className="headerDivider"/>
+                                    <div className="dateRangeHeader">Toggle Inactive Hires</div>
+                                    <Divider className="headerDivider"/>
+                                </Grid>
+                                <Grid item xs={6} className="gridItem">
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox 
+                                                checked={this.state.hideInactive}
+                                                onChange={
+                                                    (event) => {
+                                                        this.setState({
+                                                            hideInactive: event.target.checked
+                                                        });
+                                                    }
+                                                }
+                                                color="primary"
+                                            />
+                                        }
+                                        label="Hide Inactive Hires"
                                     />
                                 </Grid>
                             </Grid>
