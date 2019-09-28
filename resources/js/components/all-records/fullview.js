@@ -7,37 +7,18 @@ import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import SearchBar from '../dashboard/dashboard-main/searchBar';
 import Stepper from './table/stepper';
-import FullViewTabs from './fullviewtabs';
 import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
+import FormControl from '@material-ui/core/FormControl';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { CSVLink, CSVDownload } from "react-csv";
 import { withSnackbar } from 'notistack';
 import './fullview.css';
 
-const tabNames = [
-    "All Steps",
-    "Hire Ticket",
-    "Mac Ticket",
-    "Laptop Delivery",
-    "Onboarding Email",
-    "Add to External",
-    "Completed",
-]
-
-var tabs = [
-    "All Steps",
-    "Hire Ticket",
-    "Mac Ticket",
-];
-
-function updateTabNames(tabNumber, maxTabs, tabsShown) {
-    tabs = [];
-
-    for (let i = (tabNumber * tabsShown); (i < ((tabNumber * tabsShown) + tabsShown)) && (i < maxTabs); i++) {
-        tabs.push(tabNames[i]);
-    }
-}
 
 var hireData = [];
 var usersData = [];
@@ -91,11 +72,14 @@ class FullView extends React.Component {
         super(props);
 
         this.state = {
-            tab: 0, leftTabName: tabs[0], centerTabName: tabs[1], rightTabName: tabs[2], maxTabs: 7, garbage: 0, tabsShown: 3, loading_hires: true, loading_users: true, searchString: "",
+            loading_hires: true, 
+            loading_users: true, 
+            searchString: "",
             filters: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true],
             startDate: "",
             endDate: "",
             hideInactive: true,
+            selectedStep: ''
         }
         
         this.triggerReload = this.triggerReload.bind(this);
@@ -293,6 +277,10 @@ class FullView extends React.Component {
         });
     }
 
+    onSelectedStepSelect = (event) => {
+        this.setState({selectedStep: event.target.value});
+    }
+
     searchQuery(searchString) {
         this.setState({
             searchString: searchString
@@ -390,27 +378,7 @@ class FullView extends React.Component {
             return '';
         }
     }
-
-    handleLeftButtonClick = event => {
-        this.setState({ tab: this.state.tab - 1 }, () => {
-            updateTabNames(this.state.tab, this.state.maxTabs, this.state.tabsShown);
-            this.setState({ leftTabName: tabs[0] });
-            this.setState({ centerTabName: tabs[1] });
-            this.setState({ rightTabName: tabs[2] });
-            this.setState({ garbage: this.state.garbage + 1 });
-        })
-    }
-
-    handleRightButtonClick = event => {
-        this.setState({ tab: this.state.tab + 1 }, () => {
-            updateTabNames(this.state.tab, this.state.maxTabs, this.state.tabsShown);
-            this.setState({ leftTabName: tabs[0] });
-            this.setState({ centerTabName: tabs[1] });
-            this.setState({ rightTabName: tabs[2] });
-            this.setState({ garbage: this.state.garbage + 1 });
-        })
-    }
-
+    
     render() {
         if (this.state.loading_users || this.state.loading_hires) {
             return (
@@ -426,16 +394,25 @@ class FullView extends React.Component {
                         <SearchBar classname="searchbar" search={this.searchQuery} filter={this.filterQuery}/>
                     </div>
                     <div className="tabswrapper">
-                        <FullViewTabs classname="tabs"
-                            handleLeftButtonClick={this.handleLeftButtonClick}
-                            handleRightButtonClick={this.handleRightButtonClick}
-                            tabNameLeft={this.state.leftTabName}
-                            tabNameCenter={this.state.centerTabName}
-                            tabNameRight={this.state.rightTabName}
-                            tab={this.state.tab}
-                            tabsShown={this.state.tabsShown}
-                            maxTabs={this.state.maxTabs}
-                        />
+                        <FormControl>
+                            <InputLabel htmlFor="gender-selector">Gender</InputLabel>
+                                <Select 
+                                value={this.state.selectedStep} 
+                                onChange={this.onSelectedStepSelect} 
+                                input={<Input id="step-selector" />}
+                                >
+                                    <MenuItem value=""><em>Select An Incomplete Step</em></MenuItem>
+                                    <MenuItem value="0">Admin Assigned</MenuItem>
+                                    <MenuItem value="1">CWID Assigned</MenuItem>
+                                    <MenuItem value="2">NEID Assigned</MenuItem>
+                                    <MenuItem value="3">Hire Ticket Submitted</MenuItem>
+                                    <MenuItem value="4">MAC Ticket Submitted</MenuItem>
+                                    <MenuItem value="5">Laptop Delivered</MenuItem>
+                                    <MenuItem value="6">Onboarding Buddy Email Sent</MenuItem>
+                                    <MenuItem value="7">Added to DLs/PD Org</MenuItem>
+                                    <MenuItem value="8">Welcome Email Sent</MenuItem>
+                                </Select>
+                            </FormControl>
                     </div>
                     <Stepper classname="stepper" data={hireData} users={usersData} triggerReload={this.triggerReload} filters={this.state.filters}/>
                     <Button variant="contained" color="primary" className="export">
