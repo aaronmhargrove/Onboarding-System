@@ -9,10 +9,12 @@ use \App\HireType;
 use \App\HireLock;
 use \App\Step;
 use \App\User;
+use Carbon\Carbon;
 
 use App\Notifications\NewHireAdded;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 
 class HiresController extends Controller
@@ -54,12 +56,74 @@ class HiresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function search(){
-        $filters = json_decode(request()->getContent());    // This returns request as a json object
-        if($filters->hello){                                // Checks if the json contains data
-            return $filters->hello;
+        $filters = json_decode(request()->getContent());
+        $hiresFromSearch = new Collection();
+        $hires = new Collection;
+        $hiresFromFilters = $this->filterHires($filters);
+
+        // Laravel search is required to be directly on the static model, so check if there is searching first
+        if (!empty($filters->searchText)) {
+            $hiresFromSearch = Hire::search($filters->searchText)->get();
+
+            foreach ($hiresFromSearch as $hireFromSearch) {
+                foreach ($hiresFromFilters as $hireFromFilter) {
+                    if ($hireFromSearch->id == $hireFromFilter->id) {
+                        $hires->push($hireFromSearch);
+                    }
+                }
+            }
+        } else {
+            $hires = $hiresFromFilters;
         }
-        // TODO: Figure out data structure before beginning, then complete.
-        return request();
+
+        return $hires;
+    }
+
+    public function filterHires($filters) {
+        $hiresFromFilters = Hire::select();
+
+        if (!empty($filters->step)) {
+            $hiresFromFilters = $hiresFromFilters->whereHas('hireSteps', function($query, $filters) {
+                $query->where('step_id', $filters->step);
+                $query->where('status', 0);
+            });
+        }
+
+        if (!empty($filters->userId)) {
+            $hiresFromFilters = $hiresFromFilters->where(function($query) use ($filters) {
+                $query->where('manager_id', $filters->userId)
+                    ->orWhere('admin_id', $filters->userId)
+                ;
+            });
+        }
+
+        if (!empty($filters->startDate) && !empty($filters->endDate)) {
+            $startFilter = $filters->startDate;
+            $endFilter   = $filters->endDate;
+            $startFilter = date('Y-m-d', strtotime($startFilter));
+            $endFilter   = date('Y-m-d', strtotime($endFilter));
+
+            // dd($endFilter);
+
+            $hiresFromFilters = $hiresFromFilters->whereBetween('start_date', [$startFilter, $endFilter]);
+        } else if (!empty($filters->endDate)) {
+            $endFilter = $filters->endDate;
+            $endFilter = new Carbon(date('Y-m-d', strtotime($endFilter)));
+
+            $hiresFromFilters = $hiresFromFilters->whereDate('start_date', '<=', $endFilter);
+        } else if (!empty($filters->startDate)) {
+            $startFilter = $filters->startDate;
+            $startFilter = new Carbon(date('Y-m-d', strtotime($startFilter)));
+
+            $hiresFromFilters = $hiresFromFilters->whereDate('start_date', '>=', $startFilter);
+        } 
+
+        if (!empty($filters->inactive)) {
+            $hiresFromFilters = $hiresFromFilters->where('is_inactive', $filters->inactive);
+        }
+
+
+        return $hiresFromFilters->get();
     }
 
     /**
