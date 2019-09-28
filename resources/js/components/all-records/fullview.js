@@ -92,14 +92,12 @@ class FullView extends React.Component {
 
         this.state = {
             tab: 0, leftTabName: tabs[0], centerTabName: tabs[1], rightTabName: tabs[2], maxTabs: 7, garbage: 0, tabsShown: 3, loading_hires: true, loading_users: true, searchString: "",
-            filters: [],
+            filters: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true],
             startDate: "",
             endDate: "",
             hideInactive: true,
         }
-
-
-
+        
         this.triggerReload = this.triggerReload.bind(this);
         this.searchQuery = this.searchQuery.bind(this);
         this.filterQuery = this.filterQuery.bind(this);
@@ -439,7 +437,7 @@ class FullView extends React.Component {
                             maxTabs={this.state.maxTabs}
                         />
                     </div>
-                    <Stepper classname="stepper" data={hireData} users={usersData} triggerReload={this.triggerReload} />
+                    <Stepper classname="stepper" data={hireData} users={usersData} triggerReload={this.triggerReload} filters={this.state.filters}/>
                     <Button variant="contained" color="primary" className="export">
                         <CSVLink className="csvLink" data={printData} filename="BayerOnbaording.csv" headers={headers}>
                             Export Current Search
