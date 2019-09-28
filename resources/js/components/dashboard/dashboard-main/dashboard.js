@@ -20,6 +20,7 @@ class Dashboard extends React.Component {
 
         this.setReload = this.setReload.bind(this);
         this.searchQuery = this.searchQuery.bind(this);
+        this.filterQuery = this.filterQuery.bind(this);
     }
 
     componentDidMount() {
@@ -160,7 +161,6 @@ class Dashboard extends React.Component {
         axios.get('hires/search', {
             "searchText": searchString,
             "step": null,
-            "userId": null,
             "startDate": null,
             "endDate": null,
             "inactive": null,
@@ -172,8 +172,34 @@ class Dashboard extends React.Component {
             }
         }).then(response => {
             console.log(response);
+            this.setState({loading_hires: false, loading_users: false});
         }).catch(response => {
             console.log(response.response.data);
+            this.setState({loading_hires: false, loading_users: false});
+        });
+    }
+
+    filterQuery(filters, startDate, endDate) {
+        this.setState({loading_hires: true, loading_users: true});
+
+        axios.get('hires/search', {
+            "searchText": null,
+            "step": null,
+            "startDate": startDate,
+            "endDate": endDate,
+            "inactive": null,
+            "cols": filters
+        },
+        {
+            headers: {
+                'content-type': 'application/json',
+            }
+        }).then(response => {
+            console.log('FILTER QUERY: ', response);
+            this.setState({loading_hires: false, loading_users: false});
+        }).catch(response => {
+            console.log('FILTER QUERY ERROR: ', response.response.data);
+            this.setState({loading_hires: false, loading_users: false});
         });
     }
 
@@ -182,7 +208,7 @@ class Dashboard extends React.Component {
             <Paper className="dashboardWidget">
                 {/* {(this.state.loading_users || this.state.loading_hires) ? <div className="loadingSpinner"><CircularProgress size="5rem"/></div> :  */}
                     <div>
-                        <SearchBar search={this.searchQuery}/>
+                        <SearchBar search={this.searchQuery} filter={this.filterQuery}/>
                         {this.state.loading_users || this.state.loading_hires ? <div className="loadingSpinnerDashboard"><CircularProgress size="5rem"/></div> :
                             <SearchResults className="dashboardTable" data={hireData} users={usersData} setReload={this.setReload}/>
                         }                        

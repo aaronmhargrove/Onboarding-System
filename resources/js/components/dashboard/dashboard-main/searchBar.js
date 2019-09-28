@@ -84,6 +84,38 @@ class SearchBar extends React.Component {
         this.setState({
             filterModalOpen: false
         });
+
+        var filters = [
+            this.state.dateEnteredFlag, 
+            this.state.regionalLocationFlag,
+            this.state.cwidFlag,
+            this.state.genderFlag,
+            this.state.hireTypeFlag,
+            this.state.pdStartDateFlag,
+            this.state.vendorFlag,
+            this.state.roleFlag,
+            this.state.plicFlag,
+            this.state.teamNameFlag,
+            this.state.platformFlag,
+            this.state.managerFlag,
+            this.state.hireStatusFlag,
+            this.state.onboardingBuddyFlag,
+            this.state.computerNeedsFlag,
+            this.state.seatNumberAssignedFlag,
+            this.state.campusFlag,
+            this.state.managerCommentsFlag,
+            this.state.neidFlag,
+            this.state.hireRehireFlag,
+            this.state.macTicketFlag,
+            this.state.dateMacTicketFlag,
+            this.state.dateLaptopDeliveredFlag,
+            this.state.onboardingEmailFlag,
+            this.state.addToDlsFlag,
+            this.state.welcomeEmailFlag,
+            this.state.adminNameFlag,
+        ];
+
+        this.props.filter(filters, this.state.startRangeDate, this.state.endRangeDate);
     }
 
     onStartDatePick = (event) => {
