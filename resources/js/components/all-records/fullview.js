@@ -12,6 +12,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
+import Grid from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -393,27 +394,27 @@ class FullView extends React.Component {
                     <div className="wrapper">
                         <SearchBar classname="searchbar" search={this.searchQuery} filter={this.filterQuery}/>
                     </div>
-                    <div className="tabswrapper">
-                        <FormControl>
-                            <InputLabel htmlFor="gender-selector">Gender</InputLabel>
-                                <Select 
-                                value={this.state.selectedStep} 
-                                onChange={this.onSelectedStepSelect} 
-                                input={<Input id="step-selector" />}
-                                >
-                                    <MenuItem value=""><em>Select An Incomplete Step</em></MenuItem>
-                                    <MenuItem value="0">Admin Assigned</MenuItem>
-                                    <MenuItem value="1">CWID Assigned</MenuItem>
-                                    <MenuItem value="2">NEID Assigned</MenuItem>
-                                    <MenuItem value="3">Hire Ticket Submitted</MenuItem>
-                                    <MenuItem value="4">MAC Ticket Submitted</MenuItem>
-                                    <MenuItem value="5">Laptop Delivered</MenuItem>
-                                    <MenuItem value="6">Onboarding Buddy Email Sent</MenuItem>
-                                    <MenuItem value="7">Added to DLs/PD Org</MenuItem>
-                                    <MenuItem value="8">Welcome Email Sent</MenuItem>
-                                </Select>
-                            </FormControl>
-                    </div>
+                    <Paper className="selectWrapper">
+                            <FormControl className="stepSelect">
+                                <InputLabel htmlFor="step-selector">Step Selection</InputLabel>
+                                    <Select className="stepSelect"
+                                    value={this.state.selectedStep} 
+                                    onChange={this.onSelectedStepSelect} 
+                                    input={<Input id="step-selector" />}
+                                    >
+                                        <MenuItem value=""><em>Select An Incomplete Step</em></MenuItem>
+                                        <MenuItem value="0">Admin Assigned</MenuItem>
+                                        <MenuItem value="1">CWID Assigned</MenuItem>
+                                        <MenuItem value="2">NEID Assigned</MenuItem>
+                                        <MenuItem value="3">Hire Ticket Submitted</MenuItem>
+                                        <MenuItem value="4">MAC Ticket Submitted</MenuItem>
+                                        <MenuItem value="5">Laptop Delivered</MenuItem>
+                                        <MenuItem value="6">Onboarding Buddy Email Sent</MenuItem>
+                                        <MenuItem value="7">Added to DLs/PD Org</MenuItem>
+                                        <MenuItem value="8">Welcome Email Sent</MenuItem>
+                                    </Select>
+                                </FormControl>
+                    </Paper>
                     <Stepper classname="stepper" data={hireData} users={usersData} triggerReload={this.triggerReload} filters={this.state.filters}/>
                     <Button variant="contained" color="primary" className="export">
                         <CSVLink className="csvLink" data={printData} filename="BayerOnbaording.csv" headers={headers}>
