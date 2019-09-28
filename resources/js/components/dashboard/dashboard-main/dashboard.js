@@ -11,6 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 var hireData = [];
 var usersData = [];
+var upcomingDates = [];
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -19,6 +20,7 @@ class Dashboard extends React.Component {
         this.state = { 
             loading_hires: true, 
             loading_users: true,
+            loading_dates: true,
             searchString: "",
             filters: [],
             startDate: "",
@@ -34,6 +36,7 @@ class Dashboard extends React.Component {
     componentDidMount() {
         hireData = [];
         usersData = [];
+        upcomingDates = [];
 
         axios.get('/hires').then(response => {
             console.log(response);
@@ -91,14 +94,50 @@ class Dashboard extends React.Component {
                     autoHideDuration: 10000
                 });
             }
+        });
+
+        axios.get('/users/' + currentUser.data.id + '/upcoming')
+        .then(response => {
+            console.log('Upcoming Dates: ', response);
+            response.data.forEach(entry => {
+                upcomingDates.push({
+                    name: entry.last_name + ", " + entry.first_name,
+                    step: entry.step_name,
+                    daysRemaining: entry.days_left
+                });
+            });
+            this.setState({ loading_dates: false });
+        }).catch(response => {
+            if (response.response.status == 422) { // Validation error
+                var fieldIssues = response.response.data.errors;
+                var issueKeys = Object.keys(fieldIssues);
+                console.log(fieldIssues)
+                issueKeys.forEach(key => {
+                    var issueArray = fieldIssues[key];
+                    issueArray.forEach(element => {
+                        this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                            variant: 'error',
+                            autoHideDuration: 5000
+                        });
+                    });
+                });
+            }
+            else { // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
+            this.setState({ loading_dates: false });
         });
     }
 
     setReload() {
-        this.setState({loading_hires: true, loading_users: true});
+        this.setState({loading_hires: true, loading_users: true, loading_dates: true});
 
         hireData = [];
         usersData = [];
+        upcomingDates = [];
 
         axios.get('/hires').then(response => {
             console.log(response);
@@ -156,6 +195,41 @@ class Dashboard extends React.Component {
                     autoHideDuration: 10000
                 });
             }
+        });
+
+        axios.get('/users/' + currentUser.data.id + '/upcoming')
+        .then(response => {
+            console.log('Upcoming Dates: ', response);
+            response.data.forEach(entry => {
+                upcomingDates.push({
+                    name: entry.last_name + ", " + entry.first_name,
+                    step: entry.step_name,
+                    daysRemaining: entry.days_left
+                });
+            });
+            this.setState({ loading_dates: false });
+        }).catch(response => {
+            if (response.response.status == 422) { // Validation error
+                var fieldIssues = response.response.data.errors;
+                var issueKeys = Object.keys(fieldIssues);
+                console.log(fieldIssues)
+                issueKeys.forEach(key => {
+                    var issueArray = fieldIssues[key];
+                    issueArray.forEach(element => {
+                        this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                            variant: 'error',
+                            autoHideDuration: 5000
+                        });
+                    });
+                });
+            }
+            else { // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
+            this.setState({ loading_dates: false });
         });
     }
 
@@ -269,7 +343,16 @@ class Dashboard extends React.Component {
                         {this.state.loading_users || this.state.loading_hires ? <div className="loadingSpinnerDashboard"><CircularProgress size="5rem"/></div> :
                             <SearchResults className="dashboardTable" data={hireData} users={usersData} setReload={this.setReload}/>
                         }                        
-                        <UpcomingDates />    
+                        <div className="upcomingDatesWidget">
+                            <div>
+                                <Paper className="upcomingDatesHeader">
+                                    <div className="headerText">Upcoming Dates</div>
+                                </Paper>
+                            </div>
+                            {this.state.loading_dates ? <div className="loadingSpinner"><CircularProgress size="5rem"/></div> :
+                                <UpcomingDates upcomingDates={upcomingDates}/>  
+                            }
+                        </div>  
                     </div>    
                 {/* }         */}
             </Paper>

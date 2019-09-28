@@ -206,7 +206,7 @@ class FullView extends React.Component {
 
         axios.post('hires/search', {
             "searchText": this.state.searchString,
-            "step": null,
+            "step": this.state.selectedStep,
             "startDate": this.state.startDate,
             "endDate": this.state.endDate,
             "inactive": !this.state.hideInactive,
@@ -280,6 +280,8 @@ class FullView extends React.Component {
 
     onSelectedStepSelect = (event) => {
         this.setState({selectedStep: event.target.value});
+
+        this.query();
     }
 
     searchQuery(searchString) {
@@ -381,49 +383,44 @@ class FullView extends React.Component {
     }
     
     render() {
-        if (this.state.loading_users || this.state.loading_hires) {
-            return (
-                <Paper className="fullview">
-                    <div className="loadingSpinner"><CircularProgress size="5rem" /></div>
+        return (
+            <Paper className="fullview">
+                <div className="wrapper">
+                    <SearchBar classname="searchbar" search={this.searchQuery} filter={this.filterQuery}/>
+                </div>
+                <Paper className="selectWrapper">
+                        <FormControl className="stepSelect">
+                            <InputLabel htmlFor="step-selector">Step Selection</InputLabel>
+                                <Select className="stepSelect"
+                                value={this.state.selectedStep} 
+                                onChange={this.onSelectedStepSelect} 
+                                input={<Input id="step-selector" />}
+                                >
+                                    <MenuItem value=""><em>Select An Incomplete Step</em></MenuItem>
+                                    <MenuItem value="1">Admin Assigned</MenuItem>
+                                    <MenuItem value="2">CWID Assigned</MenuItem>
+                                    <MenuItem value="3">NEID Assigned</MenuItem>
+                                    <MenuItem value="4">Hire Ticket Submitted</MenuItem>
+                                    <MenuItem value="5">MAC Ticket Submitted</MenuItem>
+                                    <MenuItem value="6">Laptop Delivered</MenuItem>
+                                    <MenuItem value="7">Onboarding Buddy Email Sent</MenuItem>
+                                    <MenuItem value="8">Added to DLs/PD Org</MenuItem>
+                                    <MenuItem value="9">Welcome Email Sent</MenuItem>
+                                </Select>
+                            </FormControl>
                 </Paper>
-            );
-        }
-        else {
-            return (
-                <Paper className="fullview">
-                    <div className="wrapper">
-                        <SearchBar classname="searchbar" search={this.searchQuery} filter={this.filterQuery}/>
-                    </div>
-                    <Paper className="selectWrapper">
-                            <FormControl className="stepSelect">
-                                <InputLabel htmlFor="step-selector">Step Selection</InputLabel>
-                                    <Select className="stepSelect"
-                                    value={this.state.selectedStep} 
-                                    onChange={this.onSelectedStepSelect} 
-                                    input={<Input id="step-selector" />}
-                                    >
-                                        <MenuItem value=""><em>Select An Incomplete Step</em></MenuItem>
-                                        <MenuItem value="0">Admin Assigned</MenuItem>
-                                        <MenuItem value="1">CWID Assigned</MenuItem>
-                                        <MenuItem value="2">NEID Assigned</MenuItem>
-                                        <MenuItem value="3">Hire Ticket Submitted</MenuItem>
-                                        <MenuItem value="4">MAC Ticket Submitted</MenuItem>
-                                        <MenuItem value="5">Laptop Delivered</MenuItem>
-                                        <MenuItem value="6">Onboarding Buddy Email Sent</MenuItem>
-                                        <MenuItem value="7">Added to DLs/PD Org</MenuItem>
-                                        <MenuItem value="8">Welcome Email Sent</MenuItem>
-                                    </Select>
-                                </FormControl>
-                    </Paper>
-                    <Stepper classname="stepper" data={hireData} users={usersData} triggerReload={this.triggerReload} filters={this.state.filters}/>
-                    <Button variant="contained" color="primary" className="export">
-                        <CSVLink className="csvLink" data={printData} filename="BayerOnbaording.csv" headers={headers}>
-                            Export Current Search
-                        </CSVLink>
-                    </Button>
-                </Paper>
-            );
-        }
+                {this.state.loading_users || this.state.loading_hires ? <div className="loadingSpinner"><CircularProgress size="5rem" /></div> :
+                    <React.Fragment>
+                        <Stepper classname="stepper" data={hireData} users={usersData} triggerReload={this.triggerReload} filters={this.state.filters}/>
+                        <Button variant="contained" color="primary" className="export">
+                            <CSVLink className="csvLink" data={printData} filename="BayerOnbaording.csv" headers={headers}>
+                                Export Current Search
+                            </CSVLink>
+                        </Button>
+                    </React.Fragment>
+                }
+            </Paper>
+        );
     }
 }
 
