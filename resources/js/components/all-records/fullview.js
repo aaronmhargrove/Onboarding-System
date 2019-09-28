@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { CSVLink, CSVDownload } from "react-csv";
-
+import { withSnackbar } from 'notistack';
 import './fullview.css';
 
 const tabNames = [
@@ -451,4 +451,4 @@ class FullView extends React.Component {
     }
 }
 
-export default FullView;
+export default withSnackbar(FullView);
