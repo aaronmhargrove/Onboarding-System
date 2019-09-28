@@ -63,7 +63,9 @@ class HiresController extends Controller
 
         // Laravel search is required to be directly on the static model, so check if there is searching first
         if (!empty($filters->searchText)) {
-            $hiresFromSearch = Hire::search($filters->searchText)->get();
+            $hiresFromSearch = Hire::search($filters->searchText)->get()->load('hireSteps')->loadCount(['hireSteps' => function($query){
+                $query->where('status', '=', 2);
+            }]);
 
             foreach ($hiresFromSearch as $hireFromSearch) {
                 foreach ($hiresFromFilters as $hireFromFilter) {
@@ -122,8 +124,9 @@ class HiresController extends Controller
             $hiresFromFilters = $hiresFromFilters->where('is_inactive', $filters->inactive);
         }
 
-
-        return $hiresFromFilters->get();
+        return $hiresFromFilters->get()->load('hireSteps')->loadCount(['hireSteps' => function($query){
+            $query->where('status', '=', 2);
+        }]);
     }
 
     /**
