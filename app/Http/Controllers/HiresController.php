@@ -121,7 +121,7 @@ class HiresController extends Controller
         } 
 
         if (!empty($filters->inactive)) {
-            $hiresFromFilters = $hiresFromFilters->where('is_inactive', $filters->inactive);
+            $hiresFromFilters = $hiresFromFilters->where('is_active', '!=', $filters->inactive);
         }
 
         return $hiresFromFilters->get()->load('hireSteps')->loadCount(['hireSteps' => function($query){
