@@ -66,17 +66,6 @@ class HiresController extends Controller
     }
 
     /**
-     * Returns a listing of hires with a certain step that is uncompleted.
-     * @param $stepId
-     * @return \Illuminate\Http\Response
-     */
-    public function hiresWithIncompleteStep($stepId){
-        dd(request(), $stepId);
-        // TODO: Figure out data structure before beginning, then complete.
-        return request();
-    }
-
-    /**
      * Store a newly created hire in database.
      *
      * @return \Illuminate\Http\Response
@@ -154,16 +143,6 @@ class HiresController extends Controller
         return;
     }
 
-    public function test(){
-        // $hire = Hire::find(1);
-        // $hire->first_name = 'Dwight';
-        // $hire->last_name = 'Schrutes';
-        // $hire->save();
-        // return $hire->getChanges();
-
-        return HireStep::where('hire_id', 1)->where('status', '!=', 2)->count();
-    }
-
     protected function validateHireCreation(){
         return request()->validate([
             'regional_location' => ['nullable', 'max:255'],
@@ -225,12 +204,6 @@ class HiresController extends Controller
             'slack_url' => ['nullable', 'max:255'],
             'is_active' => ['nullable'],
             'set_inactive_on' => ['nullable', 'date']
-        ]);
-    }
-
-    protected function validateHireStepsUpdate(){
-        return request()->validate([
-            'hire_steps' => ['nullable']
         ]);
     }
 }
