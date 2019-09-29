@@ -11,6 +11,9 @@ use \App\Step;
 use \App\User;
 
 use App\Notifications\NewHireAdded;
+use App\Notifications\StartDateChanged;
+use App\Notifications\HireCompleted;
+use App\Notifications\HireStepChanged;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -99,9 +102,8 @@ class HiresController extends Controller
         if($hire->manager_id == null){
             User::first()->notify(new NewHireAdded($hire));
         } else {
-            User::find($hire->manager_id)->notify(newHireAdded($hire));
+            User::find($hire->manager_id)->notify(new NewHireAdded($hire));
         }
-        
     }
 
     /**
@@ -111,7 +113,32 @@ class HiresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Hire $hire) {
-        $hire->update($this->validateHireUpdate());
+        $stepsArray = json_decode(request()->getContent())->hire_steps;
+        $hireData = $this->validateHireUpdate();
+
+        $hire->update($hireData);
+        $changes = $hire->getChanges();
+        if(array_key_exists('start_date', $changes)){
+            User::find($hire->manager_id)->notify(new StartDateChanged($hire));
+        }
+
+        // Update any steps
+        foreach ($stepsArray as $step){
+            $updatedStep = HireStep::where('id', $step->id)->first();
+            $updatedStep->status = $step->status;
+            $updatedStep->save();
+            User::find($hire->manager_id)->notify(new HireStepChanged($hire, $updatedStep));
+        }
+
+        // If all steps completed, mark as inactive
+        $stepsLeft = HireStep::where('hire_id', $hire->id)->where('status', '!=', 2)->count();
+        if($stepsLeft == 0){
+            $hire->update([
+                'is_active' => 0,
+                'set_inactive_on' => date('Y-m-d')
+            ]);
+            User::find($hire->manager_id)->notify(new HireCompleted($hire));
+        }
     }
 
     /**
@@ -128,13 +155,13 @@ class HiresController extends Controller
     }
 
     public function test(){
-        return Hire::where('is_active', 1)
-        ->whereRaw('DATEDIFF(start_date, CURDATE()) < 100')
-        ->select('first_name', 'last_name', 'start_date')
-        ->withCount(['hireSteps' => function($query){
-            $query->where('status', '!=', 2);
-        }])
-        ->having('hire_steps_count', '>', 0)->get();
+        // $hire = Hire::find(1);
+        // $hire->first_name = 'Dwight';
+        // $hire->last_name = 'Schrutes';
+        // $hire->save();
+        // return $hire->getChanges();
+
+        return HireStep::where('hire_id', 1)->where('status', '!=', 2)->count();
     }
 
     protected function validateHireCreation(){
@@ -198,6 +225,12 @@ class HiresController extends Controller
             'slack_url' => ['nullable', 'max:255'],
             'is_active' => ['nullable'],
             'set_inactive_on' => ['nullable', 'date']
+        ]);
+    }
+
+    protected function validateHireStepsUpdate(){
+        return request()->validate([
+            'hire_steps' => ['nullable']
         ]);
     }
 }

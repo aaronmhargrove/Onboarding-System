@@ -136,7 +136,7 @@ class ExpandedView extends React.Component {
          <FillRow  E={this.props.E}/>
          </TableRow>
           
-             <div class="popup"> 
+             <div className="popup"> 
             <Dialog
            
               open = {this.state.open}

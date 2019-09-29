@@ -33,19 +33,19 @@ class HireStepsTableSeeder extends Seeder
         HireStep::create(array(
             'hire_id' => 1,
             'step_id' => 4,
-            'step_name' => "Assign New/Rehire Ticket",
+            'step_name' => "Submit Ticket",
             'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 1,
             'step_id' => 5,
-            'step_name' => "Assign Mac Ticket",
+            'step_name' => "Submit MAC Ticket",
             'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 1,
             'step_id' => 6,
-            'step_name' => "Laptop Delivered?",
+            'step_name' => "Deliver Laptop",
             'status' => 0
         ));
         HireStep::create(array(
@@ -57,7 +57,7 @@ class HireStepsTableSeeder extends Seeder
         HireStep::create(array(
             'hire_id' => 1,
             'step_id' => 8,
-            'step_name' => "Add to DL's and PD Org",
+            'step_name' => "Add to DLs/PD Org",
             'status' => 0
         ));
         HireStep::create(array(
@@ -87,19 +87,19 @@ class HireStepsTableSeeder extends Seeder
         HireStep::create(array(
             'hire_id' => 2,
             'step_id' => 4,
-            'step_name' => "Assign New/Rehire Ticket",
+            'step_name' => "Submit Hire Ticket",
             'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 2,
             'step_id' => 5,
-            'step_name' => "Assign Mac Ticket",
+            'step_name' => "Submit MAC Ticket",
             'status' => 0
         ));
         HireStep::create(array(
             'hire_id' => 2,
             'step_id' => 6,
-            'step_name' => "Laptop Delivered?",
+            'step_name' => "Deliver Laptop",
             'status' => 0
         ));
         HireStep::create(array(
@@ -111,7 +111,7 @@ class HireStepsTableSeeder extends Seeder
         HireStep::create(array(
             'hire_id' => 2,
             'step_id' => 8,
-            'step_name' => "Add to DL's and PD Org",
+            'step_name' => "Add to DLs/PD Org",
             'status' => 0
         ));
         HireStep::create(array(
