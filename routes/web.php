@@ -31,7 +31,6 @@ Route::get('/', function () {
 
 Route::get('/hires', 'HiresController@index');                                          // Get all hires
 Route::get('/hires/search', 'HiresController@search');                                  // Get hires w/ search filter (put filter json in request body)
-Route::get('/hires/search/steps/{step}', 'HiresController@hiresWithIncompleteStep');    // Get hires with incomplete step (Depricated? is this replaced by the above?)
 Route::post('/hires', 'HiresController@store');                                         // Create Hire (request body)
 Route::patch('/hires/{hire}', 'HiresController@update');                                // Update Hire (place updated fields in request body)
 Route::patch('/hires/{hire}/lock', 'HiresController@lock');                             // Lock a Hire
@@ -53,6 +52,3 @@ Route::patch('/users/{user}', 'UsersController@update');                        
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
-
-
-Route::get('/hires/testing', 'HiresController@test'); // TESTING FOR SCHEDULED EVENT CODE
