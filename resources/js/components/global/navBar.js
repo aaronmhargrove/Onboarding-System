@@ -13,6 +13,7 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import './navBar.css';
+import { currentUser, getCurrentUser, setCurrentUser } from '../../global';
 
 class NavBar extends React.Component {
     state = {selectedIcon: 'dashboard', open: false};
@@ -30,6 +31,18 @@ class NavBar extends React.Component {
 
     closeSettingsMenu = (event) => {
         this.setState({anchorElement: null});
+    }
+
+    logout = (event) => {
+        setCurrentUser(null);
+        axios.post('/logout').then(response => {
+            window.location.assign('/login');
+        }).catch(response => {
+            if (response.response.status == 401){
+                 // Even though we get an unauthorized error, it still logs the user out, so redirect them to login anyway
+                window.location.assign('/login');
+            }
+        })
     }
 
     render() {
@@ -60,10 +73,9 @@ class NavBar extends React.Component {
                         >
                             <Paper>
                             <ClickAwayListener onClickAway={this.closeSettingsMenu}>
-                                <MenuList>
+                                <MenuList >
                                 <MenuItem onClick={this.closeSettingsMenu}>Set Filter</MenuItem>
-                                <MenuItem onClick={this.closeSettingsMenu}>Change Password</MenuItem>
-                                <MenuItem onClick={this.closeSettingsMenu}>Logout</MenuItem>
+                                <MenuItem onClick={this.logout}>Logout</MenuItem>
                                 </MenuList>
                             </ClickAwayListener>
                             </Paper>

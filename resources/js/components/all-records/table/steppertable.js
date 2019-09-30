@@ -6,12 +6,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import ListItemIcon from '@material-ui/core/ListItemIcon'
-import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -28,6 +26,8 @@ import FilterList from '@material-ui/icons/FilterList'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
 import Clear from '@material-ui/icons/Clear'
+import { withSnackbar } from 'notistack';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import './steppertable.css';
 
@@ -38,22 +38,27 @@ class StepperTable extends React.Component {
     super(props);
 
     displayData = [];
+
+    console.log(props);
     this.props.data.forEach(hire => {
       displayData.push(
         {
+          firstName: hire.first_name,
+          lastName: hire.last_name,
           name: hire.last_name + ", " + hire.first_name,
           hireDate: hire.created_at,
           regionalLocation: hire.regional_location,
           cwid: hire.cwid ? hire.cwid : '',
           gender: hire.gender ? hire.gender : '',
           hireType: hire.hire_type ? hire.hire_type : '',
-          pdStartDate: hire.hire_date,
+          pdStartDate: hire.start_date,
           vendor: hire.vendor,
           role: hire.role,
           plic: hire.pl_ic ? hire.pl_ic : '',
           teamName: hire.team_name,
           platform: hire.platform,
           manager: this.props.users[hire.manager_id - 1] ? this.props.users[hire.manager_id - 1].name : '',
+          manager_id: hire.manager_id,
           hireStatus: hire.hire_status,
           onboardingBuddy: hire.onboarding_buddy,
           computerNeeds: hire.computer_needs,
@@ -62,25 +67,34 @@ class StepperTable extends React.Component {
           managerComments: hire.manager_comments ? hire.manager_comments : '',
           neid: hire.neid ? hire.neid : '',
           newHireRehireTicket: hire.hire_ticket ? hire.hire_ticket : '',
-          dateEnteredHire:  hire.hire_steps[3].step_name ? hire.hire_steps[3].step_name : '',
+          dateEnteredHire:  hire.hire_steps[3].date_completed ? hire.hire_steps[3].date_completed : '',
           macTicket: hire.mac_ticket ? hire.mac_ticket : '',
-          dateEnteredMacTicket: hire.hire_steps[4].step_name ? hire.hire_steps[4].step_name : '',
-          dateLaptopDelivered: hire.hire_steps[5].step_name ? hire.hire_steps[5].step_name : '',
-          onboardingBuddyEmailSent: hire.hire_steps[6].step_name ? hire.hire_steps[6].step_name : '',
-          addToDlsAndPdOrg: hire.hire_steps[7].step_name ? hire.hire_steps[7].step_name : '',
-          welcomeEmailSent: hire.hire_steps[8].step_name ? hire.hire_steps[8].step_name : '',
+          dateEnteredMacTicket: hire.hire_steps[4].date_completed ? hire.hire_steps[4].date_completed : '',
+          dateLaptopDelivered: hire.hire_steps[5].date_completed ? hire.hire_steps[5].date_completed : '',
+          onboardingBuddyEmailSent: hire.hire_steps[6].date_completed ? hire.hire_steps[6].date_completed : '',
+          addToDlsAndPdOrg: hire.hire_steps[7].date_completed ? hire.hire_steps[7].date_completed : '',
+          welcomeEmailSent: hire.hire_steps[8].date_completed ? hire.hire_steps[8].date_completed : '',
           adminName: this.props.users[hire.admin_id - 1] ? this.props.users[hire.admin_id - 1].name : '',
+          admin_id: hire.admin_id,
+          adminAssignedStatus: hire.hire_steps[0].status,
+          cwidAssignedStatus: hire.hire_steps[1].status,
+          neidAssignedStatus: hire.hire_steps[2].status,
           hireTicketStatus: hire.hire_steps[3].status,
           macTicketStatus: hire.hire_steps[4].status,
           laptopDeliveredStatus: hire.hire_steps[5].status,
           onboardingEmailStatus: hire.hire_steps[6].status,
           addToDlsAndPdOrgStatus: hire.hire_steps[7].status,
+          welcomeEmailSentStatus: hire.hire_steps[8].status,
+          hireId: hire.id
         }
       );
     });
 
     this.state = {
+      unlocked: false,
+      modalLoading: false,
       filterModalOpen: false,
+      hireId: null,
       lastName: '',
       firstName: '',
       name: '',
@@ -98,6 +112,7 @@ class StepperTable extends React.Component {
       onboardingCampus: '',
       onboardingBuddy: '',
       adminName: '',
+      admin_id: null,
       cwid: '',
       vendor: '',
       plic: '',
@@ -112,144 +127,355 @@ class StepperTable extends React.Component {
       onboardingBuddyEmailSent: '',
       addToDlsAndPdOrg: '',
       welcomeEmailSent: '',
+      adminAssignedStatus: '',
+      cwidAssignedStatus: '',
+      neidAssignedStatus: '',
       hireTicketStatus: '',
       macTicketStatus: '',
       laptopDeliveredStatus: '',
       onboardingEmailStatus: '',
-      addToDlsAndPdOrgStatus: ''
+      addToDlsAndPdOrgStatus: '',
+      welcomeEmailSentStatus: '',
+      manager_id: null,
     };
   }
 
   onModalClose = () => {
-    this.setState({
-      filterModalOpen: false
-    });
+    var fieldError = false;
+    // Validation of required fields
+    if(!this.state.firstName){
+        fieldError = true;
+        this.props.enqueueSnackbar("'First Name' is required", {
+            variant: 'warning',
+            autoHideDuration: 3000
+        });
+    }
+    if(!this.state.lastName){
+        fieldError = true;
+        this.props.enqueueSnackbar("'Last Name' is required", {
+            variant: 'warning',
+            autoHideDuration: 3000
+        });
+    }
+    if(!this.state.hireType){
+        fieldError = true;
+        this.props.enqueueSnackbar("'Hire Type' is required", {
+            variant: 'warning',
+            autoHideDuration: 3000
+        });
+    }
+    if(!this.state.pdStartDate){
+        fieldError = true;
+        this.props.enqueueSnackbar("'Start Date' is required", {
+            variant: 'warning',
+            autoHideDuration: 3000
+        });
+    }
+    if(!this.state.manager){
+        fieldError = true;
+        this.props.enqueueSnackbar("'Manager' is required", {
+            variant: 'warning',
+            autoHideDuration: 3000
+        });
+    }
+    if(!this.state.platform){
+      fieldError = true;
+      this.props.enqueueSnackbar("'Platform' is required", {
+          variant: 'warning',
+          autoHideDuration: 3000
+      });
+    }
+
+    // All of these API calls need combined so we can do a single load.
+    if(!this.state.unlocked && !this.state.modalLoading) {
+      if(!fieldError){
+        axios.patch('hires/' + this.state.hireId,             
+        {
+          "admin_id": this.state.admin_id != "" ? this.state.admin_id : null,
+          "regional_location": this.state.regionalLocation != "" ? this.state.regionalLocation : null,
+          "first_name": this.state.firstName != "" ? this.state.firstName : null,
+          "last_name": this.state.lastName != "" ? this.state.lastName : null,
+          "cwid": this.state.cwid != "" ? this.state.cwid : null,
+          "gender": this.state.gender != "" ? this.state.gender : null,
+          "hire_type": this.state.hireType != "" ? this.state.hireType : null,
+          "start_date": this.state.hireDate != "" ? this.state.hireDate : null,
+          "vendor": this.state.vendor != "" ? this.state.vendor : null,
+          "role": this.state.role != "" ? this.state.role : null,
+          "pl_ic": this.state.plic != "" ? this.state.plic : null,
+          "team_name": this.state.teamName != "" ? this.state.teamName : null,
+          "platform": this.state.platform != "" ? this.state.platform : null,
+          "manager_id": this.state.manager_id != "" ? this.state.manager_id : null,
+          "hire_status": this.state.hireStatus != "" ? this.state.hireStatus : null,
+          "onboarding_buddy": this.state.onboardingBuddy != "" ? this.state.onboardingBuddy : null,
+          "computer_needs": this.state.computerNeeds != "" ? this.state.computerNeeds : null,
+          "seat_number": this.state.seatNum != "" ? this.state.seatNum : null,
+          "campus": this.state.onboardingCampus != "" ? this.state.onboardingCampus : null,
+          "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
+          "hire_ticket": this.state.newHireRehireTicket != "" ? this.state.newHireRehireTicket : null,
+          "mac_ticket": this.state.macTicket != "" ? this.state.macTicket : null,
+        },
+        {
+          headers: {
+              'content-type': 'application/json',
+          }
+        })
+        .then(response => {
+          console.log('Successfully updated the hire: ', response);
+          this.props.enqueueSnackbar("Hire updated!", { // Success Message
+            variant: 'success',
+            autoHideDuration: 2000
+          });
+        })
+        .catch(response => {
+          if (response.response.status == 422){ // Validation error
+            var fieldIssues = response.response.data.errors;
+            var issueKeys = Object.keys(fieldIssues);
+            console.log(fieldIssues)
+            issueKeys.forEach(key => {
+                var issueArray = fieldIssues[key];
+                issueArray.forEach(element => {
+                    this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                        variant: 'error',
+                        autoHideDuration: 5000
+                    });
+                });
+            });
+          }
+          else{ // Generic laravel error
+              this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                  variant: 'error',
+                  autoHideDuration: 10000
+              });
+          }
+        });
+  
+        axios.patch('/hires/' + this.state.hireId + '/unlock')
+        .then(response => {
+          console.log('Succesfully patched: ', response);
+          this.setState({modalLoading: false});
+          this.props.enqueueSnackbar("Hire unlocked successfully!", { // Success Message
+            variant: 'success',
+            autoHideDuration: 2000
+          });
+        })
+        .catch(response => {
+          if (response.response.status == 422){ // Validation error
+            var fieldIssues = response.response.data.errors;
+            var issueKeys = Object.keys(fieldIssues);
+            console.log(fieldIssues)
+            issueKeys.forEach(key => {
+                var issueArray = fieldIssues[key];
+                issueArray.forEach(element => {
+                    this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                        variant: 'error',
+                        autoHideDuration: 5000
+                    });
+                });
+            });
+          }
+          else{ // Generic laravel error
+              this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                  variant: 'error',
+                  autoHideDuration: 10000
+              });
+          }
+          this.setState({modalLoading: false});
+        });
+  
+        this.props.triggerReload();
+
+        this.setState({
+          filterModalOpen: false,
+        });
+      }
+    }
+    else {
+      this.setState({
+        filterModalOpen: false,
+      });
+    }
+
   }
+
   onModalOpen = (rowData) => {
-    console.log(rowData.regionalLocation)
     this.setState({
       filterModalOpen: true,
+      modalLoading: true
+    });
+
+    axios.patch('/hires/' + this.state.hireId + '/lock')
+    .then(response => {
+      console.log('Succesfully patched: ', response);
+      if(response.data.success) {
+        this.setState({modalLoading: false, unlocked: false});
+        this.props.enqueueSnackbar("Hire successfully locked!", { // Success Message
+          variant: 'success',
+          autoHideDuration: 2000
+        });
+      }
+      else {
+        this.setState({modalLoading: false, unlocked: true});
+        this.props.enqueueSnackbar("Hire is already locked - cannot be edited right now.", { // Success Message
+          variant: 'warning',
+          autoHideDuration: 2000
+        });
+      }
+    })
+    .catch(response => {
+      this.setState({modalLoading: false});
+      if (response.response.status == 422){ // Validation error
+        var fieldIssues = response.response.data.errors;
+        var issueKeys = Object.keys(fieldIssues);
+        console.log(fieldIssues)
+        issueKeys.forEach(key => {
+            var issueArray = fieldIssues[key];
+            issueArray.forEach(element => {
+                this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                    variant: 'error',
+                    autoHideDuration: 5000
+                });
+            });
+        });
+      }
+      else{ // Generic laravel error
+          this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+              variant: 'error',
+              autoHideDuration: 10000
+          });
+      }
     });
   }
 
-  onLastNameEnter = (event) => {
-    this.setState({ lastName: event.target.value });
+  onLastNameEnter = (event) => { 
+    this.setState({lastName: event.target.value});
   }
 
   onFirstNameEnter = (event) => {
-    this.setState({ firstName: event.target.value });
+    this.setState({firstName: event.target.value});
   }
 
   onDateHiredPick = (event) => {
-    this.setState({ dateEnteredHire: event.target.value });
+    this.setState({dateEnteredHire: event.target.value});
   }
 
   onRegionalLocationEnter = (event) => {
-    this.setState({ regionalLocation: event.target.value });
-  }
+    this.setState({regionalLocation: event.target.value});
+  } 
 
   onGenderSelect = (event) => {
-    this.setState({ gender: event.target.value });
+    this.setState({gender: event.target.value});
   }
 
   onHireTypeSelect = (event) => {
-    this.setState({ hireType: event.target.value });
+    this.setState({hireType: event.target.value});
   }
 
   onPdStartDatePick = (event) => {
-    this.setState({ pdStartDate: event.target.value });
+    this.setState({pdStartDate: event.target.value});
   }
 
   onRoleEnter = (event) => {
-    this.setState({ role: event.target.value });
+    this.setState({role: event.target.value});
   }
 
   onTeamNameEnter = (event) => {
-    this.setState({ teamName: event.target.value });
+    this.setState({teamName: event.target.value});
   }
 
   onPlatformEnter = (event) => {
-    this.setState({ platform: event.target.value });
+    this.setState({platform: event.target.value});
   }
 
   onManagerEnter = (event) => {
-    this.setState({ manager: event.target.value });
+    this.setState({manager_id: event.target.value});
   }
 
   onHireStatusSelect = (event) => {
-    this.setState({ hireStatus: event.target.value });
+    this.setState({hireStatus: event.target.value});
   }
 
   onComputerNeedsSelect = (event) => {
-    this.setState({ computerNeeds: event.target.value });
+    this.setState({computerNeeds: event.target.value});
   }
 
   onOnboardingCampusEnter = (event) => {
-    this.setState({ onboardingCampus: event.target.value });
+    this.setState({onboardingCampus: event.target.value});
   }
 
   onOnboardingBuddyEnter = (event) => {
-    this.setState({ onboardingBuddy: event.target.value });
+    this.setState({onboardingBuddy: event.target.value});
   }
 
   onAdminEnter = (event) => {
-    this.setState({ adminName: event.target.value });
+    this.setState({admin_id: event.target.value});
   }
 
   onCWIDEnter = (event) => {
-    this.setState({ cwid: event.target.value });
+    this.setState({cwid: event.target.value});
   }
 
   onVendorEnter = (event) => {
-    this.setState({ vendor: event.target.value });
+    this.setState({vendor: event.target.value});
   }
 
   onPLICSelect = (event) => {
-    this.setState({ plic: event.target.value });
+    this.setState({plic: event.target.value});
   }
 
   onSeatNumberEnter = (event) => {
-    this.setState({ seatNum: event.target.value });
+    this.setState({seatNum: event.target.value});
   }
 
   onNEIDEnter = (event) => {
-    this.setState({ neid: event.target.value });
+    this.setState({neid: event.target.value});
   }
 
   onNewHireRehireTicketEnter = (event) => {
-    this.setState({ newHireRehireTicket: event.target.value });
+    this.setState({newHireRehireTicket: event.target.value});
   }
 
   onMacTicketEnter = (event) => {
-    this.setState({ macTicket: event.target.value });
+    this.setState({macTicket: event.target.value});
   }
 
   onManagerCommentsEnter = (event) => {
-    this.setState({ managerComments: event.target.value });
+    this.setState({managerComments: event.target.value});
   }
 
   onDateEnteredHireDatePick = (event) => {
-    this.setState({ dateEnteredHire: event.target.value });
+    this.setState({dateEnteredHire: event.target.value});
   }
 
   onDateEnteredMacTicketDatePick = (event) => {
-    this.setState({ dateEnteredMacTicket: event.target.value });
+    this.setState({dateEnteredMacTicket: event.target.value});
   }
 
   onDateLaptopDeliveredDatePick = (event) => {
-    this.setState({ dateLaptopDelivered: event.target.value });
+    this.setState({dateLaptopDelivered: event.target.value});
   }
 
   onOnboardingBuddyEmailSentDatePick = (event) => {
-    this.setState({ onboardingBuddyEmailSent: event.target.value });
+    this.setState({onboardingBuddyEmailSent: event.target.value});
   }
 
   onAddToDlsAndPdOrgDatePick = (event) => {
-    this.setState({ addToDlsAndPdOrg: event.target.value });
+    this.setState({addToDlsAndPdOrg: event.target.value});
   }
 
   onWelcomeEmailSentDatePick = (event) => {
-    this.setState({ welcomeEmailSent: event.target.value });
+    this.setState({welcomeEmailSent: event.target.value});
+  }
+
+  onAdminAssignedStatusChange = (event) => {
+    this.setState({ adminAssignedStatus: ((this.state.adminAssignedStatus + 1) % 3) });
+  }
+
+  onCWIDAssignedStatusChange = (event) => {
+    this.setState({ cwidAssignedStatus: ((this.state.cwidAssignedStatus + 1) % 3) });
+  }
+
+  onNEIDAssignedStatusChange = (event) => {
+    this.setState({ neidAssignedStatus: ((this.state.neidAssignedStatus + 1) % 3) });
   }
 
   onHireStatusChange = (event) => {
@@ -272,6 +498,10 @@ class StepperTable extends React.Component {
     this.setState({ addToDlsAndPdOrgStatus: ((this.state.addToDlsAndPdOrgStatus + 1) % 3) });
   }
 
+  onWelcomeEmailStatusChange = (event) => {
+    this.setState({ welcomeEmailSentStatus: ((this.state.welcomeEmailSentStatus +1) % 3) });
+  }
+
   onSubmitClick = (event) => { console.log('Submit') }
 
   render() {
@@ -283,6 +513,7 @@ class StepperTable extends React.Component {
           onClose={this.onModalClose}
         >
           <Paper className="editWidget">
+          {this.state.modalLoading ? <div className="loadingSpinnerModal"><CircularProgress size="5rem"/></div> : 
             <Grid container space={40} className="gridContainer">
               <Grid item xs={8} className="gridItem">
                 <Grid container space={20} >
@@ -290,34 +521,22 @@ class StepperTable extends React.Component {
                     <div className="headerText">Hire Data</div>
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Last Name" value={this.state.lastName} onChange={this.onLastNameEnter} required />
+                    <TextField label="Last Name" disabled={this.state.unlocked} value={this.state.lastName} onChange={this.onLastNameEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="First Name" value={this.state.firstName} onChange={this.onFirstNameEnter} required />
+                    <TextField label="First Name" disabled={this.state.unlocked} value={this.state.firstName} onChange={this.onFirstNameEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField
-                      label="Date Entered"
-                      type="date"
-                      value={this.state.hireDate}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      onChange={this.onDateEntered}
-                      required={true}
-                      required
-                    />
+                    <TextField label="Regional Location" disabled={this.state.unlocked} value={this.state.regionalLocation} onChange={this.onRegionalLocationEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Regional Location" value={this.state.regionalLocation} onChange={this.onRegionalLocationEnter} required />
-                  </Grid>
-                  <Grid item xs={6} className="gridItem">
-                    <TextField label="CWID" value={this.state.cwid} onChange={this.onCWIDEnter} />
+                    <TextField label="CWID" disabled={this.state.unlocked} value={this.state.cwid} onChange={this.onCWIDEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <FormControl>
                       <InputLabel htmlFor="gender-selector" required>Gender</InputLabel>
                       <Select
+                        disabled={this.state.unlocked}
                         value={this.state.gender}
                         onChange={this.onGenderSelect}
                         input={<Input id="gender-selector" />}
@@ -333,6 +552,7 @@ class StepperTable extends React.Component {
                     <FormControl>
                       <InputLabel htmlFor="hireType-selector" required>Hire Type</InputLabel>
                       <Select
+                        disabled={this.state.unlocked}
                         value={this.state.hireType}
                         onChange={this.onHireTypeSelect}
                         input={<Input id="hireType-selector" />}
@@ -347,6 +567,7 @@ class StepperTable extends React.Component {
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
+                      disabled={this.state.unlocked}
                       label="PD Start Date"
                       type="date"
                       value={this.state.pdStartDate}
@@ -359,15 +580,16 @@ class StepperTable extends React.Component {
                     />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Vendor" value={this.state.vendor} onChange={this.onVendorEnter} />
+                    <TextField disabled={this.state.unlocked} label="Vendor" value={this.state.vendor} onChange={this.onVendorEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Role" value={this.state.role} onChange={this.onRoleEnter} required />
+                    <TextField disabled={this.state.unlocked} label="Role" value={this.state.role} onChange={this.onRoleEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <FormControl>
                       <InputLabel htmlFor="plic-selector">PL/IC</InputLabel>
                       <Select
+                        disabled={this.state.unlocked}
                         value={this.state.plic}
                         onChange={this.onPLICSelect}
                         input={<Input id="plic-selector" />}
@@ -380,18 +602,32 @@ class StepperTable extends React.Component {
                     </FormControl>
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Team Name" value={this.state.teamName} onChange={this.onTeamNameEnter} required />
+                    <TextField disabled={this.state.unlocked} label="Team Name" value={this.state.teamName} onChange={this.onTeamNameEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Platform" value={this.state.platform} onChange={this.onPlatformEnter} required />
+                    <TextField disabled={this.state.unlocked} label="Platform" value={this.state.platform} onChange={this.onPlatformEnter} required />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Manager" value={this.state.manager} onChange={this.onManagerEnter} required />
+                    <FormControl>
+                        <InputLabel htmlFor="manager-selector" required>Manager</InputLabel>
+                        <Select 
+                        disabled={this.state.unlocked}
+                        value={this.state.manager_id} 
+                        onChange={this.onManagerEnter} 
+                        input={<Input id="manager-selector" />}
+                        required
+                        >
+                            {this.props.users.map(user => {
+                              return <MenuItem value={user.id}>{user.name}</MenuItem>;
+                            })}
+                        </Select>
+                    </FormControl>
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <FormControl>
                       <InputLabel htmlFor="hireStatus-selector" required>Hire Status</InputLabel>
                       <Select
+                        disabled={this.state.unlocked}
                         value={this.state.hireStatus}
                         onChange={this.onHireStatusSelect}
                         input={<Input id="hireStatus-selector" />}
@@ -405,12 +641,13 @@ class StepperTable extends React.Component {
                     </FormControl>
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Onboarding Buddy" value={this.state.onboardingBuddy} onChange={this.onOnboardingBuddyEnter} />
+                    <TextField disabled={this.state.unlocked} label="Onboarding Buddy" value={this.state.onboardingBuddy} onChange={this.onOnboardingBuddyEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <FormControl>
                       <InputLabel htmlFor="computerNeeds-selector" required>Computer Needs</InputLabel>
                       <Select
+                        disabled={this.state.unlocked}
                         value={this.state.computerNeeds}
                         onChange={this.onComputerNeedsSelect}
                         input={<Input id="computerNeeds-selector" />}
@@ -423,22 +660,23 @@ class StepperTable extends React.Component {
                     </FormControl>
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="SEAT Number" value={this.state.seatNum} onChange={this.onSeatNumEnter} />
+                    <TextField disabled={this.state.unlocked} label="SEAT Number" value={this.state.seatNum} onChange={this.onSeatNumEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Onboarding Campus" value={this.state.onboardingCampus} onChange={this.onOnboardingCampusEnter} />
+                    <TextField disabled={this.state.unlocked} label="Onboarding Campus" value={this.state.onboardingCampus} onChange={this.onOnboardingCampusEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Manager Comments" value={this.state.managerComments} onChange={this.onManagerCommentsEnter} />
+                    <TextField disabled={this.state.unlocked} label="Manager Comments" value={this.state.managerComments} onChange={this.onManagerCommentsEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="NEID/EID" value={this.state.neid} onChange={this.onNEIDEnter} />
+                    <TextField disabled={this.state.unlocked} label="NEID/EID" value={this.state.neid} onChange={this.onNEIDEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="New Hire/Rehire Ticket" value={this.state.newHireRehireTicket} onChange={this.onNewHireRehireTicketEnter} />
+                    <TextField disabled={this.state.unlocked} label="New Hire/Rehire Ticket" value={this.state.newHireRehireTicket} onChange={this.onNewHireRehireTicketEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
+                      disabled={this.state.unlocked}
                       label="Hire Ticket Entered"
                       type="date"
                       value={this.state.dateEnteredHire}
@@ -450,10 +688,11 @@ class StepperTable extends React.Component {
                     />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="MAC Ticket" value={this.state.macTicket} onChange={this.onMacTicketEnter} />
+                    <TextField disabled={this.state.unlocked} label="MAC Ticket" value={this.state.macTicket} onChange={this.onMacTicketEnter} />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
+                      disabled={this.state.unlocked}
                       label="MAC Ticket Entered"
                       type="date"
                       value={this.state.dateEnteredMacTicket}
@@ -466,6 +705,7 @@ class StepperTable extends React.Component {
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
+                      disabled={this.state.unlocked}
                       label="Laptop Delivered"
                       type="date"
                       value={this.state.dateLaptopDelivered}
@@ -478,6 +718,7 @@ class StepperTable extends React.Component {
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
+                      disabled={this.state.unlocked}
                       label="Onboarding Buddy Email Sent"
                       type="date"
                       value={this.state.onboardingBuddyEmailSent}
@@ -490,6 +731,7 @@ class StepperTable extends React.Component {
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
+                      disabled={this.state.unlocked}
                       label="Add to DLs/PD Org"
                       type="date"
                       value={this.state.addToDlsAndPdOrg}
@@ -502,6 +744,7 @@ class StepperTable extends React.Component {
                   </Grid>
                   <Grid item xs={6} className="gridItem">
                     <TextField
+                      disabled={this.state.unlocked}
                       label="Welcome Email Sent"
                       type="date"
                       value={this.state.welcomeEmailSent}
@@ -513,7 +756,20 @@ class StepperTable extends React.Component {
                     />
                   </Grid>
                   <Grid item xs={6} className="gridItem">
-                    <TextField label="Admin Name" value={this.state.adminName} onChange={this.onAdminEnter} />
+                    <FormControl>
+                      <InputLabel htmlFor="admin-selector" required>Admin</InputLabel>
+                      <Select 
+                      disabled={this.state.unlocked}
+                      value={this.state.admin_id} 
+                      onChange={this.onAdminEnter} 
+                      input={<Input id="admin-selector" />}
+                      required
+                      >
+                          {this.props.users.map(user => {
+                              return <MenuItem value={user.id}>{user.name}</MenuItem>;
+                          })}
+                      </Select>
+                    </FormControl>
                   </Grid>
                 </Grid>
               </Grid>
@@ -524,65 +780,160 @@ class StepperTable extends React.Component {
                   </Grid>
                   <Grid item xs={3} className="noScroll">
                     <List className="progress-list">
-                      <ListItem>
-                        <ListItemText primary="Hire Ticket Submitted" />
+                    <ListItem>
+                        {(this.state.unlocked == false) && <ListItemText primary="Admin Assigned" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="Admin Assigned" />}
                       </ListItem>
                       <ListItem>
-                        <ListItemText primary="MAC Ticket Submitted"/>
+                        {(this.state.unlocked == false) && <ListItemText primary="CWID Assigned" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="CWID Assigned" />}
                       </ListItem>
                       <ListItem>
-                        <ListItemText primary="Laptop Delivered"/>
+                        {(this.state.unlocked == false) && <ListItemText primary="NEID Assigned" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="NEID Assigned" />}
                       </ListItem>
                       <ListItem>
-                        <ListItemText primary="Onboarding Email Sent"/>
+                        {(this.state.unlocked == false) && <ListItemText primary="Hire Ticket Submitted" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="Hire Ticket Submitted" />}
                       </ListItem>
                       <ListItem>
-                        <ListItemText primary="Added to DLs/PD Org"/>
+                        {(this.state.unlocked == false) && <ListItemText primary="MAC Ticket Submitted" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="MAC Ticket Submitted" />}
+                      </ListItem>
+                      <ListItem>
+                        {(this.state.unlocked == false) && <ListItemText primary="Laptop Delivered" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="Laptop Delivered" />}
+                      </ListItem>
+                      <ListItem>
+                        {(this.state.unlocked == false) && <ListItemText primary="Onboarding Email Sent" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="Onboarding Email Sent" />}
+                      </ListItem>
+                      <ListItem>
+                        {(this.state.unlocked == false) && <ListItemText primary="Added to DLs/PD Org" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="Added to DLs/PD Org" />}
+                      </ListItem>
+                      <ListItem>
+                        {(this.state.unlocked == false) && <ListItemText primary="Welcome Email Sent" />}
+                        {(this.state.unlocked == true) && <ListItemText className="disabled" primary="Welcome Email Sent" />}
                       </ListItem>
                     </List>
                   </Grid>
                   <Grid item xs={1} className="noScroll-icons">
                     <List className="progress-list">
+                    <ListItem>
+                        {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onAdminAssignedStatusChange}>
+                          {(this.state.adminAssignedStatus == 0) && <Clear className="incomplete-icon" />}
+                          {(this.state.adminAssignedStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
+                          {(this.state.adminAssignedStatus == 2) && <Done className="complete-icon" />}
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.adminAssignedStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.adminAssignedStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.adminAssignedStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
+                      </ListItem>
                       <ListItem>
-                        <ListItemIcon className="step-icon" onClick={this.onHireStatusChange}>
+                      {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onCWIDAssignedStatusChange}>
+                          {(this.state.cwidAssignedStatus == 0) && <Clear className="incomplete-icon" />}
+                          {(this.state.cwidAssignedStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
+                          {(this.state.cwidAssignedStatus == 2) && <Done className="complete-icon" />}
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.cwidAssignedStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.cwidAssignedStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.cwidAssignedStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
+                      </ListItem>
+                      <ListItem>
+                      {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onNEIDAssignedStatusChange}>
+                          {(this.state.neidAssignedStatus == 0) && <Clear className="incomplete-icon" />}
+                          {(this.state.neidAssignedStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
+                          {(this.state.neidAssignedStatus == 2) && <Done className="complete-icon" />}
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.neidAssignedStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.neidAssignedStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.neidAssignedStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
+                      </ListItem>
+                      <ListItem>
+                      {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onHireStatusChange}>
                           {(this.state.hireTicketStatus == 0) && <Clear className="incomplete-icon" />}
                           {(this.state.hireTicketStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
                           {(this.state.hireTicketStatus == 2) && <Done className="complete-icon" />}
-                        </ListItemIcon>
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.hireTicketStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.hireTicketStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.hireTicketStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
                       </ListItem>
                       <ListItem>
-                        <ListItemIcon className="step-icon" onClick={this.onMACTicketStatusChange}>
+                      {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onMACTicketStatusChange}>
                           {(this.state.macTicketStatus == 0) && <Clear className="incomplete-icon" />}
                           {(this.state.macTicketStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
                           {(this.state.macTicketStatus == 2) && <Done className="complete-icon" />}
-                        </ListItemIcon>
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.macTicketStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.macTicketStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.macTicketStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
                       </ListItem>
                       <ListItem>
-                        <ListItemIcon className="step-icon" onClick={this.onLaptopDeliveredStatusChange}>
+                      {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onLaptopDeliveredStatusChange}>
                           {(this.state.laptopDeliveredStatus == 0) && <Clear className="incomplete-icon" />}
                           {(this.state.laptopDeliveredStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
                           {(this.state.laptopDeliveredStatus == 2) && <Done className="complete-icon" />}
-                        </ListItemIcon>
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.laptopDeliveredStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.laptopDeliveredStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.laptopDeliveredStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
                       </ListItem>
                       <ListItem>
-                        <ListItemIcon className="step-icon" onClick={this.onOnboardingEmailStatusChange}>
+                      {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onOnboardingEmailStatusChange}>
                           {(this.state.onboardingEmailStatus == 0) && <Clear className="incomplete-icon" />}
                           {(this.state.onboardingEmailStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
                           {(this.state.onboardingEmailStatus == 2) && <Done className="complete-icon" />}
-                        </ListItemIcon>
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.onboardingEmailStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.onboardingEmailStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.onboardingEmailStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
                       </ListItem>
                       <ListItem>
-                        <ListItemIcon className="step-icon" onClick={this.onAddToDlsAndPdOrgStatusChange}>
+                      {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onAddToDlsAndPdOrgStatusChange}>
                           {(this.state.addToDlsAndPdOrgStatus == 0) && <Clear className="incomplete-icon" />}
                           {(this.state.addToDlsAndPdOrgStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
                           {(this.state.addToDlsAndPdOrgStatus == 2) && <Done className="complete-icon" />}
-                        </ListItemIcon>
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.addToDlsAndPdOrgStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.addToDlsAndPdOrgStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.addToDlsAndPdOrgStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
+                      </ListItem>
+                      <ListItem>
+                      {(this.state.unlocked == false) && <ListItemIcon className="step-icon" onClick={this.onWelcomeEmailStatusChange}>
+                          {(this.state.welcomeEmailSentStatus == 0) && <Clear className="incomplete-icon" />}
+                          {(this.state.welcomeEmailSentStatus == 1) && <HourglassEmpty className="in-progress-icon" />}
+                          {(this.state.welcomeEmailSentStatus == 2) && <Done className="complete-icon" />}
+                        </ListItemIcon>}
+                        {(this.state.unlocked == true) && <ListItemIcon>
+                          {(this.state.welcomeEmailSentStatus == 0) && <Clear className="incomplete-icon-locked" />}
+                          {(this.state.welcomeEmailSentStatus == 1) && <HourglassEmpty className="in-progress-icon-locked" />}
+                          {(this.state.welcomeEmailSentStatus == 2) && <Done className="complete-icon-locked" />}
+                        </ListItemIcon>}
                       </ListItem>
                     </List>
                   </Grid>
                 </Grid>
               </Grid>
             </Grid>
+          } 
           </Paper>
         </Modal>
         <MaterialTable className="table"
@@ -603,8 +954,9 @@ class StepperTable extends React.Component {
           }}
           columns={columns}
           onRowClick={(event, rowData) => this.setState({
+            hireId: rowData.hireId,
             lastName: rowData.lastName,
-            firstName: rowData.firstName,
+            firstName: rowData.firstName,    
             hireDate: rowData.hireDate,
             regionalLocation: rowData.regionalLocation,
             gender: rowData.gender,
@@ -619,6 +971,7 @@ class StepperTable extends React.Component {
             onboardingCampus: rowData.onboardingCampus,
             onboardingBuddy: rowData.onboardingBuddy,
             adminName: rowData.adminName,
+            admin_id: rowData.admin_id,
             cwid: rowData.cwid,
             vendor: rowData.vendor,
             plic: rowData.plic,
@@ -633,11 +986,16 @@ class StepperTable extends React.Component {
             onboardingBuddyEmailSent: rowData.onboardingBuddyEmailSent,
             addToDlsAndPdOrg: rowData.addToDlsAndPdOrg,
             welcomeEmailSent: rowData.welcomeEmailSent,
+            adminAssignedStatus: rowData.adminAssignedStatus,
+            cwidAssignedStatus: rowData.cwidAssignedStatus,
+            neidAssignedStatus: rowData.neidAssignedStatus,
             hireTicketStatus: rowData.hireTicketStatus,
             macTicketStatus: rowData.macTicketStatus,
             laptopDeliveredStatus: rowData.macTicketStatus,
             onboardingEmailStatus: rowData.onboardingEmailStatus,
-            addToDlsAndPdOrgStatus: rowData.addToDlsAndPdOrgStatus
+            addToDlsAndPdOrgStatus: rowData.addToDlsAndPdOrgStatus,
+            welcomeEmailSentStatus: rowData.welcomeEmailSentStatus,
+            manager_id: rowData.manager_id
           },
             () => this.onModalOpen(rowData))}
           data={displayData}
@@ -655,4 +1013,4 @@ class StepperTable extends React.Component {
   }
 }
 
-export default StepperTable;
+export default withSnackbar(StepperTable);

@@ -1,6 +1,6 @@
 .dashboardWidget {
     display: flex;
-    width: 67vw;
+    width: 98vw;
     height: 83vh;
     top: 13vh;
     position: absolute;
@@ -13,6 +13,10 @@
     padding-top: 8%;
 }
 
-.loadingSpinner {
+.loadingSpinnerDashboard {
     margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 30vw;
+    transform: translate(-50%, -50%);
 }

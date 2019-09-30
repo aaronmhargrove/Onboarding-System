@@ -12,42 +12,48 @@ import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import './searchBar.css';
+import { withSnackbar } from 'notistack';
 
 class SearchBar extends React.Component {
-    state = {
-        searchValue: '', 
-        filterModalOpen: false,
-        dateEnteredFlag: true,
-        regionalLocationFlag: true,
-        cwidFlag: true,
-        genderFlag: true,
-        hireTypeFlag: true,
-        pdStartDateFlag: true,
-        vendorFlag: true,
-        roleFlag: true,
-        plicFlag: true,
-        teamNameFlag: true,
-        platformFlag: true,
-        managerFlag: true,
-        hireStatusFlag: true,
-        onboardingBuddyFlag: true,
-        computerNeedsFlag: true,
-        seatNumberAssignedFlag: true,
-        campusFlag: true,
-        managerCommentsFlag: true,
-        neidFlag: true,
-        hireRehireFlag: true,
-        dateHireRehireFlag: true,
-        macTicketFlag: true,
-        dateMacTicketFlag: true,
-        dateLaptopDeliveredFlag: true,
-        onboardingEmailFlag: true,
-        addToDlsFlag: true,
-        welcomeEmailFlag: true,
-        adminNameFlag: true,
-        startRangeDate: '',
-        endRangeDate: '',
-    };
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            searchValue: '', 
+            filterModalOpen: false,
+            dateEnteredFlag: true,
+            regionalLocationFlag: true,
+            cwidFlag: true,
+            genderFlag: true,
+            hireTypeFlag: true,
+            pdStartDateFlag: true,
+            vendorFlag: true,
+            roleFlag: true,
+            plicFlag: true,
+            teamNameFlag: true,
+            platformFlag: true,
+            managerFlag: true,
+            hireStatusFlag: true,
+            onboardingBuddyFlag: true,
+            computerNeedsFlag: true,
+            seatNumberAssignedFlag: true,
+            campusFlag: true,
+            managerCommentsFlag: true,
+            neidFlag: true,
+            hireRehireFlag: true,
+            dateHireRehireFlag: true,
+            macTicketFlag: true,
+            dateMacTicketFlag: true,
+            dateLaptopDeliveredFlag: true,
+            onboardingEmailFlag: true,
+            addToDlsFlag: true,
+            welcomeEmailFlag: true,
+            adminNameFlag: true,
+            startRangeDate: '',
+            endRangeDate: '',
+            hideInactive: true,
+        };
+    }
 
     onSearchInput = (event) => {
         this.setState({searchValue: event.target.value});
@@ -68,6 +74,7 @@ class SearchBar extends React.Component {
 
     onSearchClick = (event) => {
         console.log('Search clicked.');
+        this.props.search(this.state.searchValue);
     }
 
     onHighlightClick = (event) => {
@@ -78,6 +85,38 @@ class SearchBar extends React.Component {
         this.setState({
             filterModalOpen: false
         });
+
+        var filters = [
+            this.state.dateEnteredFlag, 
+            this.state.regionalLocationFlag,
+            this.state.cwidFlag,
+            this.state.genderFlag,
+            this.state.hireTypeFlag,
+            this.state.pdStartDateFlag,
+            this.state.vendorFlag,
+            this.state.roleFlag,
+            this.state.plicFlag,
+            this.state.teamNameFlag,
+            this.state.platformFlag,
+            this.state.managerFlag,
+            this.state.hireStatusFlag,
+            this.state.onboardingBuddyFlag,
+            this.state.computerNeedsFlag,
+            this.state.seatNumberAssignedFlag,
+            this.state.campusFlag,
+            this.state.managerCommentsFlag,
+            this.state.neidFlag,
+            this.state.hireRehireFlag,
+            this.state.macTicketFlag,
+            this.state.dateMacTicketFlag,
+            this.state.dateLaptopDeliveredFlag,
+            this.state.onboardingEmailFlag,
+            this.state.addToDlsFlag,
+            this.state.welcomeEmailFlag,
+            this.state.adminNameFlag,
+        ];
+
+        this.props.filter(filters, this.state.startRangeDate, this.state.endRangeDate, this.state.hideInactive);
     }
 
     onStartDatePick = (event) => {
@@ -92,11 +131,23 @@ class SearchBar extends React.Component {
         });
     }
 
+    enterPressed = (event) => {
+        if(event.key == "Enter"){
+            this.onSearchClick();
+        }
+    }
+
     render() {
         return(
             <Paper elevation={1} className="searchBarWidget">
                 <div className="searchBar">
-                    <InputBase className="searchInput" placeholder="Search Records" value={this.state.searchValue} onChange={this.onSearchInput}/>
+                    <InputBase 
+                        className="searchInput" 
+                        placeholder="Search Records" 
+                        value={this.state.searchValue} 
+                        onChange={this.onSearchInput}
+                        onKeyPress={this.enterPressed.bind(this)}
+                    />
                     <IconButton className="searchWidgetButton" onClick={this.onSearchClick}>
                         <SearchIcon />
                     </IconButton>
@@ -649,6 +700,29 @@ class SearchBar extends React.Component {
                                         onChange={this.onEndDatePick}
                                     />
                                 </Grid>
+                                <Grid item xs={12} className="headerGrid">
+                                    <Divider className="headerDivider"/>
+                                    <div className="dateRangeHeader">Toggle Inactive Hires</div>
+                                    <Divider className="headerDivider"/>
+                                </Grid>
+                                <Grid item xs={6} className="gridItem">
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox 
+                                                checked={this.state.hideInactive}
+                                                onChange={
+                                                    (event) => {
+                                                        this.setState({
+                                                            hideInactive: event.target.checked
+                                                        });
+                                                    }
+                                                }
+                                                color="primary"
+                                            />
+                                        }
+                                        label="Hide Inactive Hires"
+                                    />
+                                </Grid>
                             </Grid>
                         </Paper>
                     </Modal>
@@ -661,4 +735,4 @@ class SearchBar extends React.Component {
     };
 }
 
-export default SearchBar;
+export default withSnackbar(SearchBar);

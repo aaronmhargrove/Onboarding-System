@@ -22,13 +22,18 @@
     top: 3.8vh;
 }
 
+
+.step-icon :hover {
+    cursor: pointer;
+}
+
 .complete-icon {
     color: green !important;
     padding-bottom: 9px !important;
 }
 
-.step-icon :hover {
-    cursor: pointer;
+.complete-icon:active {
+    transform: scale(0.9,0.9);
 }
 
 .in-progress-icon {
@@ -36,7 +41,41 @@
     padding-bottom: 9px !important;
 }
 
+.in-progress-icon:active {
+    transform: scale(0.9,0.9);
+}
+
 .incomplete-icon {
     color: red !important;
     padding-bottom: 9px !important;
+}
+
+.incomplete-icon:active {
+    transform: scale(0.9,0.9);
+}
+
+.complete-icon-locked {
+    color: darkgray !important;
+    padding-bottom: 9px !important;
+}
+
+.in-progress-icon-locked {
+    color: darkgray !important;
+    padding-bottom: 9px !important;
+}
+
+.incomplete-icon-locked {
+    color: darkgray !important;
+    padding-bottom: 9px !important;
+}
+
+.disabled {
+    color: darkgray !important;
+}
+
+.loadingSpinnerModal {
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

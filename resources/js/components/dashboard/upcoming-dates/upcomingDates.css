@@ -1,19 +1,19 @@
 .upcomingDatesWidget {
     display: flex;
     position: absolute;
-    top: 13%;
-    right: 2%;
+    top: 9.9%;
+    right: 0%;
     height: 83%;
-    width: 29%; 
+    width: 29%;
 }
 
 .upcomingDatesHeader {
     display: flex;
     position: absolute;
-    top: -4%;
-    width: 90%;
-    height: 10%;
-    left: 5%;
+    top: -17%;
+    width: 80%;
+    height: 9.1vh;
+    left: 7%;
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -28,9 +28,8 @@
 .upcomingDatesTableContainer {
     display: flex;
     position: absolute;
-    top: 10%;
     width: 95%;
-    left: 2.5%;
+    justify-content: center;
 }
 
 .headerText {

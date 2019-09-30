@@ -238,6 +238,7 @@ class Stepper extends React.Component {
                             page={this.state.page}
                             data={this.props.data}
                             users={this.props.users}
+                            triggerReload={this.props.triggerReload}
                     />
     </div>
                 <StepperTableToolbar className="toolbar" 

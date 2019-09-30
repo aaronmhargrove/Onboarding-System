@@ -3,15 +3,23 @@ import Dashboard from './dashboard/dashboard-main/dashboard';
 import NavBar from './global/navBar';
 import UpcomingDates from './dashboard/upcoming-dates/upcomingDates';
 import AddView from './add-hire/addView';
-import Login from './login/login';
 import Grow from '@material-ui/core/Grow';
 import './app.css';
+import { currentUser, getCurrentUser, setCurrentUser } from '../global';
 
 import FullView from './all-records/fullview'
 class App extends React.Component {
-    state = {selection: ''};
+    state = {selection: 'dashboard'};
     
     onNavBarChange = (selection) => {
+
+        // If user is not authenticated on backend, redirect to login
+        getCurrentUser().then(response => {
+            if (!response) {
+                window.location.assign('/login');
+            }
+        })
+        
         this.setState({
             selection: selection,
         });
@@ -22,12 +30,10 @@ class App extends React.Component {
         return(
             <div>
                 {this.state.selection != '' ? <NavBar onChange={this.onNavBarChange}/> : null}
-                {this.state.selection == '' ? <Login onChange={this.onNavBarChange}/> : null}
-                {this.state.selection == 'dashboard' ? 
+                {(this.state.selection == 'dashboard') || (this.state.selection == '') ? 
                     <Grow in={this.state.selection == 'dashboard'}>
                         <div className="parentContainer">
                             <Dashboard />
-                            <UpcomingDates />
                         </div>
                     </Grow>
                     :

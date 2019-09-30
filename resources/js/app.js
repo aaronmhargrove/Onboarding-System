@@ -25,7 +25,6 @@ require('./components/global/datePicker');
 require('./components/dashboard/dashboard-main/expanded-view-modal/expandedView');
 require('./components/all-records/fullview');
 require('./components/all-records/fullviewtabs');
-require('./components/login/login');
 require('./components/global/navBar');
 require('./components/dashboard/dashboard-main/searchBar');
 require('./components/dashboard/dashboard-main/dashboard');

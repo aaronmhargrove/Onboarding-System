@@ -11,8 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
+
+Route::group(['middleware' => ['auth']], function () {
+	Route::get('/home', 'HomeController@index')->name('home');
+	Route::get('/', function () {
+	    return view('home');
+	});
 });
 
 
@@ -52,4 +56,3 @@ Route::get('/users/{user}/upcoming', 'UsersController@upcomingDates');          
 Route::patch('/users/{user}', 'UsersController@update');                                // Update a user (if updating search filter, stringify json and pass in with request body under "search_filter")
 
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
