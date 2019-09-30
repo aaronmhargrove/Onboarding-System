@@ -306,7 +306,9 @@ class FullView extends React.Component {
     }
 
     highlightQuery(isHighlightChecked) {
-        this.setState({ isHighlightChecked: isHighlightChecked })
+        this.setState({ isHighlightChecked: isHighlightChecked }, () => {
+            this.forceUpdate();
+        })
     }
 
     triggerReload() {
@@ -387,6 +389,7 @@ class FullView extends React.Component {
     }
     
     render() {
+        console.log("Fullview: " + this.state.isHighlightChecked)
         if (this.state.loading_users || this.state.loading_hires) {
             return (
                 <Paper className="fullview">

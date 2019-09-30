@@ -140,7 +140,7 @@ var columnsBase = [
 class Stepper extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { page: 0, count: 28, columnsPerPage: 7, forceRender: 0, filteredColumns: [] };
+        this.state = { page: 0, count: 28, columnsPerPage: 7, forceRender: 0, filteredColumns: [], isHighlightChecked: this.props.isHighlightChecked };
         this.mapColumns = this.mapColumns.bind(this);
         this.updateColumns = this.updateColumns.bind(this);
     }
@@ -210,10 +210,8 @@ class Stepper extends React.Component {
         });
     }
 
-    render() {
-        console.log("Attempting to create table")
-        console.log("Attempting to pass columns: ")
-        console.log(columns)
+    render() {        
+        console.log("Stepper: " + this.state.isHighlightChecked)
         return (
             <div className="stepper">
                 <div style={{ height: '60vh', width: '100%' }}>
@@ -225,7 +223,7 @@ class Stepper extends React.Component {
                         data={this.props.data}
                         users={this.props.users}
                         triggerReload={this.props.triggerReload}
-                        isHighlightChecked={this.props.isHighlightChecked}
+                        isHighlightChecked={this.state.isHighlightChecked}
                     />
                 </div>
                 <StepperTableToolbar className="toolbar"

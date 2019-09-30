@@ -507,6 +507,7 @@ class StepperTable extends React.Component {
   onSubmitClick = (event) => { console.log('Submit') }
 
   render() {
+    console.log("steppertable: " + this.state.isHighlightChecked)
     const { columns } = this.props;
     return (
       <div style={{ maxWidth: '100%' }}>
@@ -1008,7 +1009,7 @@ class StepperTable extends React.Component {
             maxBodyHeight: '58vh',
             toolbar: false,
             rowStyle: rowData => {
-              if (((rowData.admin_id == currentUser.data.id) || (rowData.manager_id == currentUser.data.id)) && (this.isHighlightChecked)) {
+              if (((rowData.admin_id == currentUser.data.id) || (rowData.manager_id == currentUser.data.id)) && (this.state.isHighlightChecked)) {
                 return { backgroundColor: '#d6f8d6' };
               }
             }

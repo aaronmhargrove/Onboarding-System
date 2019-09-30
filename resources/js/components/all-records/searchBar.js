@@ -17,7 +17,6 @@ import { withSnackbar } from 'notistack';
 class SearchBar extends React.Component {
     constructor(props) {
         super(props);
-        console.log("dateEnteredchecked: " + this.props.selectedFilters[0])
         this.state = {
             searchValue: '', 
             filterModalOpen: false,
@@ -81,7 +80,8 @@ class SearchBar extends React.Component {
         console.log('Highlight clicked.');
         this.setState({isHighlightChecked: !this.state.isHighlightChecked}, () => {
             this.props.highlight(this.state.isHighlightChecked);
-        })
+        });
+        console.log(this.state.isHighlightChecked);
     }
 
     onModalClose = (event) => {
