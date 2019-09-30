@@ -34,7 +34,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 Route::get('/hires', 'HiresController@index');                                          // Get all hires
-Route::post('/hires/search', 'HiresController@search');                                  // Get hires w/ search filter (put filter json in request body)
+Route::post('/hires/search', 'HiresController@search');                                 // Get hires w/ search filter (put filter json in request body)
 Route::get('/hires/search/steps/{step}', 'HiresController@hiresWithIncompleteStep');    // Get hires with incomplete step (Depricated? is this replaced by the above?)
 Route::post('/hires', 'HiresController@store');                                         // Create Hire (request body)
 Route::patch('/hires/{hire}', 'HiresController@update');                                // Update Hire (place updated fields in request body)
