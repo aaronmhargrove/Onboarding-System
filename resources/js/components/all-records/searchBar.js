@@ -52,6 +52,7 @@ class SearchBar extends React.Component {
             startRangeDate: '',
             endRangeDate: '',
             hideInactive: true,
+            isHighlightChecked: this.props.isHighlightChecked
         };
     }
 
@@ -78,6 +79,9 @@ class SearchBar extends React.Component {
 
     onHighlightClick = (event) => {
         console.log('Highlight clicked.');
+        this.setState({isHighlightChecked: !this.state.isHighlightChecked}, () => {
+            this.props.highlight(this.state.isHighlightChecked);
+        })
     }
 
     onModalClose = (event) => {

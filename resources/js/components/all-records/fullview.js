@@ -80,12 +80,14 @@ class FullView extends React.Component {
             startDate: "",
             endDate: "",
             hideInactive: true,
-            selectedStep: ''
+            selectedStep: '',
+            isHighlightChecked: false
         }
         
         this.triggerReload = this.triggerReload.bind(this);
         this.searchQuery = this.searchQuery.bind(this);
         this.filterQuery = this.filterQuery.bind(this);
+        this.highlightQuery = this.highlightQuery.bind(this);
     }
 
     componentDidMount() {
@@ -303,6 +305,10 @@ class FullView extends React.Component {
         });
     }
 
+    highlightQuery(isHighlightChecked) {
+        this.setState({ isHighlightChecked: isHighlightChecked })
+    }
+
     triggerReload() {
         this.setState({ loading_hires: true, loading_users: true });
 
@@ -392,7 +398,7 @@ class FullView extends React.Component {
             return (
                 <Paper className="fullview">
                     <div className="wrapper">
-                        <SearchBar classname="searchbar" search={this.searchQuery} filter={this.filterQuery} selectedFilters={this.state.filters}/>
+                        <SearchBar classname="searchbar" search={this.searchQuery} filter={this.filterQuery} selectedFilters={this.state.filters} highlight={this.highlightQuery} isHighlightChecked={this.state.isHighlightChecked}/>
                     </div>
                     <Paper className="selectWrapper">
                             <FormControl className="stepSelect">
@@ -415,7 +421,7 @@ class FullView extends React.Component {
                                     </Select>
                                 </FormControl>
                     </Paper>
-                    <Stepper classname="stepper" data={hireData} users={usersData} triggerReload={this.triggerReload} filters={this.state.filters}/>
+                    <Stepper classname="stepper" data={hireData} users={usersData} triggerReload={this.triggerReload} filters={this.state.filters} isHighlightChecked={this.state.isHighlightChecked}/>
                     <Button variant="contained" color="primary" className="export">
                         <CSVLink className="csvLink" data={printData} filename="BayerOnbaording.csv" headers={headers}>
                             Export Current Search

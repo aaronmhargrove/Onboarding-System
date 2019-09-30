@@ -26,6 +26,7 @@ import FilterList from '@material-ui/icons/FilterList'
 import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
 import Clear from '@material-ui/icons/Clear'
+import { currentUser } from '../../../global';
 import { withSnackbar } from 'notistack';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -137,6 +138,7 @@ class StepperTable extends React.Component {
       addToDlsAndPdOrgStatus: '',
       welcomeEmailSentStatus: '',
       manager_id: null,
+      isHighlightChecked: this.props.isHighlightChecked
     };
   }
 
@@ -1004,7 +1006,12 @@ class StepperTable extends React.Component {
             paging: false,
             pageSize: 1,
             maxBodyHeight: '58vh',
-            toolbar: false
+            toolbar: false,
+            rowStyle: rowData => {
+              if (((rowData.admin_id == currentUser.data.id) || (rowData.manager_id == currentUser.data.id)) && (this.isHighlightChecked)) {
+                return { backgroundColor: '#d6f8d6' };
+              }
+            }
           }}
           title="Demo Title"
         />

@@ -152,9 +152,9 @@ class SearchBar extends React.Component {
                     <IconButton className="searchWidgetButton" onClick={this.onSearchClick}>
                         <SearchIcon />
                     </IconButton>
-                    <IconButton className="searchWidgetButton" onClick={this.onFilterClick}>
+                    {/* <IconButton className="searchWidgetButton" onClick={this.onFilterClick}>
                         <FilterIcon />
-                    </IconButton>
+                    </IconButton> */}
                     <Modal
                         open={this.state.filterModalOpen}
                         onClose={this.onModalClose}

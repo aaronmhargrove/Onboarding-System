@@ -225,6 +225,7 @@ class Stepper extends React.Component {
                         data={this.props.data}
                         users={this.props.users}
                         triggerReload={this.props.triggerReload}
+                        isHighlightChecked={this.props.isHighlightChecked}
                     />
                 </div>
                 <StepperTableToolbar className="toolbar"
