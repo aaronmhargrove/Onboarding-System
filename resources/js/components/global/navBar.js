@@ -32,6 +32,17 @@ class NavBar extends React.Component {
         this.setState({anchorElement: null});
     }
 
+    logout = (event) => {
+        axios.post('/logout').then(response => {
+            window.location.assign('/login');
+        }).catch(response => {
+            if (response.response.status == 401){
+                 // Even though we get an unauthorized error, it still logs the user out, so redirect them to login anyway
+                window.location.assign('/login');
+            }
+        })
+    }
+
     render() {
         return(
             <BottomNavigation value={this.state.selectedIcon} onChange={this.onIconChange} className="navbar">
@@ -60,10 +71,10 @@ class NavBar extends React.Component {
                         >
                             <Paper>
                             <ClickAwayListener onClickAway={this.closeSettingsMenu}>
-                                <MenuList>
+                                <MenuList >
                                 <MenuItem onClick={this.closeSettingsMenu}>Set Filter</MenuItem>
                                 <MenuItem onClick={this.closeSettingsMenu}>Change Password</MenuItem>
-                                <MenuItem onClick={this.closeSettingsMenu}>Logout</MenuItem>
+                                <MenuItem onClick={this.logout}>Logout</MenuItem>
                                 </MenuList>
                             </ClickAwayListener>
                             </Paper>

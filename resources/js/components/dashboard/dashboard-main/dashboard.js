@@ -101,7 +101,6 @@ class Dashboard extends React.Component {
             setCurrentUser(response)
 
             if (currentUser != null) {
-                console.log("it works!")
                 axios.get('/users/' + currentUser.id + '/upcoming')
                 .then(response => {
                     console.log('Upcoming Dates: ', response);

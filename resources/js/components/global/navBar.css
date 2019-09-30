@@ -6,7 +6,7 @@
     height: 10%;
     width: 45%;
     justify-content: end;
-    z-index: 5;
+    z-index: 5000;
 }
 
 .settingsbutton {
