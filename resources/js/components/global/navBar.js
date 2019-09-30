@@ -13,6 +13,7 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import './navBar.css';
+import { currentUser, getCurrentUser, setCurrentUser } from '../../global';
 
 class NavBar extends React.Component {
     state = {selectedIcon: 'dashboard', open: false};
@@ -33,6 +34,7 @@ class NavBar extends React.Component {
     }
 
     logout = (event) => {
+        setCurrentUser(null);
         axios.post('/logout').then(response => {
             window.location.assign('/login');
         }).catch(response => {
@@ -73,7 +75,6 @@ class NavBar extends React.Component {
                             <ClickAwayListener onClickAway={this.closeSettingsMenu}>
                                 <MenuList >
                                 <MenuItem onClick={this.closeSettingsMenu}>Set Filter</MenuItem>
-                                <MenuItem onClick={this.closeSettingsMenu}>Change Password</MenuItem>
                                 <MenuItem onClick={this.logout}>Logout</MenuItem>
                                 </MenuList>
                             </ClickAwayListener>

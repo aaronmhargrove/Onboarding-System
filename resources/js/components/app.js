@@ -5,12 +5,21 @@ import UpcomingDates from './dashboard/upcoming-dates/upcomingDates';
 import AddView from './add-hire/addView';
 import Grow from '@material-ui/core/Grow';
 import './app.css';
+import { currentUser, getCurrentUser, setCurrentUser } from '../global';
 
 import FullView from './all-records/fullview'
 class App extends React.Component {
     state = {selection: 'dashboard'};
     
     onNavBarChange = (selection) => {
+
+        // If user is not authenticated on backend, redirect to login
+        getCurrentUser().then(response => {
+            if (!response) {
+                window.location.assign('/login');
+            }
+        })
+        
         this.setState({
             selection: selection,
         });
