@@ -6,7 +6,7 @@ import UpcomingDates from '../upcoming-dates/upcomingDates';
 import axios from 'axios';
 import './dashboard.css';
 import { withSnackbar } from 'notistack';
-import { currentUser } from '../../../global';
+import { currentUser, getCurrentUser, setCurrentUser } from '../../../global';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 var hireData = [];
@@ -16,7 +16,7 @@ var upcomingDates = [];
 class Dashboard extends React.Component {
     constructor(props) {
         super(props);
-
+        
         this.state = { 
             loading_hires: true, 
             loading_users: true,
@@ -96,39 +96,47 @@ class Dashboard extends React.Component {
             }
         });
 
-        axios.get('/users/' + currentUser.data.id + '/upcoming')
-        .then(response => {
-            console.log('Upcoming Dates: ', response);
-            response.data.forEach(entry => {
-                upcomingDates.push({
-                    name: entry.last_name + ", " + entry.first_name,
-                    step: entry.step_name,
-                    daysRemaining: entry.days_left
-                });
-            });
-            this.setState({ loading_dates: false });
-        }).catch(response => {
-            if (response.response.status == 422) { // Validation error
-                var fieldIssues = response.response.data.errors;
-                var issueKeys = Object.keys(fieldIssues);
-                console.log(fieldIssues)
-                issueKeys.forEach(key => {
-                    var issueArray = fieldIssues[key];
-                    issueArray.forEach(element => {
-                        this.props.enqueueSnackbar(element, { // Display what was wrong with fields
-                            variant: 'error',
-                            autoHideDuration: 5000
+
+        getCurrentUser().then(response => {
+            setCurrentUser(response)
+
+            if (currentUser != null) {
+                console.log("it works!")
+                axios.get('/users/' + currentUser.data.id + '/upcoming')
+                .then(response => {
+                    console.log('Upcoming Dates: ', response);
+                    response.data.forEach(entry => {
+                        upcomingDates.push({
+                            name: entry.last_name + ", " + entry.first_name,
+                            step: entry.step_name,
+                            daysRemaining: entry.days_left
                         });
                     });
+                    this.setState({ loading_dates: false });
+                }).catch(response => {
+                    if (response.response.status == 422) { // Validation error
+                        var fieldIssues = response.response.data.errors;
+                        var issueKeys = Object.keys(fieldIssues);
+                        console.log(fieldIssues)
+                        issueKeys.forEach(key => {
+                            var issueArray = fieldIssues[key];
+                            issueArray.forEach(element => {
+                                this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                                    variant: 'error',
+                                    autoHideDuration: 5000
+                                });
+                            });
+                        });
+                    }
+                    else { // Generic laravel error
+                        this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                            variant: 'error',
+                            autoHideDuration: 10000
+                        });
+                    }
+                    this.setState({ loading_dates: false });
                 });
             }
-            else { // Generic laravel error
-                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
-                    variant: 'error',
-                    autoHideDuration: 10000
-                });
-            }
-            this.setState({ loading_dates: false });
         });
     }
 
@@ -197,40 +205,47 @@ class Dashboard extends React.Component {
             }
         });
 
-        axios.get('/users/' + currentUser.data.id + '/upcoming')
-        .then(response => {
-            console.log('Upcoming Dates: ', response);
-            response.data.forEach(entry => {
-                upcomingDates.push({
-                    name: entry.last_name + ", " + entry.first_name,
-                    step: entry.step_name,
-                    daysRemaining: entry.days_left
-                });
-            });
-            this.setState({ loading_dates: false });
-        }).catch(response => {
-            if (response.response.status == 422) { // Validation error
-                var fieldIssues = response.response.data.errors;
-                var issueKeys = Object.keys(fieldIssues);
-                console.log(fieldIssues)
-                issueKeys.forEach(key => {
-                    var issueArray = fieldIssues[key];
-                    issueArray.forEach(element => {
-                        this.props.enqueueSnackbar(element, { // Display what was wrong with fields
-                            variant: 'error',
-                            autoHideDuration: 5000
+
+        getCurrentUser().then(response => {
+            setCurrentUser(response)
+            
+            if (currentUser != null) {
+                axios.get('/users/' + currentUser.data.id + '/upcoming')
+                .then(response => {
+                    console.log('Upcoming Dates: ', response);
+                    response.data.forEach(entry => {
+                        upcomingDates.push({
+                            name: entry.last_name + ", " + entry.first_name,
+                            step: entry.step_name,
+                            daysRemaining: entry.days_left
                         });
                     });
+                    this.setState({ loading_dates: false });
+                }).catch(response => {
+                    if (response.response.status == 422) { // Validation error
+                        var fieldIssues = response.response.data.errors;
+                        var issueKeys = Object.keys(fieldIssues);
+                        console.log(fieldIssues)
+                        issueKeys.forEach(key => {
+                            var issueArray = fieldIssues[key];
+                            issueArray.forEach(element => {
+                                this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                                    variant: 'error',
+                                    autoHideDuration: 5000
+                                });
+                            });
+                        });
+                    }
+                    else { // Generic laravel error
+                        this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                            variant: 'error',
+                            autoHideDuration: 10000
+                        });
+                    }
+                    this.setState({ loading_dates: false });
                 });
             }
-            else { // Generic laravel error
-                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
-                    variant: 'error',
-                    autoHideDuration: 10000
-                });
-            }
-            this.setState({ loading_dates: false });
-        });
+        })
     }
 
     query() {

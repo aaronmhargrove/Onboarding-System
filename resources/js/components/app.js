@@ -3,7 +3,6 @@ import Dashboard from './dashboard/dashboard-main/dashboard';
 import NavBar from './global/navBar';
 import UpcomingDates from './dashboard/upcoming-dates/upcomingDates';
 import AddView from './add-hire/addView';
-import Login from './login/login';
 import Grow from '@material-ui/core/Grow';
 import './app.css';
 
@@ -22,8 +21,7 @@ class App extends React.Component {
         return(
             <div>
                 {this.state.selection != '' ? <NavBar onChange={this.onNavBarChange}/> : null}
-                {this.state.selection == '' ? <Login onChange={this.onNavBarChange}/> : null}
-                {this.state.selection == 'dashboard' ? 
+                {(this.state.selection == 'dashboard') || (this.state.selection == '') ? 
                     <Grow in={this.state.selection == 'dashboard'}>
                         <div className="parentContainer">
                             <Dashboard />
