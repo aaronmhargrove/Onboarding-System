@@ -146,13 +146,26 @@ class Dashboard extends React.Component {
         usersData = [];
         upcomingDates = [];
 
-        axios.get('/hires').then(response => {
-            console.log(response);
+        axios.post('hires/search', {
+            "searchText": this.state.searchString,
+            "step": null,
+            "startDate": this.state.startDate,
+            "endDate": this.state.endDate,
+            "inactive": !this.state.hideInactive,
+            "cols": this.state.filters
+        },
+        {
+            headers: {
+                'content-type': 'application/json',
+            }
+        }).then(response => {
+            console.log('FILTER QUERY: ', response);
             response.data.forEach(hire => {
                 hireData.push(hire);
             });
             this.setState({loading_hires: false});
         }).catch(response => {
+            console.log('FILTER QUERY ERROR: ', response.response.data);
             if (response.response.status == 422){ // Validation error
                 var fieldIssues = response.response.data.errors;
                 var issueKeys = Object.keys(fieldIssues);
@@ -173,6 +186,7 @@ class Dashboard extends React.Component {
                     autoHideDuration: 10000
                 });
             }
+            this.setState({loading_hires: false});
         });
 
         axios.get('/users').then(response => {

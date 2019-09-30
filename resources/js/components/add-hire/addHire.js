@@ -295,9 +295,9 @@ class AddHire extends React.Component {
                                     required
                                     >
                                         <MenuItem value=""><em>None</em></MenuItem>
-                                        <MenuItem value="Direct">Direct</MenuItem>
-                                        <MenuItem value="Contract">Contract</MenuItem>
-                                        <MenuItem value="SOW">SOW</MenuItem>
+                                        <MenuItem value="direct">Direct</MenuItem>
+                                        <MenuItem value="contract">Contract</MenuItem>
+                                        <MenuItem value="sow">SOW</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid> 

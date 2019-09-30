@@ -311,15 +311,27 @@ class FullView extends React.Component {
         hireData = [];
         usersData = [];
 
-        axios.get('/hires').then(response => {
-            console.log(response);
+        axios.post('hires/search', {
+            "searchText": this.state.searchString,
+            "step": this.state.selectedStep,
+            "startDate": this.state.startDate,
+            "endDate": this.state.endDate,
+            "inactive": !this.state.hideInactive,
+            "cols": this.state.filters
+        },
+        {
+            headers: {
+                'content-type': 'application/json',
+            }
+        }).then(response => {
+            console.log('FILTER QUERY: ', response);
             response.data.forEach(hire => {
                 hireData.push(hire);
             });
-            this.setState({ loading_hires: false });
-            console.log(hireData);
+            this.setState({loading_hires: false});
         }).catch(response => {
-            if (response.response.status == 422) { // Validation error
+            console.log('FILTER QUERY ERROR: ', response.response.data);
+            if (response.response.status == 422){ // Validation error
                 var fieldIssues = response.response.data.errors;
                 var issueKeys = Object.keys(fieldIssues);
                 console.log(fieldIssues)
@@ -332,13 +344,14 @@ class FullView extends React.Component {
                         });
                     });
                 });
-            }
-            else { // Generic laravel error
+              }
+            else{ // Generic laravel error
                 this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
                     variant: 'error',
                     autoHideDuration: 10000
                 });
             }
+            this.setState({loading_hires: false});
         });
 
         axios.get('/users').then(response => {
@@ -347,6 +360,7 @@ class FullView extends React.Component {
             });
             this.setState({ loading_users: false });
         }).catch(response => {
+            console.log('TRIGGER RELOAD USERS ENDPOINT ERROR');
             if (response.response.status == 422) { // Validation error
                 var fieldIssues = response.response.data.errors;
                 var issueKeys = Object.keys(fieldIssues);

@@ -189,65 +189,190 @@ class StepperTable extends React.Component {
     // All of these API calls need combined so we can do a single load.
     if(!this.state.unlocked && !this.state.modalLoading) {
       if(!fieldError){
-        axios.patch('hires/' + this.state.hireId,             
-        {
-          "admin_id": this.state.admin_id != "" ? this.state.admin_id : null,
-          "regional_location": this.state.regionalLocation != "" ? this.state.regionalLocation : null,
-          "first_name": this.state.firstName != "" ? this.state.firstName : null,
-          "last_name": this.state.lastName != "" ? this.state.lastName : null,
-          "cwid": this.state.cwid != "" ? this.state.cwid : null,
-          "gender": this.state.gender != "" ? this.state.gender : null,
-          "hire_type": this.state.hireType != "" ? this.state.hireType : null,
-          "start_date": this.state.hireDate != "" ? this.state.hireDate : null,
-          "vendor": this.state.vendor != "" ? this.state.vendor : null,
-          "role": this.state.role != "" ? this.state.role : null,
-          "pl_ic": this.state.plic != "" ? this.state.plic : null,
-          "team_name": this.state.teamName != "" ? this.state.teamName : null,
-          "platform": this.state.platform != "" ? this.state.platform : null,
-          "manager_id": this.state.manager_id != "" ? this.state.manager_id : null,
-          "hire_status": this.state.hireStatus != "" ? this.state.hireStatus : null,
-          "onboarding_buddy": this.state.onboardingBuddy != "" ? this.state.onboardingBuddy : null,
-          "computer_needs": this.state.computerNeeds != "" ? this.state.computerNeeds : null,
-          "seat_number": this.state.seatNum != "" ? this.state.seatNum : null,
-          "campus": this.state.onboardingCampus != "" ? this.state.onboardingCampus : null,
-          "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
-          "hire_ticket": this.state.newHireRehireTicket != "" ? this.state.newHireRehireTicket : null,
-          "mac_ticket": this.state.macTicket != "" ? this.state.macTicket : null,
-        },
-        {
-          headers: {
-              'content-type': 'application/json',
-          }
-        })
-        .then(response => {
-          console.log('Successfully updated the hire: ', response);
-          this.props.enqueueSnackbar("Hire updated!", { // Success Message
-            variant: 'success',
-            autoHideDuration: 2000
-          });
-        })
-        .catch(response => {
-          if (response.response.status == 422){ // Validation error
-            var fieldIssues = response.response.data.errors;
-            var issueKeys = Object.keys(fieldIssues);
-            console.log(fieldIssues)
-            issueKeys.forEach(key => {
-                var issueArray = fieldIssues[key];
-                issueArray.forEach(element => {
-                    this.props.enqueueSnackbar(element, { // Display what was wrong with fields
-                        variant: 'error',
-                        autoHideDuration: 5000
-                    });
-                });
-            });
-          }
-          else{ // Generic laravel error
-              this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
-                  variant: 'error',
-                  autoHideDuration: 10000
+        var changedHireSteps = [];
+
+        if(this.state.adminAssignedStatusChanged || this.state.cwidAssignedStatusChanged || this.state.neidAssignedStatusChanged ||
+          this.state.hireTicketStatusChanged || this.state.macTicketStatusChanged || this.state.laptopDeliveredStatusChanged ||
+          this.state.onboardingEmailStatusChanged || this.state.addToDlsAndPdOrgStatusChanged || this.state.welcomeEmailSentStatusChanged) {
+            if(this.state.adminAssignedStatusChanged) {
+              changedHireSteps.push({
+                id: 1,
+                status: this.state.adminAssignedStatus
               });
-          }
-        });
+            }
+            if(this.state.cwidAssignedStatusChanged) {
+              changedHireSteps.push({
+                id: 2,
+                status: this.state.cwidAssignedStatus
+              });
+            }
+            if(this.state.neidAssignedStatusChanged) {
+              changedHireSteps.push({
+                id: 3,
+                status: this.state.neidAssignedStatus
+              });
+            }
+            if(this.state.hireTicketStatusChanged) {
+              changedHireSteps.push({
+                id: 4,
+                status: this.state.hireTicketStatus
+              });
+            }
+            if(this.state.macTicketStatusChanged) {
+              changedHireSteps.push({
+                id: 5,
+                status: this.state.macTicketStatus
+              });
+            }
+            if(this.state.laptopDeliveredStatusChanged) {
+              changedHireSteps.push({
+                id: 6,
+                status: this.state.laptopDeliveredStatus
+              });
+            }
+            if(this.state.onboardingEmailStatusChanged) {
+              changedHireSteps.push({
+                id: 7,
+                status: this.state.onboardingEmailStatus
+              });
+            }
+            if(this.state.addToDlsAndPdOrgStatusChanged) {
+              changedHireSteps.push({
+                id: 8,
+                status: this.state.addToDlsAndPdOrgStatus
+              });
+            }
+            if(this.state.welcomeEmailSentStatusChanged) {
+              changedHireSteps.push({
+                id: 9,
+                status: this.state.welcomeEmailSentStatus
+              });
+            }
+        }
+        
+        if(this.state.startDateChanged) {
+          axios.patch('hires/' + this.state.hireId,             
+          {
+            "admin_id": this.state.admin_id != "" ? this.state.admin_id : null,
+            "regional_location": this.state.regionalLocation != "" ? this.state.regionalLocation : null,
+            "first_name": this.state.firstName != "" ? this.state.firstName : null,
+            "last_name": this.state.lastName != "" ? this.state.lastName : null,
+            "cwid": this.state.cwid != "" ? this.state.cwid : null,
+            "gender": this.state.gender != "" ? this.state.gender : null,
+            "hire_type": this.state.hireType != "" ? this.state.hireType : null,
+            "start_date": this.state.startDateChanged ? this.state.pdStartDate : null,
+            "vendor": this.state.vendor != "" ? this.state.vendor : null,
+            "role": this.state.role != "" ? this.state.role : null,
+            "pl_ic": this.state.plic != "" ? this.state.plic : null,
+            "team_name": this.state.teamName != "" ? this.state.teamName : null,
+            "platform": this.state.platform != "" ? this.state.platform : null,
+            "manager_id": this.state.manager_id != "" ? this.state.manager_id : null,
+            "hire_status": this.state.hireStatus != "" ? this.state.hireStatus : null,
+            "onboarding_buddy": this.state.onboardingBuddy != "" ? this.state.onboardingBuddy : null,
+            "computer_needs": this.state.computerNeeds != "" ? this.state.computerNeeds : null,
+            "seat_number": this.state.seatNum != "" ? this.state.seatNum : null,
+            "campus": this.state.onboardingCampus != "" ? this.state.onboardingCampus : null,
+            "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
+            "hire_ticket": this.state.newHireRehireTicket != "" ? this.state.newHireRehireTicket : null,
+            "mac_ticket": this.state.macTicket != "" ? this.state.macTicket : null,
+            "hire_steps": changedHireSteps,
+          },
+          {
+            headers: {
+                'content-type': 'application/json',
+            }
+          })
+          .then(response => {
+            console.log('Successfully updated the hire: ', response);
+            this.props.enqueueSnackbar("Hire updated!", { // Success Message
+              variant: 'success',
+              autoHideDuration: 2000
+            });
+          })
+          .catch(response => {
+            if (response.response.status == 422){ // Validation error
+              var fieldIssues = response.response.data.errors;
+              var issueKeys = Object.keys(fieldIssues);
+              console.log(fieldIssues)
+              issueKeys.forEach(key => {
+                  var issueArray = fieldIssues[key];
+                  issueArray.forEach(element => {
+                      this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                          variant: 'error',
+                          autoHideDuration: 5000
+                      });
+                  });
+              });
+            }
+            else{ // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
+          });
+        }
+        else {
+          axios.patch('hires/' + this.state.hireId,             
+          {
+            "admin_id": this.state.admin_id != "" ? this.state.admin_id : null,
+            "regional_location": this.state.regionalLocation != "" ? this.state.regionalLocation : null,
+            "first_name": this.state.firstName != "" ? this.state.firstName : null,
+            "last_name": this.state.lastName != "" ? this.state.lastName : null,
+            "cwid": this.state.cwid != "" ? this.state.cwid : null,
+            "gender": this.state.gender != "" ? this.state.gender : null,
+            "hire_type": this.state.hireType != "" ? this.state.hireType : null,
+            "vendor": this.state.vendor != "" ? this.state.vendor : null,
+            "role": this.state.role != "" ? this.state.role : null,
+            "pl_ic": this.state.plic != "" ? this.state.plic : null,
+            "team_name": this.state.teamName != "" ? this.state.teamName : null,
+            "platform": this.state.platform != "" ? this.state.platform : null,
+            "manager_id": this.state.manager_id != "" ? this.state.manager_id : null,
+            "hire_status": this.state.hireStatus != "" ? this.state.hireStatus : null,
+            "onboarding_buddy": this.state.onboardingBuddy != "" ? this.state.onboardingBuddy : null,
+            "computer_needs": this.state.computerNeeds != "" ? this.state.computerNeeds : null,
+            "seat_number": this.state.seatNum != "" ? this.state.seatNum : null,
+            "campus": this.state.onboardingCampus != "" ? this.state.onboardingCampus : null,
+            "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
+            "hire_ticket": this.state.newHireRehireTicket != "" ? this.state.newHireRehireTicket : null,
+            "mac_ticket": this.state.macTicket != "" ? this.state.macTicket : null,
+            "hire_steps": changedHireSteps,
+          },
+          {
+            headers: {
+                'content-type': 'application/json',
+            }
+          })
+          .then(response => {
+            console.log('Successfully updated the hire: ', response);
+            this.props.enqueueSnackbar("Hire updated!", { // Success Message
+              variant: 'success',
+              autoHideDuration: 2000
+            });
+          })
+          .catch(response => {
+            if (response.response.status == 422){ // Validation error
+              var fieldIssues = response.response.data.errors;
+              var issueKeys = Object.keys(fieldIssues);
+              console.log(fieldIssues)
+              issueKeys.forEach(key => {
+                  var issueArray = fieldIssues[key];
+                  issueArray.forEach(element => {
+                      this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                          variant: 'error',
+                          autoHideDuration: 5000
+                      });
+                  });
+              });
+            }
+            else{ // Generic laravel error
+                this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                    variant: 'error',
+                    autoHideDuration: 10000
+                });
+            }
+          });
+        }
   
         axios.patch('/hires/' + this.state.hireId + '/unlock')
         .then(response => {
