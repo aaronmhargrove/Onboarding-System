@@ -33,7 +33,7 @@ class HireStepsTableSeeder extends Seeder
         HireStep::create(array(
             'hire_id' => 1,
             'step_id' => 4,
-            'step_name' => "Submit Ticket",
+            'step_name' => "Submit Hire Ticket",
             'status' => 0
         ));
         HireStep::create(array(

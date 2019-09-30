@@ -53,6 +53,3 @@ Route::patch('/users/{user}', 'UsersController@update');                        
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
-
-
-Route::get('/hires/testing', 'HiresController@test'); // TESTING FOR SCHEDULED EVENT CODE
