@@ -5,7 +5,7 @@
 */
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
-import SearchBar from '../dashboard/dashboard-main/searchBar';
+import SearchBar from './searchBar';
 import Stepper from './table/stepper';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
@@ -392,7 +392,7 @@ class FullView extends React.Component {
             return (
                 <Paper className="fullview">
                     <div className="wrapper">
-                        <SearchBar classname="searchbar" search={this.searchQuery} filter={this.filterQuery}/>
+                        <SearchBar classname="searchbar" search={this.searchQuery} filter={this.filterQuery} selectedFilters={this.state.filters}/>
                     </div>
                     <Paper className="selectWrapper">
                             <FormControl className="stepSelect">
