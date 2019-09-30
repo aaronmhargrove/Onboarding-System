@@ -102,7 +102,7 @@ class Dashboard extends React.Component {
 
             if (currentUser != null) {
                 console.log("it works!")
-                axios.get('/users/' + currentUser.data.id + '/upcoming')
+                axios.get('/users/' + currentUser.id + '/upcoming')
                 .then(response => {
                     console.log('Upcoming Dates: ', response);
                     response.data.forEach(entry => {
@@ -210,7 +210,7 @@ class Dashboard extends React.Component {
             setCurrentUser(response)
             
             if (currentUser != null) {
-                axios.get('/users/' + currentUser.data.id + '/upcoming')
+                axios.get('/users/' + currentUser.id + '/upcoming')
                 .then(response => {
                     console.log('Upcoming Dates: ', response);
                     response.data.forEach(entry => {

@@ -8,7 +8,7 @@ import './app.css';
 
 import FullView from './all-records/fullview'
 class App extends React.Component {
-    state = {selection: ''};
+    state = {selection: 'dashboard'};
     
     onNavBarChange = (selection) => {
         this.setState({

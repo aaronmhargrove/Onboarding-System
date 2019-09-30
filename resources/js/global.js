@@ -6,7 +6,7 @@ export function setCurrentUser(user) {
 
 export function getCurrentUser() {
     return axios.get('/users/current').then(response => {
-        return response
+        return response.data
     }).catch(response => {
         return null
     });
