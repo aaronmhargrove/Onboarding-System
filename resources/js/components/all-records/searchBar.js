@@ -106,6 +106,7 @@ class SearchBar extends React.Component {
             this.state.managerCommentsFlag,
             this.state.neidFlag,
             this.state.hireRehireFlag,
+            this.state.dateHireRehireFlag,
             this.state.macTicketFlag,
             this.state.dateMacTicketFlag,
             this.state.dateLaptopDeliveredFlag,

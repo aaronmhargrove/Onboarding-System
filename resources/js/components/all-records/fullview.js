@@ -76,7 +76,7 @@ class FullView extends React.Component {
             loading_hires: true, 
             loading_users: true, 
             searchString: "",
-            filters: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true],
+            filters: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true],
             startDate: "",
             endDate: "",
             hideInactive: true,
