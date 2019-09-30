@@ -1,18 +1,10 @@
-.searchResultsTable {
+.tableContainer {
     display: flex;
+    justify-content: center;
     position: absolute;
     top: 10%;
     width: 95%;
-    left: 2.5%;
-}
-
-.interiorTable {    
-    width:100%;
-    display:flex;
-    table-layout: fixed;
-}
-
-.interiorTable :hover {
-    cursor: pointer;
+    left: 1.2vw;
+    min-width: 95%;
 }
 

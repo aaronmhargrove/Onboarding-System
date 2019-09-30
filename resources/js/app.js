@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app';
+import { SnackbarProvider } from 'notistack';
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes React and other helpers. It's a great starting point while
@@ -17,9 +18,8 @@ require('./bootstrap');
 
 require('./components/global/Example');
 require('./components/add-hire/addHire');
-require('./components/add-hire/addUser');
 require('./components/add-hire/addView');
-require('./components/App');
+require('./components/app.js'); // require('./components/App');
 require('./components/dashboard/dashboard-main/dashboard');
 require('./components/global/datePicker');
 require('./components/dashboard/dashboard-main/expanded-view-modal/expandedView');
@@ -35,7 +35,9 @@ require('./components/all-records/table/steppertabletoolbar');
 require('./components/dashboard/upcoming-dates/upcomingDates');
 
 ReactDOM.render(
-    <App />,
+    <SnackbarProvider maxSnack={6}>
+        <App />
+    </SnackbarProvider>,
     document.querySelector('#root')
 );
 

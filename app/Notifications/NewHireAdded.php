@@ -43,8 +43,9 @@ class NewHireAdded extends Notification
      */
     public function toSlack($notifiable){
         return (new SlackMessage)
+            ->content('A new hire has been added!')
             ->attachment(function ($attachment){
-                $attachment->title('New Hire Added ------------------------------------------')
+                $attachment
                     ->fields([
                         'First' => $this->hire->first_name,
                         'Last' => $this->hire->last_name,

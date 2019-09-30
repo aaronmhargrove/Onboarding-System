@@ -23,6 +23,15 @@ class UsersController extends Controller
         return User::get();
     }
 
+     /**
+     * Return current user.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function currentUser(){
+        return auth()->user();
+    }
+
     /**
      * Show the form for creating a new resource.
      *

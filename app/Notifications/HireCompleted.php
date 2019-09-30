@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\SlackMessage;
 
 class HireCompleted extends Notification
 {
@@ -16,9 +17,9 @@ class HireCompleted extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($hire)
     {
-        //
+        $this->hire = $hire;
     }
 
     /**
@@ -29,33 +30,25 @@ class HireCompleted extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['slack'];
     }
 
     /**
-     * Get the mail representation of the notification.
+     * Get the slack representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return \Illuminate\Notifications\Messages\SlackMessage
      */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
+    public function toSlack($notifiable){
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
+        return (new SlackMessage)
+            ->success()
+            ->attachment(function ($attachment){
+                $attachment->title('Hire Complete!')
+                    ->fields([
+                        'First Name' => $this->hire->first_name,
+                        'Last Name' => $this->hire->last_name
+                    ]);
+            });
     }
 }
