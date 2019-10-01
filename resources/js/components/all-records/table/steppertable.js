@@ -1152,9 +1152,9 @@ class StepperTable extends React.Component {
             maxBodyHeight: '58vh',
             toolbar: false,
             rowStyle: rowData => {
-              if (((rowData.admin_id == getCurrentUser().id) || (rowData.manager_id == getCurrentUser().id)) && (this.state.isHighlightChecked)) {
-                return { backgroundColor: '#d6f8d6' };
-              }
+              // if (((rowData.admin_id == getCurrentUser().id) || (rowData.manager_id == getCurrentUser().id)) && (this.state.isHighlightChecked)) {
+              //   return { backgroundColor: '#d6f8d6' };
+              // }
             }
           }}
           title="Demo Title"

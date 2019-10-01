@@ -27,7 +27,7 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
 import Clear from '@material-ui/icons/Clear'
 import axios from 'axios';
-import { getCurrentUser } from '../../../global'
+import { getCurrentUser, currentUser } from '../../../global'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withSnackbar } from 'notistack';
 
@@ -1185,7 +1185,7 @@ onSubmitClick = (event) => {console.log('Submit')}
             () =>{              
               console.log("admin_id", rowData.admin_id);
               console.log("manager_id", rowData.manager_id)
-              console.log("current_user_id", getCurrentUser()) 
+              console.log("current_user_id", currentUser.data.id) 
               this.onModalOpen(rowData)})}
           data={displayData}
           options={{
@@ -1195,9 +1195,9 @@ onSubmitClick = (event) => {console.log('Submit')}
             maxBodyHeight: '70vh',
             toolbar: false,
             rowStyle: rowData => {
-              if (((rowData.admin_id == getCurrentUser().id) || (rowData.manager_id == getCurrentUser().id)) && (this.state.isHighlightChecked)) {
-                return { backgroundColor: '#d6f8d6' };
-              }
+              // if (((rowData.admin_id == getCurrentUser().id) || (rowData.manager_id == getCurrentUser().id)) && (this.state.isHighlightChecked)) {
+              //   return { backgroundColor: '#d6f8d6' };
+              // }
             }
           }}
           title="Demo Title"
