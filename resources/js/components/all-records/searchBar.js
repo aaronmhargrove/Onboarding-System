@@ -4,6 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/FilterList';
+import Button from '@material-ui/core/Button'
 import CreateIcon from '@material-ui/icons/Create';
 import Modal from '@material-ui/core/Modal';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -138,6 +139,17 @@ class SearchBar extends React.Component {
     onEndDatePick = (event) => {
         this.setState({
             endRangeDate: event.target.value,
+        });
+    }
+
+    resetAllFilters = (event) => {
+        this.setState({
+            filters: [ true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true ], 
+            startRangeDate: "", 
+            endRangeDate: "", 
+            hideInactive: true
+        }, () => {
+            this.props.filter(this.state.filters, this.state.startRangeDate, this.state.endRangeDate, this.state.hideInactive);
         });
     }
 
@@ -726,6 +738,9 @@ class SearchBar extends React.Component {
                                         }
                                         label="Hide Inactive Hires"
                                     />
+                                </Grid>
+                                <Grid item xs={6} className="gridItem">
+                                    <Button className="resetButton" variant="contained" color="primary" onClick={this.resetAllFilters}>Reset All Filters</Button>
                                 </Grid>
                             </Grid>
                         </Paper>

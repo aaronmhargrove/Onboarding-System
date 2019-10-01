@@ -41,3 +41,9 @@
 .activatedWidgetIcon {
     color: lightgreen;
 }
+
+.resetButton {
+    position: relative;
+    left: 10vw;
+    margin-bottom: 2vh !important;
+}
