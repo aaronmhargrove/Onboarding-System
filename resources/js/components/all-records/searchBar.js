@@ -48,9 +48,9 @@ class SearchBar extends React.Component {
             addToDlsFlag: this.props.selectedFilters[25],
             welcomeEmailFlag: this.props.selectedFilters[26],
             adminNameFlag: this.props.selectedFilters[27],
-            startRangeDate: '',
-            endRangeDate: '',
-            hideInactive: true,
+            startRangeDate: this.props.selectedStartDate,
+            endRangeDate: this.props.selectedEndDate,
+            hideInactive: this.props.selectedHideInactive,
             isHighlightChecked: this.props.isHighlightChecked
         };
     }

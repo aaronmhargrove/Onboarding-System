@@ -399,7 +399,7 @@ class FullView extends React.Component {
             return (
                 <Paper className="fullview">
                     <div className="wrapper">
-                        <SearchBar classname="searchbar" search={this.searchQuery} filter={this.filterQuery} selectedFilters={this.state.filters} highlight={this.highlightQuery} isHighlightChecked={this.state.isHighlightChecked}/>
+                        <SearchBar classname="searchbar" search={this.searchQuery} filter={this.filterQuery} selectedFilters={this.state.filters} highlight={this.highlightQuery} isHighlightChecked={this.state.isHighlightChecked} selectedStartDate={this.state.startDate} selectedEndDate={this.state.endDate} selectedHideInactive={this.state.hideInactive}/>
                     </div>
                     <Paper className="selectWrapper">
                             <FormControl className="stepSelect">

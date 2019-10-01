@@ -38,7 +38,7 @@ var displayData = [];
 class searchResults extends React.Component {
   constructor(props) {
     super(props);
-
+    this.calcNumStepsComplete = this.calcNumStepsComplete.bind(this);
     displayData = [];
 
     this.props.data.forEach(hire => {
@@ -86,7 +86,8 @@ class searchResults extends React.Component {
           onboardingEmailStatus: hire.hire_steps[6].status,
           addToDlsAndPdOrgStatus: hire.hire_steps[7].status,
           welcomeEmailSentStatus: hire.hire_steps[8].status,
-          hireId: hire.id
+          hireId: hire.id,
+          numStepsComplete: this.calcNumStepsComplete(hire.hire_steps)
         }
       );
     });
@@ -137,9 +138,20 @@ class searchResults extends React.Component {
       onboardingEmailStatus: '',
       addToDlsAndPdOrgStatus: '',
       welcomeEmailSentStatus: '',
+      numStepsComplete: '',
       manager_id: null,
       isHighlightChecked: this.props.isHighlightChecked
     };
+  }
+
+  calcNumStepsComplete(hire_steps) {
+    let numStepsComplete = 0;
+    for (let i = 0; i < hire_steps.length; i++){
+      if(hire_steps[i].status == 2) {
+        numStepsComplete++;
+      }
+    }
+    return numStepsComplete;
   }
 
   static getDerivedStateFromProps(props, state) {
