@@ -19,28 +19,11 @@ class Hire extends Model{
     }
 
     public function hireSteps(){
-        return $this->hasMany(HireStep::class)
-            ->with('step')
-            ->join('steps AS step', 'step.id', 'hire_steps.step_id')
-            ->orderBy('step.order', 'asc')
-        ;
+        return $this->hasMany(HireStep::class)->orderBy('step_id', 'asc');
     }
 
     public function hireType(){
         return $this->has(HireType::class);
-    }
-
-    public function getCurrentStep() {
-        $incompleteSteps = [];
-
-        // Just return the first incomplete step since they are ordered on the relationship
-        foreach ($this->hireSteps as $hireStep) {
-            if ($hireStep->status == 0) {
-                return $hireStep;
-            }
-        }
-
-        return null;
     }
 
     public function searchableAs()
