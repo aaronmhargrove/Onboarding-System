@@ -138,8 +138,18 @@ class searchResults extends React.Component {
       addToDlsAndPdOrgStatus: '',
       welcomeEmailSentStatus: '',
       manager_id: null,
+      isHighlightChecked: this.props.isHighlightChecked
     };
   }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.isHighlightChecked != state.isHighlightChecked) {
+        return {
+            isHighlightChecked: props.isHighlightChecked,
+        };
+    }
+    return null;
+}
 
   onModalClose = () => {
     var fieldError = false;
@@ -1035,7 +1045,7 @@ class searchResults extends React.Component {
             maxBodyHeight: '70vh',
             toolbar: false,
             rowStyle: rowData => {
-              if ((rowData.admin_id == currentUser.data.id) || (rowData.manager_id == currentUser.data.id)) {
+              if (((rowData.admin_id == currentUser.data.id) || (rowData.manager_id == currentUser.data.id)) && (this.state.isHighlightChecked)) {
                 return { backgroundColor: '#d6f8d6' };
               }
             }

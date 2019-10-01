@@ -145,6 +145,15 @@ class Stepper extends React.Component {
         this.updateColumns = this.updateColumns.bind(this);
     }
 
+    static getDerivedStateFromProps(props, state) {
+        if (props.isHighlightChecked != state.isHighlightChecked) {
+            return {
+                isHighlightChecked: props.isHighlightChecked,
+            };
+        }
+        return null;
+    }
+
     mapColumns(count, filters) {
         var tempColumns = [];
         for (let i = 0; i < count; i++) {
@@ -178,8 +187,6 @@ class Stepper extends React.Component {
 
     }
 
-
-
     handleFirstPageButtonClick = event => {
         this.setState({ page: 0 }, () => {
             this.updateColumns(this.state.page, this.state.count, this.state.columnsPerPage, this.state.filteredColumns);
@@ -210,7 +217,7 @@ class Stepper extends React.Component {
         });
     }
 
-    render() {        
+    render() {
         console.log("Stepper: " + this.state.isHighlightChecked)
         return (
             <div className="stepper">

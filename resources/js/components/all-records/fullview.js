@@ -306,9 +306,7 @@ class FullView extends React.Component {
     }
 
     highlightQuery(isHighlightChecked) {
-        this.setState({ isHighlightChecked: isHighlightChecked }, () => {
-            this.forceUpdate();
-        })
+        this.setState({ isHighlightChecked: isHighlightChecked })
     }
 
     triggerReload() {

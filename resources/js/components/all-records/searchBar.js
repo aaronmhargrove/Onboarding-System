@@ -730,9 +730,12 @@ class SearchBar extends React.Component {
                             </Grid>
                         </Paper>
                     </Modal>
-                    <IconButton className="searchWidgetButton" onClick={this.onHighlightClick}>
+                    {(!this.state.isHighlightChecked) && <IconButton className="searchWidgetButton" onClick={this.onHighlightClick}>
                         <CreateIcon />
-                    </IconButton>
+                    </IconButton>}
+                    {(this.state.isHighlightChecked) && <IconButton className="activatedWidgetButton" onClick={this.onHighlightClick}>
+                        <CreateIcon className="activatedWidgetIcon" />
+                    </IconButton>}
                 </div>
             </Paper>
         );

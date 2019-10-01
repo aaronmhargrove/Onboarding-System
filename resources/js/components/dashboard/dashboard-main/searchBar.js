@@ -51,7 +51,8 @@ class SearchBar extends React.Component {
             adminNameFlag: true,
             startRangeDate: '',
             endRangeDate: '',
-            hideInactive: true,
+            hideInactive: true,            
+            isHighlightChecked: this.props.isHighlightChecked
         };
     }
 
@@ -80,6 +81,10 @@ class SearchBar extends React.Component {
 
     onHighlightClick = (event) => {
         console.log('Highlight clicked.');
+        this.setState({isHighlightChecked: !this.state.isHighlightChecked}, () => {
+            this.props.highlight(this.state.isHighlightChecked);
+        });
+        console.log(this.state.isHighlightChecked);
     }
 
     onModalClose = (event) => {
@@ -727,9 +732,12 @@ class SearchBar extends React.Component {
                             </Grid>
                         </Paper>
                     </Modal>
-                    <IconButton className="searchWidgetButton" onClick={this.onHighlightClick}>
+                    {(!this.state.isHighlightChecked) && <IconButton className="searchWidgetButton" onClick={this.onHighlightClick}>
                         <CreateIcon />
-                    </IconButton>
+                    </IconButton>}
+                    {(this.state.isHighlightChecked) && <IconButton className="activatedWidgetButton" onClick={this.onHighlightClick}>
+                        <CreateIcon className="activatedWidgetIcon" />
+                    </IconButton>}
                 </div>
             </Paper>
         );

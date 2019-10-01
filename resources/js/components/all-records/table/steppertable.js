@@ -506,6 +506,15 @@ class StepperTable extends React.Component {
 
   onSubmitClick = (event) => { console.log('Submit') }
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.isHighlightChecked != state.isHighlightChecked) {
+        return {
+            isHighlightChecked: props.isHighlightChecked,
+        };
+    }
+    return null;
+}
+
   render() {
     console.log("steppertable: " + this.state.isHighlightChecked)
     const { columns } = this.props;

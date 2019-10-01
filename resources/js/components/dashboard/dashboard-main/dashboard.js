@@ -23,12 +23,14 @@ class Dashboard extends React.Component {
             filters: [],
             startDate: "",
             endDate: "",
-            hideInactive: true,
+            hideInactive: true,            
+            isHighlightChecked: false
         };
 
         this.setReload = this.setReload.bind(this);
         this.searchQuery = this.searchQuery.bind(this);
         this.filterQuery = this.filterQuery.bind(this);
+        this.highlightQuery = this.highlightQuery.bind(this);
     }
 
     componentDidMount() {
@@ -260,14 +262,18 @@ class Dashboard extends React.Component {
         });
     }
 
+    highlightQuery(isHighlightChecked) {
+        this.setState({ isHighlightChecked: isHighlightChecked })
+    }
+
     render() {
         return(
             <Paper className="dashboardWidget">
                 {/* {(this.state.loading_users || this.state.loading_hires) ? <div className="loadingSpinner"><CircularProgress size="5rem"/></div> :  */}
                     <div>
-                        <SearchBar search={this.searchQuery} filter={this.filterQuery}/>
+                        <SearchBar search={this.searchQuery} filter={this.filterQuery} highlight={this.highlightQuery} isHighlightChecked={this.state.isHighlightChecked}/>
                         {this.state.loading_users || this.state.loading_hires ? <div className="loadingSpinnerDashboard"><CircularProgress size="5rem"/></div> :
-                            <SearchResults className="dashboardTable" data={hireData} users={usersData} setReload={this.setReload}/>
+                            <SearchResults className="dashboardTable" data={hireData} users={usersData} setReload={this.setReload} isHighlightChecked={this.state.isHighlightChecked}/>
                         }                        
                         <UpcomingDates />    
                     </div>    
