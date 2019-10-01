@@ -115,6 +115,9 @@ class HiresController extends Controller
         foreach ($stepsArray as $step){
             $updatedStep = HireStep::where('id', $step->id)->first();
             $updatedStep->status = $step->status;
+            if($step->status == 2){
+                $updatedStep->date_completed = date('Y-m-d');
+            }
             $updatedStep->save();
             User::find($hire->manager_id)->notify(new HireStepChanged($hire, $updatedStep));
         }
