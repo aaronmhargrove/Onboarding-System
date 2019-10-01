@@ -1185,7 +1185,7 @@ onSubmitClick = (event) => {console.log('Submit')}
             () =>{              
               console.log("admin_id", rowData.admin_id);
               console.log("manager_id", rowData.manager_id)
-              console.log("current_user_id", currentUser.data.id) 
+              // console.log("current_user_id", currentUser.data.id) 
               this.onModalOpen(rowData)})}
           data={displayData}
           options={{
