@@ -1,3 +1,4 @@
+
 .searchBarWidget {
     display: flex;
     position: relative;
@@ -21,4 +22,29 @@
 
 .searchWidgetButton {
     padding-bottom: 50%;
+}
+
+.searchWidgetButton:active {
+    transform: scale(0.9,0.9);
+}
+
+.activatedWidgetButton {    
+    padding: 0 12px !important;
+    margin-right: 1% !important;
+    padding-bottom: 50%;    
+    padding-right: 1%;
+}
+
+.activatedWidgetButton:active { 
+    transform: scale(0.9,0.9)
+}
+
+.activatedWidgetIcon {
+    color: lightgreen;
+}
+
+.resetButton {
+    position: relative;
+    left: 10vw;
+    margin-bottom: 2vh !important;
 }

@@ -1,18 +1,12 @@
-/*
-* Author: Matthew Chaplin
-* Bayer Onboarding
-* Date: 4/6/19
-*/
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
-import SearchBar from '../dashboard/dashboard-main/searchBar';
+import SearchBar from './searchBar';
 import Stepper from './table/stepper';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
-import Grid from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -76,16 +70,18 @@ class FullView extends React.Component {
             loading_hires: true, 
             loading_users: true, 
             searchString: "",
-            filters: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true],
+            filters: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true],
             startDate: "",
             endDate: "",
             hideInactive: true,
-            selectedStep: ''
+            selectedStep: '',            
+            isHighlightChecked: false
         }
         
         this.triggerReload = this.triggerReload.bind(this);
         this.searchQuery = this.searchQuery.bind(this);
-        this.filterQuery = this.filterQuery.bind(this);
+        this.filterQuery = this.filterQuery.bind(this);        
+        this.highlightQuery = this.highlightQuery.bind(this);
     }
 
     componentDidMount() {
@@ -305,6 +301,10 @@ class FullView extends React.Component {
         });
     }
 
+    highlightQuery(isHighlightChecked) {
+        this.setState({ isHighlightChecked: isHighlightChecked })
+    }
+
     triggerReload() {
         this.setState({ loading_hires: true, loading_users: true });
 
@@ -400,7 +400,7 @@ class FullView extends React.Component {
         return (
             <Paper className="fullview">
                 <div className="wrapper">
-                    <SearchBar classname="searchbar" search={this.searchQuery} filter={this.filterQuery}/>
+                <SearchBar classname="searchbar" search={this.searchQuery} filter={this.filterQuery} selectedFilters={this.state.filters} highlight={this.highlightQuery} isHighlightChecked={this.state.isHighlightChecked} selectedStartDate={this.state.startDate} selectedEndDate={this.state.endDate} selectedHideInactive={this.state.hideInactive}/>
                 </div>
                 <Paper className="selectWrapper">
                         <FormControl className="stepSelect">
@@ -425,7 +425,7 @@ class FullView extends React.Component {
                 </Paper>
                 {this.state.loading_users || this.state.loading_hires ? <div className="loadingSpinner"><CircularProgress size="5rem" /></div> :
                     <React.Fragment>
-                        <Stepper classname="stepper" data={hireData} users={usersData} triggerReload={this.triggerReload} filters={this.state.filters}/>
+                        <Stepper classname="stepper" data={hireData} users={usersData} triggerReload={this.triggerReload} filters={this.state.filters} isHighlightChecked={this.state.isHighlightChecked}/>
                         <Button variant="contained" color="primary" className="export">
                             <CSVLink className="csvLink" data={printData} filename="BayerOnbaording.csv" headers={headers}>
                                 Export Current Search

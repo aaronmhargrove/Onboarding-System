@@ -1,80 +1,94 @@
-.tableContainer {
+.searchBarWidget {
     display: flex;
-    justify-content: left;
+    position: relative;
+    width: 48vw;
+    height: 9vh;
+    top: -4%;
+    left: 7.5vw;
+}
+
+.searchBar {
+    display: flex;
+    width: 100%;
+    margin: 2%;
+}
+
+.searchInput {
+    display: flex;
+    width: 80%;
+    padding-right: 1%;
+}
+
+.searchWidgetButton {
+    padding: 0 12px !important;
+    margin-right: 1% !important;
+}
+
+.searchWidgetButton:active {
+    transform: scale(0.9,0.9);
+}
+
+.activatedWidgetButton {    
+    padding: 0 12px !important;
+    margin-right: 1% !important;
+    padding-bottom: 50%;    
+    padding-right: 1%;
+}
+
+.activatedWidgetButton:active { 
+    transform: scale(0.9,0.9)
+}
+
+.activatedWidgetIcon {
+    color: lightgreen;
+}
+
+.filterWidget {
+    width: 50%;
+    height: 70%;
+    top: 15%;
+    left: 25%;
     position: absolute;
-    top: 10%;
-    left: 1.2vw;
-    min-width: 95%;
 }
 
-.loadingSpinner {
-    position: absolute;
-    top: 50%; 
-    left: 50%;
-    transform: translate(-50%, -50%);
+.filterHeaderText {
+    font-family: 'Roboto';
+    font-size: 2vw;
+    display: flex;
+    position: relative;
+    top: 0%;
+    width: 90%;
+    height: 10%;
+    left: 5%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 
-.noScroll {
-    position: fixed;
-    left: 63%;
+.headerDivider {
+    width: 95%;
+    left: 2.5%;
+    position: relative;
 }
 
-.noScroll-icons {
-    position: fixed;
-    left: 80%;
+.dateRangeHeader, .columnFilterHeader {
+    font-family: 'Roboto';
+    font-size: 1.5vw;
+    display: flex;
+    position: relative;
+    top: 0%;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center; 
+    margin-bottom: 3%;
 }
 
-.progress-list {
-    position: fixed;
-    top: 3.8vh;
+.dateRangeHeader {
+    margin-top: 3%;
 }
 
-.step-icon :hover {
-    cursor: pointer;
-}
-
-.complete-icon {
-    color: green !important;
-    padding-bottom: 9px !important;
-}
-
-.complete-icon:active {
-    transform: scale(0.9,0.9);
-}
-
-.in-progress-icon {
-    color: greenyellow !important;
-    padding-bottom: 9px !important;
-}
-
-.in-progress-icon:active {
-    transform: scale(0.9,0.9);
-}
-
-.incomplete-icon {
-    color: red !important;
-    padding-bottom: 9px !important;
-}
-
-.incomplete-icon:active {
-    transform: scale(0.9,0.9);
-}
-
-.complete-icon-locked {
-    color: darkgray !important;
-    padding-bottom: 9px !important;
-}
-
-.in-progress-icon-locked {
-    color: darkgray !important;
-    padding-bottom: 9px !important;
-}
-
-.incomplete-icon-locked {
-    color: darkgray !important;
-    padding-bottom: 9px !important;
-}
-
-.disabled {
-    color: darkgray !important;
+.headerGrid {
+    margin-top: 3% !important;
+    margin-bottom: 3% !important;
 }

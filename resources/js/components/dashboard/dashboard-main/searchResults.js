@@ -27,6 +27,7 @@ import Remove from '@material-ui/icons/Remove'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
 import Clear from '@material-ui/icons/Clear'
 import axios from 'axios';
+import { getCurrentUser } from '../../../global'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withSnackbar } from 'notistack';
 
@@ -37,7 +38,7 @@ var displayData = [];
 class searchResults extends React.Component {
   constructor(props) {
     super(props);
-
+    this.calcNumStepsComplete = this.calcNumStepsComplete.bind(this);
     displayData = [];
 
     console.log(props);
@@ -86,7 +87,8 @@ class searchResults extends React.Component {
           onboardingEmailStatus: hire.hire_steps[6].status,
           addToDlsAndPdOrgStatus: hire.hire_steps[7].status,
           welcomeEmailSentStatus: hire.hire_steps[8].status,
-          hireId: hire.id
+          hireId: hire.id,
+          numStepsComplete: this.calcNumStepsComplete(hire.hire_steps)
         }
       );
     });
@@ -148,8 +150,28 @@ class searchResults extends React.Component {
       addToDlsAndPdOrgStatusChanged: false,
       welcomeEmailSentStatusChanged: false,
       startDateChanged: false,
+      isHighlightChecked: this.props.isHighlightChecked
     };
   }
+
+  calcNumStepsComplete(hire_steps) {
+    let numStepsComplete = 0;
+    for (let i = 0; i < hire_steps.length; i++){
+      if(hire_steps[i].status == 2) {
+        numStepsComplete++;
+      }
+    }
+    return numStepsComplete;
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.isHighlightChecked != state.isHighlightChecked) {
+        return {
+            isHighlightChecked: props.isHighlightChecked,
+        };
+    }
+    return null;
+}
 
   onModalClose = () => {
     var fieldError = false;
@@ -1160,14 +1182,23 @@ onSubmitClick = (event) => {console.log('Submit')}
             manager_id: rowData.manager_id,
             startDateChanged: false,
           },
-            () => this.onModalOpen(rowData))}
+            () =>{              
+              console.log("admin_id", rowData.admin_id);
+              console.log("manager_id", rowData.manager_id)
+              console.log("current_user_id", getCurrentUser()) 
+              this.onModalOpen(rowData)})}
           data={displayData}
           options={{
             search: false,
             paging: false,
             pageSize: 1,
             maxBodyHeight: '70vh',
-            toolbar: false
+            toolbar: false,
+            rowStyle: rowData => {
+              if (((rowData.admin_id == getCurrentUser().id) || (rowData.manager_id == getCurrentUser().id)) && (this.state.isHighlightChecked)) {
+                return { backgroundColor: '#d6f8d6' };
+              }
+            }
           }}
           title="Demo Title"
         />

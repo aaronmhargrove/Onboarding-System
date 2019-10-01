@@ -4,6 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/FilterList';
+import Button from '@material-ui/core/Button'
 import CreateIcon from '@material-ui/icons/Create';
 import Modal from '@material-ui/core/Modal';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -21,37 +22,38 @@ class SearchBar extends React.Component {
         this.state = {
             searchValue: '', 
             filterModalOpen: false,
-            dateEnteredFlag: true,
-            regionalLocationFlag: true,
-            cwidFlag: true,
-            genderFlag: true,
-            hireTypeFlag: true,
-            pdStartDateFlag: true,
-            vendorFlag: true,
-            roleFlag: true,
-            plicFlag: true,
-            teamNameFlag: true,
-            platformFlag: true,
-            managerFlag: true,
-            hireStatusFlag: true,
-            onboardingBuddyFlag: true,
-            computerNeedsFlag: true,
-            seatNumberAssignedFlag: true,
-            campusFlag: true,
-            managerCommentsFlag: true,
-            neidFlag: true,
-            hireRehireFlag: true,
-            dateHireRehireFlag: true,
-            macTicketFlag: true,
-            dateMacTicketFlag: true,
-            dateLaptopDeliveredFlag: true,
-            onboardingEmailFlag: true,
-            addToDlsFlag: true,
-            welcomeEmailFlag: true,
-            adminNameFlag: true,
-            startRangeDate: '',
-            endRangeDate: '',
-            hideInactive: true,
+            dateEnteredFlag: this.props.selectedFilters[0],
+            regionalLocationFlag: this.props.selectedFilters[1],
+            cwidFlag: this.props.selectedFilters[2],
+            genderFlag: this.props.selectedFilters[3],
+            hireTypeFlag: this.props.selectedFilters[4],
+            pdStartDateFlag: this.props.selectedFilters[5],
+            vendorFlag: this.props.selectedFilters[6],
+            roleFlag: this.props.selectedFilters[7],
+            plicFlag: this.props.selectedFilters[8],
+            teamNameFlag: this.props.selectedFilters[9],
+            platformFlag: this.props.selectedFilters[10],
+            managerFlag: this.props.selectedFilters[11],
+            hireStatusFlag: this.props.selectedFilters[12],
+            onboardingBuddyFlag: this.props.selectedFilters[13],
+            computerNeedsFlag: this.props.selectedFilters[14],
+            seatNumberAssignedFlag: this.props.selectedFilters[15],
+            campusFlag: this.props.selectedFilters[16],
+            managerCommentsFlag: this.props.selectedFilters[17],
+            neidFlag: this.props.selectedFilters[18],
+            hireRehireFlag: this.props.selectedFilters[19],
+            dateHireRehireFlag: this.props.selectedFilters[20],
+            macTicketFlag: this.props.selectedFilters[21],
+            dateMacTicketFlag: this.props.selectedFilters[22],
+            dateLaptopDeliveredFlag: this.props.selectedFilters[23],
+            onboardingEmailFlag: this.props.selectedFilters[24],
+            addToDlsFlag: this.props.selectedFilters[25],
+            welcomeEmailFlag: this.props.selectedFilters[26],
+            adminNameFlag: this.props.selectedFilters[27],
+            startRangeDate: this.props.selectedStartDate,
+            endRangeDate: this.props.selectedEndDate,
+            hideInactive: this.props.selectedHideInactive,
+            isHighlightChecked: this.props.isHighlightChecked
         };
     }
 
@@ -78,6 +80,10 @@ class SearchBar extends React.Component {
 
     onHighlightClick = (event) => {
         console.log('Highlight clicked.');
+        this.setState({isHighlightChecked: !this.state.isHighlightChecked}, () => {
+            this.props.highlight(this.state.isHighlightChecked);
+        });
+        console.log(this.state.isHighlightChecked);
     }
 
     onModalClose = (event) => {
@@ -133,6 +139,17 @@ class SearchBar extends React.Component {
     onEndDatePick = (event) => {
         this.setState({
             endRangeDate: event.target.value,
+        });
+    }
+
+    resetAllFilters = (event) => {
+        this.setState({
+            filters: [ true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true ], 
+            startRangeDate: "", 
+            endRangeDate: "", 
+            hideInactive: true
+        }, () => {
+            this.props.filter(this.state.filters, this.state.startRangeDate, this.state.endRangeDate, this.state.hideInactive);
         });
     }
 
@@ -722,12 +739,18 @@ class SearchBar extends React.Component {
                                         label="Hide Inactive Hires"
                                     />
                                 </Grid>
+                                <Grid item xs={6} className="gridItem">
+                                    <Button className="resetButton" variant="contained" color="primary" onClick={this.resetAllFilters}>Reset All Filters</Button>
+                                </Grid>
                             </Grid>
                         </Paper>
                     </Modal>
-                    <IconButton className="searchWidgetButton" onClick={this.onHighlightClick}>
+                    {(!this.state.isHighlightChecked) && <IconButton className="searchWidgetButton" onClick={this.onHighlightClick}>
                         <CreateIcon />
-                    </IconButton>
+                    </IconButton>}
+                    {(this.state.isHighlightChecked) && <IconButton className="activatedWidgetButton" onClick={this.onHighlightClick}>
+                        <CreateIcon className="activatedWidgetIcon" />
+                    </IconButton>}
                 </div>
             </Paper>
         );

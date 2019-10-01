@@ -1,38 +1,9 @@
-/*
-* Author: Matthew Chaplin
-* Bayer Onboarding
-* Date: 4/6/19
-*/
-
 import React from 'react';
 import StepperTable from './steppertable';
 import StepperTableToolbar from './steppertabletoolbar';
 
 import './stepper.css';
 
-//Prototype data
-const data = [
-    ['Winky, Tinky', 159, 6.0, 24, 4.0],
-    ['Buchanan, Daisy', 237, 9.0, 37, 4.3],
-    ['Scrute, Dwight', 262, 16.0, 24, 6.0],
-    ['Molina, Yadier', 305, 3.7, 67, 4.3],
-    ['Franklin, Benjamin', 356, 16.0, 49, 3.9],
-  ];
-  
-  let id = 0;
-  function createData(dessert, calories, fat, carbs, protein) {
-    id += 1;
-    return { id, dessert, calories, fat, carbs, protein };
-  }
-  
-  const rows = [];
-  
-  for (let i = 0; i < 200; i += 1) {
-    const randomSelection = data[Math.floor(Math.random() * data.length)];
-    rows.push(createData(...randomSelection));
-  }
-
-//Keeper Code Begins here
   var columns = [
     {         
         title: 'Name',
@@ -163,46 +134,69 @@ const data = [
     },
 ]
 
-function updateColumns(page, count, columnsPerPage) {
-    columns = [];
-    columns = [
-        {           
-            title: 'Name',
-            field: 'name',
-        },
-      ]
-
-      console.log(count);
-
-      for (let i = (page * columnsPerPage); (i < ((page * columnsPerPage) + columnsPerPage)) && (i < count); i++)
-      {
-          console.log("Page: ");
-          console.log(page);
-          columns.push(columnsBase[i]);
-          console.log(columns);
-      }
-}
-
 class Stepper extends React.Component {
     constructor(props){
         super(props);
-        this.state = {page: 0, count: 28, columnsPerPage: 7, garbage: 0};
-        updateColumns(this.state.page, this.state.count, this.state.columnsPerPage);
+        this.state = { page: 0, count: 28, columnsPerPage: 7, forceRender: 0, filteredColumns: [], isHighlightChecked: this.props.isHighlightChecked };
+        this.mapColumns = this.mapColumns.bind(this);
+        this.updateColumns = this.updateColumns.bind(this);
     }      
+
+    componentDidMount() {
+        this.mapColumns(this.state.count, this.props.filters);
+        this.setState({ forceRender: 6 });
+
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.isHighlightChecked != state.isHighlightChecked) {
+            return {
+                isHighlightChecked: props.isHighlightChecked,
+            };
+        }
+        return null;
+    }
+
+    mapColumns(count, filters) {
+        var tempColumns = [];
+        for (let i = 0; i < count; i++) {
+            if (filters[i] == true) {
+                tempColumns.push(columnsBase[i]);
+            }
+        }
+        this.setState({ filteredColumns: tempColumns, count: tempColumns.length }, () => {
+            this.updateColumns(this.state.page, this.state.count, this.state.columnsPerPage, this.state.filteredColumns);
+            this.setState({ forceRender: 7 });
+        })
+    }
+
+    updateColumns(page, count, columnsPerPage, filteredColumns) {
+        columns = [];
+        columns = [
+            {
+                title: 'Name',
+                field: 'name',
+            },
+        ]
+
+        for (let i = (page * columnsPerPage); (i < ((page * columnsPerPage) + columnsPerPage)) && (i < filteredColumns.length); i++) {
+            columns.push(filteredColumns[i]);
+        }
+    }
 
     handleFirstPageButtonClick = event => {
         this.setState({ page: 0 }, () => {
             console.log(this.state.page);
-            updateColumns(this.state.page, this.state.count, this.state.columnsPerPage);            
-            this.setState({garbage: 1})
+            this.updateColumns(this.state.page, this.state.count, this.state.columnsPerPage, this.state.filteredColumns);            
+            this.setState({forceRender: 1})
         });
       };
     
       handleBackButtonClick = event => {
         this.setState({ page: this.state.page - 1}, () => {
             console.log(this.state.page);
-            updateColumns(this.state.page, this.state.count, this.state.columnsPerPage);                 
-            this.setState({garbage: 2})   
+            this.updateColumns(this.state.page, this.state.count, this.state.columnsPerPage, this.state.filteredColumns);                 
+            this.setState({forceRender: 2})   
         });     
       };
     
@@ -210,8 +204,8 @@ class Stepper extends React.Component {
         console.log(this.state.page);
         this.setState({ page: this.state.page + 1}, () => {
             console.log(this.state.page);
-            updateColumns(this.state.page, this.state.count, this.state.columnsPerPage);                
-            this.setState({garbage: 3})
+            this.updateColumns(this.state.page, this.state.count, this.state.columnsPerPage, this.state.filteredColumns);               
+            this.setState({forceRender: 3})
         });
       };
     
@@ -220,8 +214,8 @@ class Stepper extends React.Component {
           page : Math.max(0, Math.ceil(this.state.count / this.state.columnsPerPage) - 1)
         }, () => {
             console.log(this.state.page);               
-            updateColumns(this.state.page, this.state.count, this.state.columnsPerPage);      
-            this.setState({garbage: 4})
+            this.updateColumns(this.state.page, this.state.count, this.state.columnsPerPage, this.state.filteredColumns);      
+            this.setState({forceRender: 4})
         });
       }
 
@@ -231,14 +225,13 @@ class Stepper extends React.Component {
                 <div style={{ height: '60vh', width: '100%' }}>
                     <StepperTable
                             theme="default"
-                            rowCount={rows.length}
-                            rowGetter={({ index }) => rows[index]}
                             onRowClick={event => console.log(event)}                            
                             columns={columns}
                             page={this.state.page}
                             data={this.props.data}
                             users={this.props.users}
-                            triggerReload={this.props.triggerReload}
+                            triggerReload={this.props.triggerReload}                            
+                            isHighlightChecked={this.state.isHighlightChecked}
                     />
     </div>
                 <StepperTableToolbar className="toolbar" 
