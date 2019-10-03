@@ -39,6 +39,7 @@ class StepperTable extends React.Component {
     super(props);
     this.dateFixer = this.dateFixer.bind(this);
     this.firstCharToUpper = this.firstCharToUpper.bind(this);
+    this.firstCharToLower = this.firstCharToLower.bind(this);
     displayData = [];
 
     console.log(props);
@@ -154,6 +155,10 @@ class StepperTable extends React.Component {
 
   firstCharToUpper(word) {
     return (word.charAt(0)).toUpperCase() + word.slice(1);
+  }
+
+  firstCharToLower(word) {
+    return (word.charAt(0)).toLowerCase() + word.slice(1);
   }
 
   dateFixer(date) {
@@ -279,18 +284,18 @@ class StepperTable extends React.Component {
               "first_name": this.state.firstName != "" ? this.state.firstName : null,
               "last_name": this.state.lastName != "" ? this.state.lastName : null,
               "cwid": this.state.cwid != "" ? this.state.cwid : null,
-              "gender": this.state.gender != "" ? this.state.gender : null,
-              "hire_type": this.state.hireType != "" ? this.state.hireType : null,
+              "gender": this.state.gender != "" ? this.firstCharToLower(this.state.gender) : null,
+              "hire_type": this.state.hireType != "" ? this.firstCharToLower(this.state.hireType) : null,
               "start_date": this.state.startDateChanged ? this.state.pdStartDate : null,
               "vendor": this.state.vendor != "" ? this.state.vendor : null,
               "role": this.state.role != "" ? this.state.role : null,
-              "pl_ic": this.state.plic != "" ? this.state.plic : null,
+              "pl_ic": this.state.plic != "" ? this.firstCharToLower(this.state.plic) : null,
               "team_name": this.state.teamName != "" ? this.state.teamName : null,
               "platform": this.state.platform != "" ? this.state.platform : null,
               "manager_id": this.state.manager_id != "" ? this.state.manager_id : null,
-              "hire_status": this.state.hireStatus != "" ? this.state.hireStatus : null,
+              "hire_status": this.state.hireStatus != "" ? this.firstCharToLower(this.state.hireStatus) : null,
               "onboarding_buddy": this.state.onboardingBuddy != "" ? this.state.onboardingBuddy : null,
-              "computer_needs": this.state.computerNeeds != "" ? this.state.computerNeeds : null,
+              "computer_needs": this.state.computerNeeds != "" ? this.firstCharToLower(this.state.computerNeeds) : null,
               "seat_number": this.state.seatNum != "" ? this.state.seatNum : null,
               "campus": this.state.onboardingCampus != "" ? this.state.onboardingCampus : null,
               "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
@@ -341,17 +346,17 @@ class StepperTable extends React.Component {
               "first_name": this.state.firstName != "" ? this.state.firstName : null,
               "last_name": this.state.lastName != "" ? this.state.lastName : null,
               "cwid": this.state.cwid != "" ? this.state.cwid : null,
-              "gender": this.state.gender != "" ? this.state.gender : null,
-              "hire_type": this.state.hireType != "" ? this.state.hireType : null,
+              "gender": this.state.gender != "" ? this.firstCharToLower(this.state.gender) : null,
+              "hire_type": this.state.hireType != "" ? this.firstCharToLower(this.state.hireType) : null,
               "vendor": this.state.vendor != "" ? this.state.vendor : null,
               "role": this.state.role != "" ? this.state.role : null,
-              "pl_ic": this.state.plic != "" ? this.state.plic : null,
+              "pl_ic": this.state.plic != "" ? this.firstCharToLower(this.state.plic) : null,
               "team_name": this.state.teamName != "" ? this.state.teamName : null,
               "platform": this.state.platform != "" ? this.state.platform : null,
               "manager_id": this.state.manager_id != "" ? this.state.manager_id : null,
-              "hire_status": this.state.hireStatus != "" ? this.state.hireStatus : null,
+              "hire_status": this.state.hireStatus != "" ? this.firstCharToLower(this.state.hireStatus) : null,
               "onboarding_buddy": this.state.onboardingBuddy != "" ? this.state.onboardingBuddy : null,
-              "computer_needs": this.state.computerNeeds != "" ? this.state.computerNeeds : null,
+              "computer_needs": this.state.computerNeeds != "" ? this.firstCharToLower(this.state.computerNeeds) : null,
               "seat_number": this.state.seatNum != "" ? this.state.seatNum : null,
               "campus": this.state.onboardingCampus != "" ? this.state.onboardingCampus : null,
               "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
@@ -683,7 +688,7 @@ class StepperTable extends React.Component {
                         <InputLabel htmlFor="gender-selector" required>Gender</InputLabel>
                         <Select
                           disabled={this.state.unlocked}
-                          value={this.state.gender}
+                          value={this.firstCharToLower(this.state.gender)}
                           onChange={this.onGenderSelect}
                           input={<Input id="gender-selector" />}
                           required
@@ -699,7 +704,7 @@ class StepperTable extends React.Component {
                         <InputLabel htmlFor="hireType-selector" required>Hire Type</InputLabel>
                         <Select
                           disabled={this.state.unlocked}
-                          value={this.state.hireType}
+                          value={this.firstCharToLower(this.state.hireType)}
                           onChange={this.onHireTypeSelect}
                           input={<Input id="hireType-selector" />}
                           required
@@ -736,7 +741,7 @@ class StepperTable extends React.Component {
                         <InputLabel htmlFor="plic-selector">PL/IC</InputLabel>
                         <Select
                           disabled={this.state.unlocked}
-                          value={this.state.plic}
+                          value={this.firstCharToLower(this.state.plic)}
                           onChange={this.onPLICSelect}
                           input={<Input id="plic-selector" />}
                           required
@@ -774,7 +779,7 @@ class StepperTable extends React.Component {
                         <InputLabel htmlFor="hireStatus-selector" required>Hire Status</InputLabel>
                         <Select
                           disabled={this.state.unlocked}
-                          value={this.state.hireStatus}
+                          value={this.firstCharToLower(this.state.hireStatus)}
                           onChange={this.onHireStatusSelect}
                           input={<Input id="hireStatus-selector" />}
                           required
@@ -794,7 +799,7 @@ class StepperTable extends React.Component {
                         <InputLabel htmlFor="computerNeeds-selector" required>Computer Needs</InputLabel>
                         <Select
                           disabled={this.state.unlocked}
-                          value={this.state.computerNeeds}
+                          value={this.firstCharToLower(this.state.computerNeeds)}
                           onChange={this.onComputerNeedsSelect}
                           input={<Input id="computerNeeds-selector" />}
                         >

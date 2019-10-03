@@ -8,6 +8,9 @@
 }
 
 .noScroll {
+    padding-left: 3%;
+    height: 68%;
+    border-left: 1px solid lightgray !important;
     position: fixed;
     left: 63%;
 }
