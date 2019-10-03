@@ -57,6 +57,15 @@ class SearchBar extends React.Component {
         };
     }
 
+    static getDerivedStateFromProps(props, state) {
+        if (props.selectedFilters != state.filters) {
+            return {
+                filters: props.selectedFilters,
+            };
+        }
+        return null;
+    }
+
     onSearchInput = (event) => {
         this.setState({searchValue: event.target.value});
     }
@@ -112,6 +121,7 @@ class SearchBar extends React.Component {
             this.state.managerCommentsFlag,
             this.state.neidFlag,
             this.state.hireRehireFlag,
+            this.state.dateHireRehireFlag,
             this.state.macTicketFlag,
             this.state.dateMacTicketFlag,
             this.state.dateLaptopDeliveredFlag,
@@ -144,12 +154,39 @@ class SearchBar extends React.Component {
 
     resetAllFilters = (event) => {
         this.setState({
-            filters: [ true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true ], 
+            dateEnteredFlag: true, 
+            regionalLocationFlag: true,
+            cwidFlag: true,
+            genderFlag: true,
+            hireTypeFlag: true,
+            pdStartDateFlag: true,
+            vendorFlag: true,
+            roleFlag: true,
+            plicFlag: true,
+            teamNameFlag: true,
+            platformFlag: true,
+            managerFlag: true,
+            hireStatusFlag: true,
+            onboardingBuddyFlag: true,
+            computerNeedsFlag: true,
+            seatNumberAssignedFlag: true,
+            campusFlag: true,
+            managerCommentsFlag: true,
+            neidFlag: true,
+            hireRehireFlag: true,
+            dateHireRehireFlag: true,
+            macTicketFlag: true,
+            dateMacTicketFlag: true,
+            dateLaptopDeliveredFlag: true,
+            onboardingEmailFlag: true,
+            addToDlsFlag: true,
+            welcomeEmailFlag: true,
+            adminNameFlag: true,
             startRangeDate: "", 
             endRangeDate: "", 
             hideInactive: true
         }, () => {
-            this.props.filter(this.state.filters, this.state.startRangeDate, this.state.endRangeDate, this.state.hideInactive);
+            this.onModalClose();
         });
     }
 
