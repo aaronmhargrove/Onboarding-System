@@ -374,7 +374,7 @@ class Dashboard extends React.Component {
                 {/* {(this.state.loading_users || this.state.loading_hires) ? <div className="loadingSpinner"><CircularProgress size="5rem"/></div> :  */}
                     <div>
                     <SearchBar search={this.searchQuery} filter={this.filterQuery} highlight={this.highlightQuery} isHighlightChecked={this.state.isHighlightChecked}/>
-                        {this.state.loading_users || this.state.loading_hires ? <div className="loadingSpinnerDashboard"><CircularProgress size="5rem"/></div> :
+                        {this.state.loading_dates || this.state.loading_users || this.state.loading_hires ? <div className="loadingSpinnerDashboard"><CircularProgress size="5rem"/></div> :
                             <SearchResults className="dashboardTable" data={hireData} users={usersData} setReload={this.setReload} isHighlightChecked={this.state.isHighlightChecked}/>
                         }                        
                         <div className="upcomingDatesWidget">

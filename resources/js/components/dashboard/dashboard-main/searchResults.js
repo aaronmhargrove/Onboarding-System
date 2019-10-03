@@ -1195,9 +1195,9 @@ onSubmitClick = (event) => {console.log('Submit')}
             maxBodyHeight: '70vh',
             toolbar: false,
             rowStyle: rowData => {
-              // if (((rowData.admin_id == getCurrentUser().id) || (rowData.manager_id == getCurrentUser().id)) && (this.state.isHighlightChecked)) {
-              //   return { backgroundColor: '#d6f8d6' };
-              // }
+              if (((rowData.admin_id == currentUser.id) || (rowData.manager_id == currentUser.id)) && (this.state.isHighlightChecked)) {
+                return { backgroundColor: '#d6f8d6' };
+              }
             }
           }}
           title="Demo Title"

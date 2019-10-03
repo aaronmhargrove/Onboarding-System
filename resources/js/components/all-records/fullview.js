@@ -10,6 +10,7 @@ import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { getCurrentUser, setCurrentUser, currentUser } from '../../global'
 import { CSVLink, CSVDownload } from "react-csv";
 import { withSnackbar } from 'notistack';
 import './fullview.css';
@@ -69,6 +70,7 @@ class FullView extends React.Component {
         this.state = {
             loading_hires: true, 
             loading_users: true, 
+            loading_current_user: true,
             searchString: "",
             filters: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true],
             startDate: "",
@@ -189,6 +191,39 @@ class FullView extends React.Component {
                 this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
                     variant: 'error',
                     autoHideDuration: 10000
+                });
+            }
+        });
+
+        getCurrentUser().then(response => {
+            setCurrentUser(response)
+            
+            if (currentUser != null) {
+                axios.get('/users/' + currentUser.id + '/upcoming')
+                .then(response => {                   
+                    this.setState({ loading_current_user: false });
+                }).catch(response => {
+                    if (response.response.status == 422) { // Validation error
+                        var fieldIssues = response.response.data.errors;
+                        var issueKeys = Object.keys(fieldIssues);
+                        console.log(fieldIssues)
+                        issueKeys.forEach(key => {
+                            var issueArray = fieldIssues[key];
+                            issueArray.forEach(element => {
+                                this.props.enqueueSnackbar(element, { // Display what was wrong with fields
+                                    variant: 'error',
+                                    autoHideDuration: 5000
+                                });
+                            });
+                        });
+                    }
+                    else { // Generic laravel error
+                        this.props.enqueueSnackbar("Oops! Something went wrong! " + response.response.data.message, {
+                            variant: 'error',
+                            autoHideDuration: 10000
+                        });
+                    }
+                    this.setState({ loading_current_user: false });
                 });
             }
         });
@@ -423,7 +458,7 @@ class FullView extends React.Component {
                                 </Select>
                             </FormControl>
                 </Paper>
-                {this.state.loading_users || this.state.loading_hires ? <div className="loadingSpinner"><CircularProgress size="5rem" /></div> :
+                {this.state.loading_users || this.state.loading_hires || this.state.loading_current_user ? <div className="loadingSpinner"><CircularProgress size="5rem" /></div> :
                     <React.Fragment>
                         <Stepper classname="stepper" data={hireData} users={usersData} triggerReload={this.triggerReload} filters={this.state.filters} isHighlightChecked={this.state.isHighlightChecked}/>
                         <Button variant="contained" color="primary" className="export">
