@@ -42,7 +42,7 @@ class UpcomingDates extends React.Component {
         this.props.upcomingDates.forEach(entry => {            
             console.log("Entry step name: ", entry.step) 
         this.props.data.forEach(hire => {            
-            if(hire.first_name == entry.firstName) {   
+            if((hire.first_name == entry.firstName) && (hire.last_name == entry.lastName) && (hire.start_date == entry.startDate)) {   
                 console.log("Entry step name: ", entry.step) 
           displayData.push(
             {
