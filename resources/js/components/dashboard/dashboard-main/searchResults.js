@@ -1189,6 +1189,7 @@ onSubmitClick = (event) => {console.log('Submit')}
               this.onModalOpen(rowData)})}
           data={displayData}
           options={{
+            //thirdSortClick = false,
             search: false,
             paging: false,
             pageSize: 1,
