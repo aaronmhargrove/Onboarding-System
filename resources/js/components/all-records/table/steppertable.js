@@ -1151,6 +1151,7 @@ class StepperTable extends React.Component {
             () => this.onModalOpen(rowData))}
           data={displayData}
           options={{
+            //thirdSortClick = false,
             search: false,
             paging: false,
             pageSize: 1,

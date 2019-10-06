@@ -108,9 +108,12 @@ class Dashboard extends React.Component {
                     console.log('Upcoming Dates: ', response);
                     response.data.forEach(entry => {
                         upcomingDates.push({
+                            lastName: entry.last_name,
+                            firstName: entry.first_name,
                             name: entry.last_name + ", " + entry.first_name,
                             step: entry.step_name,
-                            daysRemaining: entry.days_left
+                            daysRemaining: entry.days_left,
+                            startDate: entry.start_date
                         });
                     });
                     this.setState({ loading_dates: false });
@@ -230,9 +233,12 @@ class Dashboard extends React.Component {
                     console.log('Upcoming Dates: ', response);
                     response.data.forEach(entry => {
                         upcomingDates.push({
+                            lastName: entry.last_name,
+                            firstName: entry.first_name,
                             name: entry.last_name + ", " + entry.first_name,
                             step: entry.step_name,
-                            daysRemaining: entry.days_left
+                            daysRemaining: entry.days_left,
+                            startDate: entry.start_date
                         });
                     });
                     this.setState({ loading_dates: false });
@@ -369,6 +375,8 @@ class Dashboard extends React.Component {
     }
 
     render() {
+        console.log("Dashboard Loading Hire Data:")
+        console.log(hireData)
         return(
             <Paper className="dashboardWidget">
                 {/* {(this.state.loading_users || this.state.loading_hires) ? <div className="loadingSpinner"><CircularProgress size="5rem"/></div> :  */}
@@ -380,11 +388,11 @@ class Dashboard extends React.Component {
                         <div className="upcomingDatesWidget">
                             <div>
                                 <Paper className="upcomingDatesHeader">
-                                    <div className="headerText">Upcoming Dates</div>
+                                    <div className="headerText">Tasks Before Start Date</div>
                                 </Paper>
                             </div>
-                            {this.state.loading_dates ? <div className="loadingSpinner"><CircularProgress size="5rem"/></div> :
-                                <UpcomingDates upcomingDates={upcomingDates}/>  
+                            {this.state.loading_dates || this.state.loading_users || this.state.loading_hires ? <div className="loadingSpinner"><CircularProgress size="5rem"/></div> :
+                                <UpcomingDates upcomingDates={upcomingDates} data={hireData} setReload={this.setReload} users={usersData}/>  
                             }
                         </div>  
                     </div>    
