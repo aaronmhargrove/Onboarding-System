@@ -638,11 +638,11 @@ class UpcomingDates extends React.Component {
       }
     
       onAddToDlsAndPdOrgStatusChange = (event) => {
-        this.setState({ addToDlsAndPdOrgStatus: ((this.state.addToDlsAndPdOrgStatus + 1) % 3), addToDlsAndPdOrgStatus: true });
+        this.setState({ addToDlsAndPdOrgStatus: ((this.state.addToDlsAndPdOrgStatus + 1) % 3), addToDlsAndPdOrgStatusChanged: true });
       }
     
       onWelcomeEmailStatusChange = (event) => {
-        this.setState({ welcomeEmailSentStatus: ((this.state.welcomeEmailSentStatus +1) % 3), welcomeEmailSentStatus: true});
+        this.setState({ welcomeEmailSentStatus: ((this.state.welcomeEmailSentStatus +1) % 3), welcomeEmailSentStatusChanged: true});
       }
 
     render() {        
