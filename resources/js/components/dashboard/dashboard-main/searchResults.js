@@ -653,11 +653,11 @@ class searchResults extends React.Component {
   }
 
   onAddToDlsAndPdOrgStatusChange = (event) => {
-    this.setState({ addToDlsAndPdOrgStatus: ((this.state.addToDlsAndPdOrgStatus + 1) % 3), addToDlsAndPdOrgStatus: true });
+    this.setState({ addToDlsAndPdOrgStatus: ((this.state.addToDlsAndPdOrgStatus + 1) % 3), addToDlsAndPdOrgStatusChanged: true });
   }
 
   onWelcomeEmailStatusChange = (event) => {
-    this.setState({ welcomeEmailSentStatus: ((this.state.welcomeEmailSentStatus +1) % 3), welcomeEmailSentStatus: true});
+    this.setState({ welcomeEmailSentStatus: ((this.state.welcomeEmailSentStatus +1) % 3), welcomeEmailSentStatusChanged: true});
   }
 
 onSubmitClick = (event) => {console.log('Submit')}
@@ -1175,7 +1175,7 @@ onSubmitClick = (event) => {console.log('Submit')}
             neidAssignedStatus: rowData.neidAssignedStatus,
             hireTicketStatus: rowData.hireTicketStatus,
             macTicketStatus: rowData.macTicketStatus,
-            laptopDeliveredStatus: rowData.macTicketStatus,
+            laptopDeliveredStatus: rowData.laptopDeliveredStatus,
             onboardingEmailStatus: rowData.onboardingEmailStatus,
             addToDlsAndPdOrgStatus: rowData.addToDlsAndPdOrgStatus,
             welcomeEmailSentStatus: rowData.welcomeEmailSentStatus,
