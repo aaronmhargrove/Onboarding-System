@@ -1,0 +1,42 @@
+.upcomingDatesWidget {
+    display: flex;
+    position: absolute;
+    top: 9.9%;
+    right: 0%;
+    height: 83%;
+    width: 29%;
+}
+
+.upcomingDatesHeader {
+    display: flex;
+    position: absolute;
+    top: -17%;
+    width: 80%;
+    height: 11vh;
+    left: 7%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.upcomingDatesTable {
+    display: flex;
+    position: absolute;
+    table-layout: fixed;
+}
+
+.upcomingDatesTableContainer {
+    display: flex;
+    position: absolute;
+    width: 95%;
+    justify-content: center;
+}
+
+.headerText {
+    font-family: 'Roboto';
+    font-size: 2vw;
+}
+
+.loadingSpinner {
+    margin: auto;
+}

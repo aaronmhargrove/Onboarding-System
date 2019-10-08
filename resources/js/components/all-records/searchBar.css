@@ -1,0 +1,50 @@
+
+.searchBarWidget {
+    display: flex;
+    position: relative;
+    width: 60vw;
+    height: 9vh;
+    top: -4%;
+    left: 5%;
+}
+
+.searchBar {
+    display: flex;
+    width: 100%;
+    margin: 2%;
+}
+
+.searchInput {
+    display: flex;
+    width: 80%;
+    padding-right: 1%;
+}
+
+.searchWidgetButton {
+    padding-bottom: 50%;
+}
+
+.searchWidgetButton:active {
+    transform: scale(0.9,0.9);
+}
+
+.activatedWidgetButton {    
+    padding: 0 12px !important;
+    margin-right: 1% !important;
+    padding-bottom: 50%;    
+    padding-right: 1%;
+}
+
+.activatedWidgetButton:active { 
+    transform: scale(0.9,0.9)
+}
+
+.activatedWidgetIcon {
+    color: lightgreen;
+}
+
+.resetButton {
+    position: relative;
+    left: 10vw;
+    margin-bottom: 2vh !important;
+}

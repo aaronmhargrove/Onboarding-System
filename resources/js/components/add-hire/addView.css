@@ -1,0 +1,43 @@
+.addViewContainer {
+    display: flex;
+    width: 95%;
+    height: 83%;
+    top: 13%;
+    left: 2.5%;
+    position: absolute;
+}
+
+.addViewSelector {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.addViewSelector div {
+    display: flex;
+    height: 100%;
+    width: 100%;
+} 
+
+.addViewSelector div button {
+    display: flex;
+    flex-grow: 1;
+    max-width: none;
+}
+
+.addViewHeader {
+    display: flex;
+    position: absolute;
+    top: -4%;
+    width: 90%;
+    height: 10%;
+    left: 5%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.headerText {
+    font-family: 'Roboto';
+    font-size: 1.8vw;
+}

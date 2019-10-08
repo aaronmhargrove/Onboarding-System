@@ -6,34 +6,30 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
-{
+class User extends Authenticatable{
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $guarded = []; // accept all
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
+    // What to hide in returns
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function routeNotificationForSlack($notification) {
+        return env('SLACK_WEBHOOK_URL');
+    }
+
+    public function manages(){
+        return $this->hasMany(Hire::class, 'manager_id')->with('hireSteps');
+    }
+
+    public function admins(){
+        return $this->hasMany(Hire::class, 'admin_id')->with('hireSteps');
+    }
+
+    public function hires(){
+        return $this->manages->merge($this->admins); // TODO: figure out how to do this one
+    }
 }
+ 

@@ -1,0 +1,8 @@
+.buttonholder {    
+    display: flex;
+    justify-content: center;
+}
+
+.buttons {
+    display: flex;
+}

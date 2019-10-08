@@ -1,0 +1,84 @@
+.editWidget {
+    width: 80%;
+    height: 70%;
+    top: 15%;
+    left: 10%;
+    position: absolute;
+    padding-top: 1%;
+}
+
+.noScroll {
+    padding-left: 3%;
+    height: 68%;
+    border-left: 1px solid lightgray !important;
+    position: fixed;
+    left: 63%;
+}
+
+.noScroll-icons {
+    position: fixed;
+    left: 80%;
+}
+
+.progress-list {
+    position: fixed;
+    top: 3.8vh;
+}
+
+
+.step-icon :hover {
+    cursor: pointer;
+}
+
+.complete-icon {
+    color: green !important;
+    padding-bottom: 9px !important;
+}
+
+.complete-icon:active {
+    transform: scale(0.9,0.9);
+}
+
+.in-progress-icon {
+    color: greenyellow !important;
+    padding-bottom: 9px !important;
+}
+
+.in-progress-icon:active {
+    transform: scale(0.9,0.9);
+}
+
+.incomplete-icon {
+    color: red !important;
+    padding-bottom: 9px !important;
+}
+
+.incomplete-icon:active {
+    transform: scale(0.9,0.9);
+}
+
+.complete-icon-locked {
+    color: darkgray !important;
+    padding-bottom: 9px !important;
+}
+
+.in-progress-icon-locked {
+    color: darkgray !important;
+    padding-bottom: 9px !important;
+}
+
+.incomplete-icon-locked {
+    color: darkgray !important;
+    padding-bottom: 9px !important;
+}
+
+.disabled {
+    color: darkgray !important;
+}
+
+.loadingSpinnerModal {
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

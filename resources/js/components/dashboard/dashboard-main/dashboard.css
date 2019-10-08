@@ -1,0 +1,22 @@
+.dashboardWidget {
+    display: flex;
+    width: 98vw;
+    height: 83vh;
+    top: 13vh;
+    position: absolute;
+}
+
+.dashboardTable {    
+    width: 100%;
+    display: flex;
+    position: absolute; 
+    padding-top: 8%;
+}
+
+.loadingSpinnerDashboard {
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 30vw;
+    transform: translate(-50%, -50%);
+}

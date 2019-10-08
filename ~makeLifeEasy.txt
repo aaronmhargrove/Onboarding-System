@@ -1,0 +1,33 @@
+To make migrations:
+    :: php artisan make:migration create_projects_table
+
+Make model
+    :: php artisan make:model Project
+
+To create a controller with everything you need:
+    :: php artisan make:controller ProjectsController -r -m Project (specifies to make all methods and use Project model)
+
+Add authorization to application:
+    :: php artisan make:auth
+
+Create auth policy on a model:
+    :: php artisan make:policy ProjectPolicy --model=Project (make sure this is registered in AuthServiceProvider)
+
+Install Laravel Telescope for debugging:
+    :: composer require laravel/telescope --dev
+    :: php artisan telescope:install
+    :: php artisan migrate
+
+Set up sending emails:
+    :: php artisan make:mail ProjectCreated --markdown="mail.project-created"
+
+Set up Event and listener (Make sure to set up EventServiceProvider.php):
+    :: php artisan make:event ProjectCreated
+    :: php artisan make:listener SendProjectCreatedNotification --event=ProjectCreated
+
+Set up notification (email/slack/text.....):
+    :: php artisan make:notification SubscriptionRenewalFailed
+    :: php artisan notifications:table // for if you want to save to database
+
+Run a test:
+    :: vendor/bin/phpunit tests/feature/testFile.php
