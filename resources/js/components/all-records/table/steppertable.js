@@ -139,7 +139,17 @@ class StepperTable extends React.Component {
       onboardingEmailStatus: '',
       addToDlsAndPdOrgStatus: '',
       welcomeEmailSentStatus: '',
-      manager_id: null,      
+      manager_id: null,        
+      adminAssignedStatusChanged: false,
+      cwidAssignedStatusChanged: false,
+      neidAssignedStatusChanged: false,
+      hireTicketStatusChanged: false,
+      macTicketStatusChanged: false,
+      laptopDeliveredStatusChanged: false,
+      onboardingEmailStatusChanged: false,
+      addToDlsAndPdOrgStatusChanged: false,
+      welcomeEmailSentStatusChanged: false,
+      startDateChanged: false,    
       isHighlightChecked: this.props.isHighlightChecked
     };
   }
@@ -618,39 +628,39 @@ class StepperTable extends React.Component {
   }
 
   onAdminAssignedStatusChange = (event) => {
-    this.setState({ adminAssignedStatus: ((this.state.adminAssignedStatus + 1) % 3) });
+    this.setState({ adminAssignedStatus: ((this.state.adminAssignedStatus + 1) % 3), adminAssignedStatusChanged: true });
   }
 
   onCWIDAssignedStatusChange = (event) => {
-    this.setState({ cwidAssignedStatus: ((this.state.cwidAssignedStatus + 1) % 3) });
+    this.setState({ cwidAssignedStatus: ((this.state.cwidAssignedStatus + 1) % 3), cwidAssignedStatusChanged: true });
   }
 
   onNEIDAssignedStatusChange = (event) => {
-    this.setState({ neidAssignedStatus: ((this.state.neidAssignedStatus + 1) % 3) });
+    this.setState({ neidAssignedStatus: ((this.state.neidAssignedStatus + 1) % 3), neidAssignedStatusChanged: true });
   }
 
   onHireStatusChange = (event) => {
-    this.setState({ hireTicketStatus: ((this.state.hireTicketStatus + 1) % 3) });
+    this.setState({ hireTicketStatus: ((this.state.hireTicketStatus + 1) % 3), hireTicketStatusChanged: true });
   }
 
   onMACTicketStatusChange = (event) => {
-    this.setState({ macTicketStatus: ((this.state.macTicketStatus + 1) % 3) });
+    this.setState({ macTicketStatus: ((this.state.macTicketStatus + 1) % 3), macTicketStatusChanged: true });
   }
 
   onLaptopDeliveredStatusChange = (event) => {
-    this.setState({ laptopDeliveredStatus: ((this.state.laptopDeliveredStatus + 1) % 3) });
+    this.setState({ laptopDeliveredStatus: ((this.state.laptopDeliveredStatus + 1) % 3), laptopDeliveredStatusChanged: true });
   }
 
   onOnboardingEmailStatusChange = (event) => {
-    this.setState({ onboardingEmailStatus: ((this.state.onboardingEmailStatus + 1) % 3) });
+    this.setState({ onboardingEmailStatus: ((this.state.onboardingEmailStatus + 1) % 3), onboardingEmailStatusChanged: true });
   }
 
   onAddToDlsAndPdOrgStatusChange = (event) => {
-    this.setState({ addToDlsAndPdOrgStatus: ((this.state.addToDlsAndPdOrgStatus + 1) % 3) });
+    this.setState({ addToDlsAndPdOrgStatus: ((this.state.addToDlsAndPdOrgStatus + 1) % 3), addToDlsAndPdOrgStatusChanged: true });
   }
 
   onWelcomeEmailStatusChange = (event) => {
-    this.setState({ welcomeEmailSentStatus: ((this.state.welcomeEmailSentStatus + 1) % 3) });
+    this.setState({ welcomeEmailSentStatus: ((this.state.welcomeEmailSentStatus +1) % 3), welcomeEmailSentStatusChanged: true});
   }
 
   onSubmitClick = (event) => { console.log('Submit') }
