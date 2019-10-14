@@ -108,8 +108,6 @@ class HiresController extends Controller
             $startFilter = date('Y-m-d', strtotime($startFilter));
             $endFilter   = date('Y-m-d', strtotime($endFilter));
 
-            // dd($endFilter);
-
             $hiresFromFilters = $hiresFromFilters->whereBetween('start_date', [$startFilter, $endFilter]);
         } else if (!empty($filters->endDate)) {
             $endFilter = $filters->endDate;
@@ -180,7 +178,7 @@ class HiresController extends Controller
 
         // Update any steps
         foreach ($stepsArray as $step){
-            $updatedStep = HireStep::where('step_id', $step->id)->where('hire_id', $hire->id)->first();
+            $updatedStep = HireStep::where('id', $step->id->id)->first();
             $updatedStep->status = $step->status;
             if($step->status == 2){
                 $updatedStep->date_completed = date('Y-m-d');

@@ -42,7 +42,6 @@ class StepperTable extends React.Component {
     this.firstCharToLower = this.firstCharToLower.bind(this);
     displayData = [];
 
-    console.log(props);
     this.props.data.forEach(hire => {
       displayData.push(
         {
@@ -224,6 +223,14 @@ class StepperTable extends React.Component {
 
     // All of these API calls need combined so we can do a single load.
     if (!this.state.unlocked && !this.state.modalLoading) {
+      var hire = null
+
+      this.props.data.forEach(data => {
+        if (data.id == this.state.hireId) {
+          hire = data
+        }
+      })
+
       if (!fieldError) {
         var changedHireSteps = [];
 
@@ -232,55 +239,55 @@ class StepperTable extends React.Component {
           this.state.onboardingEmailStatusChanged || this.state.addToDlsAndPdOrgStatusChanged || this.state.welcomeEmailSentStatusChanged) {
           if (this.state.adminAssignedStatusChanged) {
             changedHireSteps.push({
-              id: 1,
+              id: hire.hire_steps[0],
               status: this.state.adminAssignedStatus
             });
           }
           if (this.state.cwidAssignedStatusChanged) {
             changedHireSteps.push({
-              id: 2,
+              id: hire.hire_steps[1],
               status: this.state.cwidAssignedStatus
             });
           }
           if (this.state.neidAssignedStatusChanged) {
             changedHireSteps.push({
-              id: 3,
+              id: hire.hire_steps[2],
               status: this.state.neidAssignedStatus
             });
           }
           if (this.state.hireTicketStatusChanged) {
             changedHireSteps.push({
-              id: 4,
+              id: hire.hire_steps[3],
               status: this.state.hireTicketStatus
             });
           }
           if (this.state.macTicketStatusChanged) {
             changedHireSteps.push({
-              id: 5,
+              id: hire.hire_steps[4],
               status: this.state.macTicketStatus
             });
           }
           if (this.state.laptopDeliveredStatusChanged) {
             changedHireSteps.push({
-              id: 6,
+              id: hire.hire_steps[5],
               status: this.state.laptopDeliveredStatus
             });
           }
           if (this.state.onboardingEmailStatusChanged) {
             changedHireSteps.push({
-              id: 7,
+              id: hire.hire_steps[6],
               status: this.state.onboardingEmailStatus
             });
           }
           if (this.state.addToDlsAndPdOrgStatusChanged) {
             changedHireSteps.push({
-              id: 8,
+              id: hire.hire_steps[7],
               status: this.state.addToDlsAndPdOrgStatus
             });
           }
           if (this.state.welcomeEmailSentStatusChanged) {
             changedHireSteps.push({
-              id: 9,
+              id: hire.hire_steps[8],
               status: this.state.welcomeEmailSentStatus
             });
           }
@@ -319,7 +326,6 @@ class StepperTable extends React.Component {
               }
             })
             .then(response => {
-              console.log('Successfully updated the hire: ', response);
               this.props.enqueueSnackbar("Hire updated!", { // Success Message
                 variant: 'success',
                 autoHideDuration: 2000
@@ -329,7 +335,6 @@ class StepperTable extends React.Component {
               if (response.response.status == 422) { // Validation error
                 var fieldIssues = response.response.data.errors;
                 var issueKeys = Object.keys(fieldIssues);
-                console.log(fieldIssues)
                 issueKeys.forEach(key => {
                   var issueArray = fieldIssues[key];
                   issueArray.forEach(element => {
@@ -380,7 +385,6 @@ class StepperTable extends React.Component {
               }
             })
             .then(response => {
-              console.log('Successfully updated the hire: ', response);
               this.props.enqueueSnackbar("Hire updated!", { // Success Message
                 variant: 'success',
                 autoHideDuration: 2000
@@ -390,7 +394,6 @@ class StepperTable extends React.Component {
               if (response.response.status == 422) { // Validation error
                 var fieldIssues = response.response.data.errors;
                 var issueKeys = Object.keys(fieldIssues);
-                console.log(fieldIssues)
                 issueKeys.forEach(key => {
                   var issueArray = fieldIssues[key];
                   issueArray.forEach(element => {
@@ -412,7 +415,6 @@ class StepperTable extends React.Component {
 
         axios.patch('/hires/' + this.state.hireId + '/unlock')
           .then(response => {
-            console.log('Succesfully patched: ', response);
             this.setState({ modalLoading: false });
             this.props.enqueueSnackbar("Hire unlocked successfully!", { // Success Message
               variant: 'success',
@@ -423,7 +425,6 @@ class StepperTable extends React.Component {
             if (response.response.status == 422) { // Validation error
               var fieldIssues = response.response.data.errors;
               var issueKeys = Object.keys(fieldIssues);
-              console.log(fieldIssues)
               issueKeys.forEach(key => {
                 var issueArray = fieldIssues[key];
                 issueArray.forEach(element => {
@@ -466,7 +467,6 @@ class StepperTable extends React.Component {
 
     axios.patch('/hires/' + this.state.hireId + '/lock')
       .then(response => {
-        console.log('Succesfully patched: ', response);
         if (response.data.success) {
           this.setState({ modalLoading: false, unlocked: false });
           this.props.enqueueSnackbar("Hire successfully locked!", { // Success Message
@@ -487,7 +487,6 @@ class StepperTable extends React.Component {
         if (response.response.status == 422) { // Validation error
           var fieldIssues = response.response.data.errors;
           var issueKeys = Object.keys(fieldIssues);
-          console.log(fieldIssues)
           issueKeys.forEach(key => {
             var issueArray = fieldIssues[key];
             issueArray.forEach(element => {
