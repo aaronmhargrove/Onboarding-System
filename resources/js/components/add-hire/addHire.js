@@ -44,12 +44,10 @@ class AddHire extends React.Component {
 
     componentDidMount() {
         axios.get('/users').then((response) => {
-            console.log(response);
             response.data.forEach(user => {
                 userList.push(user);
             });
             this.setState({loading: false});
-            console.log('User List', userList);
         });
     }
 
@@ -74,7 +72,6 @@ class AddHire extends React.Component {
     }
 
     onHireTypeSelect = (event) => {
-        console.log(event.target.value);
         this.setState({hireType: event.target.value});
     }
 
@@ -229,13 +226,11 @@ class AddHire extends React.Component {
                     variant: 'success',
                     autoHideDuration: 2000
                 });
-                console.log(response)
             }).catch((response) => {
                 this.setState({loading: false});
                 if (response.response.status == 422){ // Validation error
                     var fieldIssues = response.response.data.errors;
                     var issueKeys = Object.keys(fieldIssues);
-                    console.log(fieldIssues)
                     issueKeys.forEach(key => {
                         var issueArray = fieldIssues[key];
                         issueArray.forEach(element => {

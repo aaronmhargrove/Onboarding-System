@@ -92,11 +92,8 @@ class FullView extends React.Component {
         printData = [];
 
         axios.get('/hires').then(response => {
-            console.log(response);
             response.data.forEach(hire => {
                 hireData.push(hire);
-                console.log("Hire:");
-                console.log(hire);
                 printData.push(
                     {
                         firstName: hire.first_name,
@@ -143,12 +140,10 @@ class FullView extends React.Component {
                 );
             });
             this.setState({ loading_hires: false });
-            console.log(hireData);
         }).catch(response => {
             if (response.response.status == 422) { // Validation error
                 var fieldIssues = response.response.data.errors;
                 var issueKeys = Object.keys(fieldIssues);
-                console.log(fieldIssues)
                 issueKeys.forEach(key => {
                     var issueArray = fieldIssues[key];
                     issueArray.forEach(element => {
@@ -176,7 +171,6 @@ class FullView extends React.Component {
             if (response.response.status == 422) { // Validation error
                 var fieldIssues = response.response.data.errors;
                 var issueKeys = Object.keys(fieldIssues);
-                console.log(fieldIssues)
                 issueKeys.forEach(key => {
                     var issueArray = fieldIssues[key];
                     issueArray.forEach(element => {
@@ -206,7 +200,6 @@ class FullView extends React.Component {
                     if (response.response.status == 422) { // Validation error
                         var fieldIssues = response.response.data.errors;
                         var issueKeys = Object.keys(fieldIssues);
-                        console.log(fieldIssues)
                         issueKeys.forEach(key => {
                             var issueArray = fieldIssues[key];
                             issueArray.forEach(element => {
@@ -248,17 +241,14 @@ class FullView extends React.Component {
                     'content-type': 'application/json',
                 }
             }).then(response => {
-                console.log('FILTER QUERY: ', response);
                 response.data.forEach(hire => {
                     hireData.push(hire);
                 });
                 this.setState({ loading_hires: false });
             }).catch(response => {
-                console.log('FILTER QUERY ERROR: ', response.response.data);
                 if (response.response.status == 422) { // Validation error
                     var fieldIssues = response.response.data.errors;
                     var issueKeys = Object.keys(fieldIssues);
-                    console.log(fieldIssues)
                     issueKeys.forEach(key => {
                         var issueArray = fieldIssues[key];
                         issueArray.forEach(element => {
@@ -279,7 +269,6 @@ class FullView extends React.Component {
             });
 
         axios.get('/users').then(response => {
-            console.log(response);
             response.data.forEach(user => {
                 usersData.push(user);
             });
@@ -288,7 +277,6 @@ class FullView extends React.Component {
             if (response.response.status == 422) { // Validation error
                 var fieldIssues = response.response.data.errors;
                 var issueKeys = Object.keys(fieldIssues);
-                console.log(fieldIssues)
                 issueKeys.forEach(key => {
                     var issueArray = fieldIssues[key];
                     issueArray.forEach(element => {
@@ -319,7 +307,6 @@ class FullView extends React.Component {
         this.setState({
             searchString: searchString
         }, () => {
-            console.log('Querying from search.');
             this.query();
         });
     }
@@ -331,7 +318,6 @@ class FullView extends React.Component {
             endDate: endDate,
             hideInactive: hideInactive
         }, () => {
-            console.log('Querying from filter.');
             this.query();
         });
     }
@@ -359,17 +345,14 @@ class FullView extends React.Component {
                 'content-type': 'application/json',
             }
         }).then(response => {
-            console.log('FILTER QUERY: ', response);
             response.data.forEach(hire => {
                 hireData.push(hire);
             });
             this.setState({loading_hires: false});
         }).catch(response => {
-            console.log('FILTER QUERY ERROR: ', response.response.data);
             if (response.response.status == 422){ // Validation error
                 var fieldIssues = response.response.data.errors;
                 var issueKeys = Object.keys(fieldIssues);
-                console.log(fieldIssues)
                 issueKeys.forEach(key => {
                     var issueArray = fieldIssues[key];
                     issueArray.forEach(element => {
@@ -395,11 +378,9 @@ class FullView extends React.Component {
             });
             this.setState({ loading_users: false });
         }).catch(response => {
-            console.log('TRIGGER RELOAD USERS ENDPOINT ERROR');
             if (response.response.status == 422) { // Validation error
                 var fieldIssues = response.response.data.errors;
                 var issueKeys = Object.keys(fieldIssues);
-                console.log(fieldIssues)
                 issueKeys.forEach(key => {
                     var issueArray = fieldIssues[key];
                     issueArray.forEach(element => {

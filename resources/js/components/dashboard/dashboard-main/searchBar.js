@@ -61,7 +61,6 @@ class SearchBar extends React.Component {
     }
 
     onFilterClick = (event) => {
-        console.log('Filter clicked.');
         this.setState({
             filterModalOpen: true
         });
@@ -74,16 +73,13 @@ class SearchBar extends React.Component {
     }
 
     onSearchClick = (event) => {
-        console.log('Search clicked.');
         this.props.search(this.state.searchValue);
     }
 
     onHighlightClick = (event) => {
-        console.log('Highlight clicked.');
         this.setState({isHighlightChecked: !this.state.isHighlightChecked}, () => {
             this.props.highlight(this.state.isHighlightChecked);
         });
-        console.log(this.state.isHighlightChecked);
     }
 
     onModalClose = (event) => {

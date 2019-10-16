@@ -186,7 +186,6 @@ class Stepper extends React.Component {
 
     handleFirstPageButtonClick = event => {
         this.setState({ page: 0 }, () => {
-            console.log(this.state.page);
             this.updateColumns(this.state.page, this.state.count, this.state.columnsPerPage, this.state.filteredColumns);            
             this.setState({forceRender: 1})
         });
@@ -194,16 +193,13 @@ class Stepper extends React.Component {
     
       handleBackButtonClick = event => {
         this.setState({ page: this.state.page - 1}, () => {
-            console.log(this.state.page);
             this.updateColumns(this.state.page, this.state.count, this.state.columnsPerPage, this.state.filteredColumns);                 
             this.setState({forceRender: 2})   
         });     
       };
     
       handleNextButtonClick = event => {
-        console.log(this.state.page);
         this.setState({ page: this.state.page + 1}, () => {
-            console.log(this.state.page);
             this.updateColumns(this.state.page, this.state.count, this.state.columnsPerPage, this.state.filteredColumns);               
             this.setState({forceRender: 3})
         });
@@ -213,7 +209,6 @@ class Stepper extends React.Component {
         this.setState({
           page : Math.max(0, Math.ceil(this.state.count / this.state.columnsPerPage) - 1)
         }, () => {
-            console.log(this.state.page);               
             this.updateColumns(this.state.page, this.state.count, this.state.columnsPerPage, this.state.filteredColumns);      
             this.setState({forceRender: 4})
         });
@@ -225,12 +220,12 @@ class Stepper extends React.Component {
                 <div style={{ height: '60vh', width: '100%' }}>
                     <StepperTable
                             theme="default"
-                            onRowClick={event => console.log(event)}                            
+                            onRowClick={event => console.log(event)}
                             columns={columns}
                             page={this.state.page}
                             data={this.props.data}
                             users={this.props.users}
-                            triggerReload={this.props.triggerReload}                            
+                            triggerReload={this.props.triggerReload}
                             isHighlightChecked={this.state.isHighlightChecked}
                     />
     </div>

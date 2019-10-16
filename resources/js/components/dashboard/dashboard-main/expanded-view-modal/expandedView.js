@@ -39,8 +39,6 @@ const dialogStyle=
 
 function FillRow(props)
 {
-  console.log("gg");
-  console.log(props);
 return(
  
         <React.Fragment>
@@ -122,13 +120,10 @@ class ExpandedView extends React.Component {
       };
       handleClickOpen = () => {
         this.setState({ open: true });
-        console.log("closed");
       };
   
     render() {
-      console.log("rendered");
-
-        return (
+      return (
         
           <React.Fragment>
          

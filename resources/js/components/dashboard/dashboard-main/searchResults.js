@@ -41,7 +41,6 @@ class searchResults extends React.Component {
     this.calcNumStepsComplete = this.calcNumStepsComplete.bind(this);
     displayData = [];
 
-    console.log(props);
     this.props.data.forEach(hire => {
       displayData.push(
         {
@@ -324,7 +323,6 @@ class searchResults extends React.Component {
             }
           })
           .then(response => {
-            console.log('Successfully updated the hire: ', response);
             this.props.enqueueSnackbar("Hire updated!", { // Success Message
               variant: 'success',
               autoHideDuration: 2000
@@ -334,7 +332,6 @@ class searchResults extends React.Component {
             if (response.response.status == 422){ // Validation error
               var fieldIssues = response.response.data.errors;
               var issueKeys = Object.keys(fieldIssues);
-              console.log(fieldIssues)
               issueKeys.forEach(key => {
                   var issueArray = fieldIssues[key];
                   issueArray.forEach(element => {
@@ -385,7 +382,6 @@ class searchResults extends React.Component {
             }
           })
           .then(response => {
-            console.log('Successfully updated the hire: ', response);
             this.props.enqueueSnackbar("Hire updated!", { // Success Message
               variant: 'success',
               autoHideDuration: 2000
@@ -395,7 +391,6 @@ class searchResults extends React.Component {
             if (response.response.status == 422){ // Validation error
               var fieldIssues = response.response.data.errors;
               var issueKeys = Object.keys(fieldIssues);
-              console.log(fieldIssues)
               issueKeys.forEach(key => {
                   var issueArray = fieldIssues[key];
                   issueArray.forEach(element => {
@@ -417,7 +412,6 @@ class searchResults extends React.Component {
   
         axios.patch('/hires/' + this.state.hireId + '/unlock')
         .then(response => {
-          console.log('Succesfully patched: ', response);
           this.setState({modalLoading: false});
           this.props.enqueueSnackbar("Hire unlocked successfully!", { // Success Message
             variant: 'success',
@@ -428,7 +422,6 @@ class searchResults extends React.Component {
           if (response.response.status == 422){ // Validation error
             var fieldIssues = response.response.data.errors;
             var issueKeys = Object.keys(fieldIssues);
-            console.log(fieldIssues)
             issueKeys.forEach(key => {
                 var issueArray = fieldIssues[key];
                 issueArray.forEach(element => {
@@ -471,7 +464,6 @@ class searchResults extends React.Component {
 
     axios.patch('/hires/' + this.state.hireId + '/lock')
     .then(response => {
-      console.log('Succesfully patched: ', response);
       if(response.data.success) {
         this.setState({modalLoading: false, unlocked: false});
         this.props.enqueueSnackbar("Hire successfully locked!", { // Success Message
@@ -492,7 +484,6 @@ class searchResults extends React.Component {
       if (response.response.status == 422){ // Validation error
         var fieldIssues = response.response.data.errors;
         var issueKeys = Object.keys(fieldIssues);
-        console.log(fieldIssues)
         issueKeys.forEach(key => {
             var issueArray = fieldIssues[key];
             issueArray.forEach(element => {
@@ -669,6 +660,7 @@ class searchResults extends React.Component {
   }
 
 onSubmitClick = (event) => {console.log('Submit')}
+
   render() {
     const { columns } = this.props;
     return (
@@ -1191,8 +1183,8 @@ onSubmitClick = (event) => {console.log('Submit')}
             startDateChanged: false,
           },
             () =>{              
-              console.log("admin_id", rowData.admin_id);
-              console.log("manager_id", rowData.manager_id)
+              // console.log("admin_id", rowData.admin_id);
+              // console.log("manager_id", rowData.manager_id)
               // console.log("current_user_id", currentUser.data.id) 
               this.onModalOpen(rowData)})}
           data={displayData}
