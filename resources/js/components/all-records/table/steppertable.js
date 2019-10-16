@@ -239,55 +239,55 @@ class StepperTable extends React.Component {
           this.state.onboardingEmailStatusChanged || this.state.addToDlsAndPdOrgStatusChanged || this.state.welcomeEmailSentStatusChanged) {
           if (this.state.adminAssignedStatusChanged) {
             changedHireSteps.push({
-              id: hire.hire_steps[0],
+              id: hire.hire_steps[0].id,
               status: this.state.adminAssignedStatus
             });
           }
           if (this.state.cwidAssignedStatusChanged) {
             changedHireSteps.push({
-              id: hire.hire_steps[1],
+              id: hire.hire_steps[1].id,
               status: this.state.cwidAssignedStatus
             });
           }
           if (this.state.neidAssignedStatusChanged) {
             changedHireSteps.push({
-              id: hire.hire_steps[2],
+              id: hire.hire_steps[2].id,
               status: this.state.neidAssignedStatus
             });
           }
           if (this.state.hireTicketStatusChanged) {
             changedHireSteps.push({
-              id: hire.hire_steps[3],
+              id: hire.hire_steps[3].id,
               status: this.state.hireTicketStatus
             });
           }
           if (this.state.macTicketStatusChanged) {
             changedHireSteps.push({
-              id: hire.hire_steps[4],
+              id: hire.hire_steps[4].id,
               status: this.state.macTicketStatus
             });
           }
           if (this.state.laptopDeliveredStatusChanged) {
             changedHireSteps.push({
-              id: hire.hire_steps[5],
+              id: hire.hire_steps[5].id,
               status: this.state.laptopDeliveredStatus
             });
           }
           if (this.state.onboardingEmailStatusChanged) {
             changedHireSteps.push({
-              id: hire.hire_steps[6],
+              id: hire.hire_steps[6].id,
               status: this.state.onboardingEmailStatus
             });
           }
           if (this.state.addToDlsAndPdOrgStatusChanged) {
             changedHireSteps.push({
-              id: hire.hire_steps[7],
+              id: hire.hire_steps[7].id,
               status: this.state.addToDlsAndPdOrgStatus
             });
           }
           if (this.state.welcomeEmailSentStatusChanged) {
             changedHireSteps.push({
-              id: hire.hire_steps[8],
+              id: hire.hire_steps[8].id,
               status: this.state.welcomeEmailSentStatus
             });
           }

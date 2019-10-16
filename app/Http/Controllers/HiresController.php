@@ -178,7 +178,7 @@ class HiresController extends Controller
 
         // Update any steps
         foreach ($stepsArray as $step){
-            $updatedStep = HireStep::where('id', $step->id->id)->first();
+            $updatedStep = HireStep::where('id', $step->id)->first();
             $updatedStep->status = $step->status;
             if($step->status == 2){
                 $updatedStep->date_completed = date('Y-m-d');
