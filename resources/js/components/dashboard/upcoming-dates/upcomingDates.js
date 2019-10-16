@@ -39,11 +39,9 @@ class UpcomingDates extends React.Component {
     
         console.log("Upcoming Dates Props: ")
         console.log(props);
-        this.props.upcomingDates.forEach(entry => {            
-            console.log("Entry step name: ", entry.step) 
+        this.props.upcomingDates.forEach(entry => {
         this.props.data.forEach(hire => {            
-            if((hire.first_name == entry.firstName) && (hire.last_name == entry.lastName) && (hire.start_date == entry.startDate)) {   
-                console.log("Entry step name: ", entry.step) 
+            if((hire.first_name == entry.firstName) && (hire.last_name == entry.lastName) && (hire.start_date == entry.startDate)) {
           displayData.push(
             {
               step: entry.step,
@@ -206,66 +204,73 @@ class UpcomingDates extends React.Component {
     
         // All of these API calls need combined so we can do a single load.
         if(!this.state.unlocked && !this.state.modalLoading) {
+          var hire = null
+
+          this.props.data.forEach(data => {
+            if (data.id == this.state.hireId) {
+              hire = data
+            }
+          })
           if(!fieldError){
             var changedHireSteps = [];
     
             if(this.state.adminAssignedStatusChanged || this.state.cwidAssignedStatusChanged || this.state.neidAssignedStatusChanged ||
               this.state.hireTicketStatusChanged || this.state.macTicketStatusChanged || this.state.laptopDeliveredStatusChanged ||
               this.state.onboardingEmailStatusChanged || this.state.addToDlsAndPdOrgStatusChanged || this.state.welcomeEmailSentStatusChanged) {
-                if(this.state.adminAssignedStatusChanged) {
-                  changedHireSteps.push({
-                    id: 1,
-                    status: this.state.adminAssignedStatus
-                  });
-                }
-                if(this.state.cwidAssignedStatusChanged) {
-                  changedHireSteps.push({
-                    id: 2,
-                    status: this.state.cwidAssignedStatus
-                  });
-                }
-                if(this.state.neidAssignedStatusChanged) {
-                  changedHireSteps.push({
-                    id: 3,
-                    status: this.state.neidAssignedStatus
-                  });
-                }
-                if(this.state.hireTicketStatusChanged) {
-                  changedHireSteps.push({
-                    id: 4,
-                    status: this.state.hireTicketStatus
-                  });
-                }
-                if(this.state.macTicketStatusChanged) {
-                  changedHireSteps.push({
-                    id: 5,
-                    status: this.state.macTicketStatus
-                  });
-                }
-                if(this.state.laptopDeliveredStatusChanged) {
-                  changedHireSteps.push({
-                    id: 6,
-                    status: this.state.laptopDeliveredStatus
-                  });
-                }
-                if(this.state.onboardingEmailStatusChanged) {
-                  changedHireSteps.push({
-                    id: 7,
-                    status: this.state.onboardingEmailStatus
-                  });
-                }
-                if(this.state.addToDlsAndPdOrgStatusChanged) {
-                  changedHireSteps.push({
-                    id: 8,
-                    status: this.state.addToDlsAndPdOrgStatus
-                  });
-                }
-                if(this.state.welcomeEmailSentStatusChanged) {
-                  changedHireSteps.push({
-                    id: 9,
-                    status: this.state.welcomeEmailSentStatus
-                  });
-                }
+              if (this.state.adminAssignedStatusChanged) {
+                changedHireSteps.push({
+                  id: hire.hire_steps[0].id,
+                  status: this.state.adminAssignedStatus
+                });
+              }
+              if (this.state.cwidAssignedStatusChanged) {
+                changedHireSteps.push({
+                  id: hire.hire_steps[1].id,
+                  status: this.state.cwidAssignedStatus
+                });
+              }
+              if (this.state.neidAssignedStatusChanged) {
+                changedHireSteps.push({
+                  id: hire.hire_steps[2].id,
+                  status: this.state.neidAssignedStatus
+                });
+              }
+              if (this.state.hireTicketStatusChanged) {
+                changedHireSteps.push({
+                  id: hire.hire_steps[3].id,
+                  status: this.state.hireTicketStatus
+                });
+              }
+              if (this.state.macTicketStatusChanged) {
+                changedHireSteps.push({
+                  id: hire.hire_steps[4].id,
+                  status: this.state.macTicketStatus
+                });
+              }
+              if (this.state.laptopDeliveredStatusChanged) {
+                changedHireSteps.push({
+                  id: hire.hire_steps[5].id,
+                  status: this.state.laptopDeliveredStatus
+                });
+              }
+              if (this.state.onboardingEmailStatusChanged) {
+                changedHireSteps.push({
+                  id: hire.hire_steps[6].id,
+                  status: this.state.onboardingEmailStatus
+                });
+              }
+              if (this.state.addToDlsAndPdOrgStatusChanged) {
+                changedHireSteps.push({
+                  id: hire.hire_steps[7].id,
+                  status: this.state.addToDlsAndPdOrgStatus
+                });
+              }
+              if (this.state.welcomeEmailSentStatusChanged) {
+                changedHireSteps.push({
+                  id: hire.hire_steps[8].id,
+                  status: this.state.welcomeEmailSentStatus
+                });
+              }
             }
     
             if(this.state.startDateChanged) {
@@ -638,11 +643,11 @@ class UpcomingDates extends React.Component {
       }
     
       onAddToDlsAndPdOrgStatusChange = (event) => {
-        this.setState({ addToDlsAndPdOrgStatus: ((this.state.addToDlsAndPdOrgStatus + 1) % 3), addToDlsAndPdOrgStatus: true });
+        this.setState({ addToDlsAndPdOrgStatus: ((this.state.addToDlsAndPdOrgStatus + 1) % 3), addToDlsAndPdOrgStatusChanged: true });
       }
     
       onWelcomeEmailStatusChange = (event) => {
-        this.setState({ welcomeEmailSentStatus: ((this.state.welcomeEmailSentStatus +1) % 3), welcomeEmailSentStatus: true});
+        this.setState({ welcomeEmailSentStatus: ((this.state.welcomeEmailSentStatus +1) % 3), welcomeEmailSentStatusChanged: true});
       }
 
     render() {        

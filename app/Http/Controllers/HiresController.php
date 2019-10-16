@@ -108,8 +108,6 @@ class HiresController extends Controller
             $startFilter = date('Y-m-d', strtotime($startFilter));
             $endFilter   = date('Y-m-d', strtotime($endFilter));
 
-            // dd($endFilter);
-
             $hiresFromFilters = $hiresFromFilters->whereBetween('start_date', [$startFilter, $endFilter]);
         } else if (!empty($filters->endDate)) {
             $endFilter = $filters->endDate;
