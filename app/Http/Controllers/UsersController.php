@@ -63,6 +63,7 @@ class UsersController extends Controller
             ->whereRaw('DATEDIFF(start_date, CURDATE()) < 15')
             ->where('is_active', '=', 1)
             ->select('first_name', 'last_name', 'step_name',  'start_date', DB::raw("DATEDIFF(start_date, CURDATE()) as days_left"))
+            ->orderBy('days_left')
             ->get();
     }
 
