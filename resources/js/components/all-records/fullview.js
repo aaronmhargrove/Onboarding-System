@@ -298,9 +298,12 @@ class FullView extends React.Component {
     }
 
     onSelectedStepSelect = (event) => {
-        this.setState({selectedStep: event.target.value});
-
-        this.query();
+        this.setState({
+            selectedStep: event.target.value
+        }, () => {
+            this.query();
+        });
+        
     }
 
     searchQuery(searchString) {
