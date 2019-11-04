@@ -88,7 +88,7 @@ class HiresController extends Controller
         $hiresFromFilters = Hire::select();
 
         if (!empty($filters->step)) {
-            $hiresFromFilters = $hiresFromFilters->whereHas('hireSteps', function($query, $filters) {
+            $hiresFromFilters = $hiresFromFilters->whereHas('hireSteps', function($query) use ($filters) {
                 $query->where('step_id', $filters->step);
                 $query->where('status', 0);
             });
