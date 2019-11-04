@@ -203,7 +203,7 @@ class searchResults extends React.Component {
             autoHideDuration: 3000
         });
     }
-    if(!this.state.manager){
+    if(!this.state.manager_id){
         fieldError = true;
         this.props.enqueueSnackbar("'Manager' is required", {
             variant: 'warning',
