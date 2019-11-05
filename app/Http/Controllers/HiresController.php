@@ -88,7 +88,7 @@ class HiresController extends Controller
         $hiresFromFilters = Hire::select();
 
         if (!empty($filters->step)) {
-            $hiresFromFilters = $hiresFromFilters->whereHas('hireSteps', function($query, $filters) {
+            $hiresFromFilters = $hiresFromFilters->whereHas('hireSteps', function($query) use ($filters) {
                 $query->where('step_id', $filters->step);
                 $query->where('status', 0);
             });
@@ -107,8 +107,6 @@ class HiresController extends Controller
             $endFilter   = $filters->endDate;
             $startFilter = date('Y-m-d', strtotime($startFilter));
             $endFilter   = date('Y-m-d', strtotime($endFilter));
-
-            // dd($endFilter);
 
             $hiresFromFilters = $hiresFromFilters->whereBetween('start_date', [$startFilter, $endFilter]);
         } else if (!empty($filters->endDate)) {

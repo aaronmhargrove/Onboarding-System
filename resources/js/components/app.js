@@ -23,7 +23,7 @@ class App extends React.Component {
         this.setState({
             selection: selection,
         });
-        console.log(this.state);
+        // console.log(this.state);
     }
 
     render() {

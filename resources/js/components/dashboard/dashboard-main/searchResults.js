@@ -41,7 +41,6 @@ class searchResults extends React.Component {
     this.calcNumStepsComplete = this.calcNumStepsComplete.bind(this);
     displayData = [];
 
-    console.log(props);
     this.props.data.forEach(hire => {
       displayData.push(
         {
@@ -204,7 +203,7 @@ class searchResults extends React.Component {
             autoHideDuration: 3000
         });
     }
-    if(!this.state.manager){
+    if(!this.state.manager_id){
         fieldError = true;
         this.props.enqueueSnackbar("'Manager' is required", {
             variant: 'warning',
@@ -221,66 +220,74 @@ class searchResults extends React.Component {
 
     // All of these API calls need combined so we can do a single load.
     if(!this.state.unlocked && !this.state.modalLoading) {
+      var hire = null
+
+      this.props.data.forEach(data => {
+        if (data.id == this.state.hireId) {
+          hire = data
+        }
+      })
+      
       if(!fieldError){
         var changedHireSteps = [];
 
         if(this.state.adminAssignedStatusChanged || this.state.cwidAssignedStatusChanged || this.state.neidAssignedStatusChanged ||
           this.state.hireTicketStatusChanged || this.state.macTicketStatusChanged || this.state.laptopDeliveredStatusChanged ||
           this.state.onboardingEmailStatusChanged || this.state.addToDlsAndPdOrgStatusChanged || this.state.welcomeEmailSentStatusChanged) {
-            if(this.state.adminAssignedStatusChanged) {
-              changedHireSteps.push({
-                id: 1,
-                status: this.state.adminAssignedStatus
-              });
-            }
-            if(this.state.cwidAssignedStatusChanged) {
-              changedHireSteps.push({
-                id: 2,
-                status: this.state.cwidAssignedStatus
-              });
-            }
-            if(this.state.neidAssignedStatusChanged) {
-              changedHireSteps.push({
-                id: 3,
-                status: this.state.neidAssignedStatus
-              });
-            }
-            if(this.state.hireTicketStatusChanged) {
-              changedHireSteps.push({
-                id: 4,
-                status: this.state.hireTicketStatus
-              });
-            }
-            if(this.state.macTicketStatusChanged) {
-              changedHireSteps.push({
-                id: 5,
-                status: this.state.macTicketStatus
-              });
-            }
-            if(this.state.laptopDeliveredStatusChanged) {
-              changedHireSteps.push({
-                id: 6,
-                status: this.state.laptopDeliveredStatus
-              });
-            }
-            if(this.state.onboardingEmailStatusChanged) {
-              changedHireSteps.push({
-                id: 7,
-                status: this.state.onboardingEmailStatus
-              });
-            }
-            if(this.state.addToDlsAndPdOrgStatusChanged) {
-              changedHireSteps.push({
-                id: 8,
-                status: this.state.addToDlsAndPdOrgStatus
-              });
-            }
-            if(this.state.welcomeEmailSentStatusChanged) {
-              changedHireSteps.push({
-                id: 9,
-                status: this.state.welcomeEmailSentStatus
-              });
-            }
+          if (this.state.adminAssignedStatusChanged) {
+            changedHireSteps.push({
+              id: hire.hire_steps[0].id,
+              status: this.state.adminAssignedStatus
+            });
+          }
+          if (this.state.cwidAssignedStatusChanged) {
+            changedHireSteps.push({
+              id: hire.hire_steps[1].id,
+              status: this.state.cwidAssignedStatus
+            });
+          }
+          if (this.state.neidAssignedStatusChanged) {
+            changedHireSteps.push({
+              id: hire.hire_steps[2].id,
+              status: this.state.neidAssignedStatus
+            });
+          }
+          if (this.state.hireTicketStatusChanged) {
+            changedHireSteps.push({
+              id: hire.hire_steps[3].id,
+              status: this.state.hireTicketStatus
+            });
+          }
+          if (this.state.macTicketStatusChanged) {
+            changedHireSteps.push({
+              id: hire.hire_steps[4].id,
+              status: this.state.macTicketStatus
+            });
+          }
+          if (this.state.laptopDeliveredStatusChanged) {
+            changedHireSteps.push({
+              id: hire.hire_steps[5].id,
+              status: this.state.laptopDeliveredStatus
+            });
+          }
+          if (this.state.onboardingEmailStatusChanged) {
+            changedHireSteps.push({
+              id: hire.hire_steps[6].id,
+              status: this.state.onboardingEmailStatus
+            });
+          }
+          if (this.state.addToDlsAndPdOrgStatusChanged) {
+            changedHireSteps.push({
+              id: hire.hire_steps[7].id,
+              status: this.state.addToDlsAndPdOrgStatus
+            });
+          }
+          if (this.state.welcomeEmailSentStatusChanged) {
+            changedHireSteps.push({
+              id: hire.hire_steps[8].id,
+              status: this.state.welcomeEmailSentStatus
+            });
+          }
         }
 
         if(this.state.startDateChanged) {
@@ -316,7 +323,6 @@ class searchResults extends React.Component {
             }
           })
           .then(response => {
-            console.log('Successfully updated the hire: ', response);
             this.props.enqueueSnackbar("Hire updated!", { // Success Message
               variant: 'success',
               autoHideDuration: 2000
@@ -326,7 +332,6 @@ class searchResults extends React.Component {
             if (response.response.status == 422){ // Validation error
               var fieldIssues = response.response.data.errors;
               var issueKeys = Object.keys(fieldIssues);
-              console.log(fieldIssues)
               issueKeys.forEach(key => {
                   var issueArray = fieldIssues[key];
                   issueArray.forEach(element => {
@@ -377,7 +382,6 @@ class searchResults extends React.Component {
             }
           })
           .then(response => {
-            console.log('Successfully updated the hire: ', response);
             this.props.enqueueSnackbar("Hire updated!", { // Success Message
               variant: 'success',
               autoHideDuration: 2000
@@ -387,7 +391,6 @@ class searchResults extends React.Component {
             if (response.response.status == 422){ // Validation error
               var fieldIssues = response.response.data.errors;
               var issueKeys = Object.keys(fieldIssues);
-              console.log(fieldIssues)
               issueKeys.forEach(key => {
                   var issueArray = fieldIssues[key];
                   issueArray.forEach(element => {
@@ -409,7 +412,6 @@ class searchResults extends React.Component {
   
         axios.patch('/hires/' + this.state.hireId + '/unlock')
         .then(response => {
-          console.log('Succesfully patched: ', response);
           this.setState({modalLoading: false});
           this.props.enqueueSnackbar("Hire unlocked successfully!", { // Success Message
             variant: 'success',
@@ -420,7 +422,6 @@ class searchResults extends React.Component {
           if (response.response.status == 422){ // Validation error
             var fieldIssues = response.response.data.errors;
             var issueKeys = Object.keys(fieldIssues);
-            console.log(fieldIssues)
             issueKeys.forEach(key => {
                 var issueArray = fieldIssues[key];
                 issueArray.forEach(element => {
@@ -463,7 +464,6 @@ class searchResults extends React.Component {
 
     axios.patch('/hires/' + this.state.hireId + '/lock')
     .then(response => {
-      console.log('Succesfully patched: ', response);
       if(response.data.success) {
         this.setState({modalLoading: false, unlocked: false});
         this.props.enqueueSnackbar("Hire successfully locked!", { // Success Message
@@ -484,7 +484,6 @@ class searchResults extends React.Component {
       if (response.response.status == 422){ // Validation error
         var fieldIssues = response.response.data.errors;
         var issueKeys = Object.keys(fieldIssues);
-        console.log(fieldIssues)
         issueKeys.forEach(key => {
             var issueArray = fieldIssues[key];
             issueArray.forEach(element => {
@@ -653,14 +652,15 @@ class searchResults extends React.Component {
   }
 
   onAddToDlsAndPdOrgStatusChange = (event) => {
-    this.setState({ addToDlsAndPdOrgStatus: ((this.state.addToDlsAndPdOrgStatus + 1) % 3), addToDlsAndPdOrgStatus: true });
+    this.setState({ addToDlsAndPdOrgStatus: ((this.state.addToDlsAndPdOrgStatus + 1) % 3), addToDlsAndPdOrgStatusChanged: true });
   }
 
   onWelcomeEmailStatusChange = (event) => {
-    this.setState({ welcomeEmailSentStatus: ((this.state.welcomeEmailSentStatus +1) % 3), welcomeEmailSentStatus: true});
+    this.setState({ welcomeEmailSentStatus: ((this.state.welcomeEmailSentStatus +1) % 3), welcomeEmailSentStatusChanged: true});
   }
 
 onSubmitClick = (event) => {console.log('Submit')}
+
   render() {
     const { columns } = this.props;
     return (
@@ -1175,7 +1175,7 @@ onSubmitClick = (event) => {console.log('Submit')}
             neidAssignedStatus: rowData.neidAssignedStatus,
             hireTicketStatus: rowData.hireTicketStatus,
             macTicketStatus: rowData.macTicketStatus,
-            laptopDeliveredStatus: rowData.macTicketStatus,
+            laptopDeliveredStatus: rowData.laptopDeliveredStatus,
             onboardingEmailStatus: rowData.onboardingEmailStatus,
             addToDlsAndPdOrgStatus: rowData.addToDlsAndPdOrgStatus,
             welcomeEmailSentStatus: rowData.welcomeEmailSentStatus,
@@ -1183,8 +1183,8 @@ onSubmitClick = (event) => {console.log('Submit')}
             startDateChanged: false,
           },
             () =>{              
-              console.log("admin_id", rowData.admin_id);
-              console.log("manager_id", rowData.manager_id)
+              // console.log("admin_id", rowData.admin_id);
+              // console.log("manager_id", rowData.manager_id)
               // console.log("current_user_id", currentUser.data.id) 
               this.onModalOpen(rowData)})}
           data={displayData}

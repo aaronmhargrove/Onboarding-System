@@ -41,7 +41,6 @@ class Dashboard extends React.Component {
         upcomingDates = [];
 
         axios.get('/hires').then(response => {
-            console.log(response);
             response.data.forEach(hire => {
                 hireData.push(hire);
             });
@@ -50,7 +49,6 @@ class Dashboard extends React.Component {
             if (response.response.status == 422){ // Validation error
                 var fieldIssues = response.response.data.errors;
                 var issueKeys = Object.keys(fieldIssues);
-                console.log(fieldIssues)
                 issueKeys.forEach(key => {
                     var issueArray = fieldIssues[key];
                     issueArray.forEach(element => {
@@ -70,7 +68,6 @@ class Dashboard extends React.Component {
         });
 
         axios.get('/users').then(response => {
-            console.log(response);
             response.data.forEach(user => {
                 usersData.push(user);
             });
@@ -79,7 +76,6 @@ class Dashboard extends React.Component {
             if (response.response.status == 422){ // Validation error
                 var fieldIssues = response.response.data.errors;
                 var issueKeys = Object.keys(fieldIssues);
-                console.log(fieldIssues)
                 issueKeys.forEach(key => {
                     var issueArray = fieldIssues[key];
                     issueArray.forEach(element => {
@@ -105,7 +101,6 @@ class Dashboard extends React.Component {
             if (currentUser != null) {
                 axios.get('/users/' + currentUser.id + '/upcoming')
                 .then(response => {
-                    console.log('Upcoming Dates: ', response);
                     response.data.forEach(entry => {
                         upcomingDates.push({
                             lastName: entry.last_name,
@@ -121,7 +116,6 @@ class Dashboard extends React.Component {
                     if (response.response.status == 422) { // Validation error
                         var fieldIssues = response.response.data.errors;
                         var issueKeys = Object.keys(fieldIssues);
-                        console.log(fieldIssues)
                         issueKeys.forEach(key => {
                             var issueArray = fieldIssues[key];
                             issueArray.forEach(element => {
@@ -164,17 +158,14 @@ class Dashboard extends React.Component {
                 'content-type': 'application/json',
             }
         }).then(response => {
-            console.log('FILTER QUERY: ', response);
             response.data.forEach(hire => {
                 hireData.push(hire);
             });
             this.setState({loading_hires: false});
         }).catch(response => {
-            console.log('FILTER QUERY ERROR: ', response.response.data);
             if (response.response.status == 422){ // Validation error
                 var fieldIssues = response.response.data.errors;
                 var issueKeys = Object.keys(fieldIssues);
-                console.log(fieldIssues)
                 issueKeys.forEach(key => {
                     var issueArray = fieldIssues[key];
                     issueArray.forEach(element => {
@@ -195,7 +186,6 @@ class Dashboard extends React.Component {
         });
 
         axios.get('/users').then(response => {
-            console.log(response);
             response.data.forEach(user => {
                 usersData.push(user);
             });
@@ -204,7 +194,6 @@ class Dashboard extends React.Component {
             if (response.response.status == 422){ // Validation error
                 var fieldIssues = response.response.data.errors;
                 var issueKeys = Object.keys(fieldIssues);
-                console.log(fieldIssues)
                 issueKeys.forEach(key => {
                     var issueArray = fieldIssues[key];
                     issueArray.forEach(element => {
@@ -230,7 +219,6 @@ class Dashboard extends React.Component {
             if (currentUser != null) {
                 axios.get('/users/' + currentUser.id + '/upcoming')
                 .then(response => {
-                    console.log('Upcoming Dates: ', response);
                     response.data.forEach(entry => {
                         upcomingDates.push({
                             lastName: entry.last_name,
@@ -246,7 +234,6 @@ class Dashboard extends React.Component {
                     if (response.response.status == 422) { // Validation error
                         var fieldIssues = response.response.data.errors;
                         var issueKeys = Object.keys(fieldIssues);
-                        console.log(fieldIssues)
                         issueKeys.forEach(key => {
                             var issueArray = fieldIssues[key];
                             issueArray.forEach(element => {
@@ -288,17 +275,14 @@ class Dashboard extends React.Component {
                 'content-type': 'application/json',
             }
         }).then(response => {
-            console.log('FILTER QUERY: ', response);
             response.data.forEach(hire => {
                 hireData.push(hire);
             });
             this.setState({loading_hires: false});
         }).catch(response => {
-            console.log('FILTER QUERY ERROR: ', response.response.data);
             if (response.response.status == 422){ // Validation error
                 var fieldIssues = response.response.data.errors;
                 var issueKeys = Object.keys(fieldIssues);
-                console.log(fieldIssues)
                 issueKeys.forEach(key => {
                     var issueArray = fieldIssues[key];
                     issueArray.forEach(element => {
@@ -319,7 +303,6 @@ class Dashboard extends React.Component {
         });
 
         axios.get('/users').then(response => {
-            console.log(response);
             response.data.forEach(user => {
                 usersData.push(user);
             });
@@ -328,7 +311,6 @@ class Dashboard extends React.Component {
             if (response.response.status == 422){ // Validation error
                 var fieldIssues = response.response.data.errors;
                 var issueKeys = Object.keys(fieldIssues);
-                console.log(fieldIssues)
                 issueKeys.forEach(key => {
                     var issueArray = fieldIssues[key];
                     issueArray.forEach(element => {
@@ -353,7 +335,6 @@ class Dashboard extends React.Component {
         this.setState({
             searchString: searchString
         }, () => {
-            console.log('Querying from search.');
             this.query();
         });
     }
@@ -365,7 +346,6 @@ class Dashboard extends React.Component {
             endDate: endDate,
             hideInactive: hideInactive
         }, () => {
-            console.log('Querying from filter.');
             this.query();
         });
     }
@@ -375,8 +355,6 @@ class Dashboard extends React.Component {
     }
 
     render() {
-        console.log("Dashboard Loading Hire Data:")
-        console.log(hireData)
         return(
             <Paper className="dashboardWidget">
                 {/* {(this.state.loading_users || this.state.loading_hires) ? <div className="loadingSpinner"><CircularProgress size="5rem"/></div> :  */}
