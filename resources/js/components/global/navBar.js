@@ -74,7 +74,7 @@ class NavBar extends React.Component {
                             <Paper>
                             <ClickAwayListener onClickAway={this.closeSettingsMenu}>
                                 <MenuList >
-                                <MenuItem onClick={this.closeSettingsMenu}>Set Filter</MenuItem>
+                                {/* <MenuItem onClick={this.closeSettingsMenu}>Set Filter</MenuItem> */}
                                 <MenuItem onClick={this.logout}>Logout</MenuItem>
                                 </MenuList>
                             </ClickAwayListener>
