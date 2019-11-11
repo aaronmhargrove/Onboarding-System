@@ -815,9 +815,9 @@ class StepperTable extends React.Component {
                           input={<Input id="computerNeeds-selector" />}
                         >
                           <MenuItem value=""><em>None</em></MenuItem>
-                          <MenuItem value="new">Macbook</MenuItem>
-                          <MenuItem value="rehire">Lenovo</MenuItem>
-                          <MenuItem value="transfer">Mondesk</MenuItem>
+                          <MenuItem value="Macbook">Macbook</MenuItem>
+                          <MenuItem value="Lenovo">Lenovo</MenuItem>
+                          <MenuItem value="Mondesk">Mondesk</MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>
