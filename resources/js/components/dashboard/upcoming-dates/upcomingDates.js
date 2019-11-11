@@ -795,7 +795,7 @@ class UpcomingDates extends React.Component {
                           </FormControl>
                         </Grid>
                         <Grid item xs={6} className="gridItem">
-                          <TextField disabled={this.state.unlocked} label="SEAT Number" value={this.state.seatNum} onChange={this.onSeatNumEnter} />
+                          <TextField disabled={this.state.unlocked} label="SEAT Number" value={this.state.seatNum} onChange={this.onSeatNumberEnter} />
                         </Grid>
                         <Grid item xs={6} className="gridItem">
                           <TextField disabled={this.state.unlocked} label="Onboarding Campus" value={this.state.onboardingCampus} onChange={this.onOnboardingCampusEnter} />
