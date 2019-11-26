@@ -15,7 +15,7 @@ Part of the SIUE Senior Design and Implementation course
 * Copy the contents of `.env.example` to a new file called `.env` (keep example updated with any changes you make, leaving out sensitive info)
 	* Change the contents of the `DB` variables to the AWS instance.
 	* Make sure `DB_DATABASE` is set to the AWS RDS connection string.
-* `php artisan key:generate` (ONLY do this in the case that the DB is not set up initially. The AWS instance already is.)
+* `php artisan key:generate` 
 
 ## Running the Project
 * Open 2 terminal windows
