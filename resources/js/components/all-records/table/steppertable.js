@@ -315,6 +315,7 @@ class StepperTable extends React.Component {
               "computer_needs": this.state.computerNeeds != "" ? this.firstCharToLower(this.state.computerNeeds) : null,
               "seat_number": this.state.seatNum != "" ? this.state.seatNum : null,
               "campus": this.state.onboardingCampus != "" ? this.state.onboardingCampus : null,
+              "manager_comments": this.state.managerComments != "" ? this.state.managerComments : null,
               "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
               "hire_ticket": this.state.newHireRehireTicket != "" ? this.state.newHireRehireTicket : null,
               "mac_ticket": this.state.macTicket != "" ? this.state.macTicket : null,
@@ -374,6 +375,7 @@ class StepperTable extends React.Component {
               "computer_needs": this.state.computerNeeds != "" ? this.firstCharToLower(this.state.computerNeeds) : null,
               "seat_number": this.state.seatNum != "" ? this.state.seatNum : null,
               "campus": this.state.onboardingCampus != "" ? this.state.onboardingCampus : null,
+              "manager_comments": this.state.managerComments != "" ? this.state.managerComments : null,
               "neid": this.state.neid != "" ? parseInt(this.state.neid) : null,
               "hire_ticket": this.state.newHireRehireTicket != "" ? this.state.newHireRehireTicket : null,
               "mac_ticket": this.state.macTicket != "" ? this.state.macTicket : null,
@@ -756,8 +758,8 @@ class StepperTable extends React.Component {
                           required
                         >
                           <MenuItem value=""><em>None</em></MenuItem>
-                          <MenuItem value="direct">PL</MenuItem>
-                          <MenuItem value="contract">IC</MenuItem>
+                          <MenuItem value="PL">PL</MenuItem>
+                          <MenuItem value="IC">IC</MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>
@@ -813,14 +815,14 @@ class StepperTable extends React.Component {
                           input={<Input id="computerNeeds-selector" />}
                         >
                           <MenuItem value=""><em>None</em></MenuItem>
-                          <MenuItem value="new">Macbook</MenuItem>
-                          <MenuItem value="rehire">Lenovo</MenuItem>
-                          <MenuItem value="transfer">Mondesk</MenuItem>
+                          <MenuItem value="Macbook">Macbook</MenuItem>
+                          <MenuItem value="Lenovo">Lenovo</MenuItem>
+                          <MenuItem value="Mondesk">Mondesk</MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>
                     <Grid item xs={6} className="gridItem">
-                      <TextField disabled={this.state.unlocked} label="SEAT Number" value={this.state.seatNum} onChange={this.onSeatNumEnter} />
+                      <TextField disabled={this.state.unlocked} label="SEAT Number" value={this.state.seatNum} onChange={this.onSeatNumberEnter} />
                     </Grid>
                     <Grid item xs={6} className="gridItem">
                       <TextField disabled={this.state.unlocked} label="Onboarding Campus" value={this.state.onboardingCampus} onChange={this.onOnboardingCampusEnter} />
