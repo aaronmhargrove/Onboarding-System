@@ -32,13 +32,7 @@ Part of the SIUE Senior Design and Implementation course
 	* When adding a new component, don't forget to require it in /resources/js/app.js
 
 ## Troubleshooting
-#### I'm getting errors when Laravel tries to send notifications to Slack
-* The issue is most likely that your php.ini needs some additional setup.
-* Go to [this website](https://curl.haxx.se/docs/caextract.html) and download the latest cacert.pem file
-* Place it in your server/computer PHP file directory (or anywhere, just somewhere where you'll be able to find it)
-* In your php.ini: `curl.cainfo = "C:\php\cacert.pem"`
-
-#### Steps are not updating properly
+#### Steps are not updating properly or getting errors when Laravel tries to send notifications to Slack
 * The issue is most likely that your php.ini needs some additional setup.
 * Go to [this website](https://curl.haxx.se/docs/caextract.html) and download the latest cacert.pem file
 * Place it in your server/computer PHP file directory (or anywhere, just somewhere where you'll be able to find it)
