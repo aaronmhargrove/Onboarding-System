@@ -2,7 +2,7 @@
 
 This is an application to facilitate the the onboarding of new hires at Bayer's software engineering department in St.Louis. 
 
-Part of the SIUE Senior Design and Implementation course
+This is a project proposed by Bayer for our Southern Illinois University Edwardsville senior project assignment. 
 
 ## Project setup
 * Install PHP and NPM globally if not already done
@@ -13,9 +13,11 @@ Part of the SIUE Senior Design and Implementation course
 * `composer install`
 * `npm install`
 * Copy the contents of `.env.example` to a new file called `.env` (keep example updated with any changes you make, leaving out sensitive info)
-	* Change the contents of the `DB` variables to the AWS instance.
-	* Make sure `DB_DATABASE` is set to the AWS RDS connection string.
+	* Change the contents of the `DB` variables point to your instance.
+	* Make sure `DB_TESTING` variables point to your test instance.
 * `php artisan key:generate` 
+* `php artisan migrate:fresh` - This will drop old tables (if there are any) and setup new tables and relationships.
+* `php artisan db:seed`
 
 ## Running the Project
 * Open 2 terminal windows
@@ -29,11 +31,11 @@ Part of the SIUE Senior Design and Implementation course
 * Returns the view in /resources/views/home.blade.php, which houses the starting point for React
 	* The script tag at the bottom includes the compiled react script located at /resources/js/app.js
 * All react components are housed in /resources/js/components
-	* When adding a new component, don't forget to require it in /resources/js/app.js
+	* If adding a new component, don't forget to require it in /resources/js/app.js
 
 ## Troubleshooting
 #### Steps are not updating properly or getting errors when Laravel tries to send notifications to Slack
 * The issue is most likely that your php.ini needs some additional setup.
 * Go to [this website](https://curl.haxx.se/docs/caextract.html) and download the latest cacert.pem file
 * Place it in your server/computer PHP file directory (or anywhere, just somewhere where you'll be able to find it)
-* In your php.ini: `curl.cainfo = "C:\php\cacert.pem"`
+* In your php.ini: `curl.cainfo = "C:\the\directory\you\used\in\the\last\step\cacert.pem"`
