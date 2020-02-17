@@ -1,8 +1,15 @@
 # BayerOnboarding
 
-This is an application to facilitate the the onboarding of new hires at Bayer's software engineering department in St.Louis. 
+This is a project proposed by Bayer for our Southern Illinois University Edwardsville senior project assignment. This is an application to facilitate the the onboarding of new hires within a company. 
 
-This is a project proposed by Bayer for our Southern Illinois University Edwardsville senior project assignment. 
+Note: This was created outside of Bayer and is cleared to remain our intellectual property so it can live here.
+
+## Authors
+* Aaron Hargrove
+* Dalton Voth
+* Jace Plute
+* Jessica Tetzner
+* Matthew Chaplin
 
 ## Project setup
 * Install PHP and NPM globally if not already done
