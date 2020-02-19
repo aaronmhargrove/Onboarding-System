@@ -32,6 +32,9 @@ Note: This was created outside of Bayer and is cleared to remain our intellectua
 		* `php artisan serve` to start the web server
 	* React terminal window
 		* `npm run watch` to compile Javascript/CSS and enable hot reloading
+* Testing Credentials
+    * Username: `admin@bayer.com`
+    * Password: `admin`
 
 ## General Project Structure
 * Application inits from /routes/web.php to go to the home route
