@@ -1,4 +1,4 @@
-# BayerOnboarding
+# Onboarding System
 
 This is a project proposed by Bayer for our Southern Illinois University Edwardsville senior project assignment. This is an application to facilitate the the onboarding of new hires within a company. 
 
